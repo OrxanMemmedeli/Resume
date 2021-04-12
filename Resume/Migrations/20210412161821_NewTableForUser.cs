@@ -6,10 +6,6 @@ namespace Resume.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "StartTime",
-                table: "Portfolios");
-
             migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
@@ -30,11 +26,6 @@ namespace Resume.Migrations
             migrationBuilder.DropTable(
                 name: "Users");
 
-            migrationBuilder.AddColumn<string>(
-                name: "StartTime",
-                table: "Portfolios",
-                type: "nvarchar(50)",
-                nullable: true);
         }
     }
 }
