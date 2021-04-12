@@ -30,7 +30,7 @@ namespace Resume.Models.Entities
         public string Type { get; set; }
 
 
-        //public int PortfolioCategoryID { get; set; }
+        public virtual int PortfolioCategoryID { get; set; }
         public PortfolioCategory PortfolioCategory { get; set; }
         public ICollection<FotoList> fotoLists { get; set; }
     }

@@ -14,7 +14,9 @@ namespace Resume.Models.Entities
         [Column(TypeName = "nvarchar(50)")]
         public string Name { get; set; }
         public int Percent { get; set; }
-        //public int SkillCategoryID { get; set; }
+
+        public virtual int SkillCategoryID { get; set; }
+
         public SkillCategory SkillCategory { get; set; }
     }
 }

@@ -29,5 +29,6 @@ namespace Resume.Models.Context
         public DbSet<Skill> Skills { get; set; }
         public DbSet<SkillCategory> SkillCategories { get; set; }
         public DbSet<Sosial> Sosials { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }

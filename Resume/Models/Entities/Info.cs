@@ -20,7 +20,7 @@ namespace Resume.Models.Entities
         public string Speciality { get; set; }
         [Column(TypeName = "nvarchar(50)")]
         public string Email { get; set; }
-        [Column(TypeName = "nvarchar(150)")]
+        [Column(TypeName = "nvarchar(16)")]
         public string Telephone { get; set; }
         [Column(TypeName = "nvarchar(150)")]
         public string Adress { get; set; }
