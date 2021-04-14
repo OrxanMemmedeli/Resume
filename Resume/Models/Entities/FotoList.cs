@@ -14,7 +14,7 @@ namespace Resume.Models.Entities
         [Column(TypeName = "nvarchar(max)")]
         public string FotoURL { get; set; }
 
-        //public int PortfolioID { get; set; }
+        public int PortfolioID { get; set; }
         public Portfolio Portfolio { get; set; }
     }
 }

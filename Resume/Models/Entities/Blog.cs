@@ -20,7 +20,7 @@ namespace Resume.Models.Entities
         public DateTime Datetime { get; set; }
 
 
-        //public int BlogCategoryID { get; set; }
+        public int BlogCategoryID { get; set; }
         public BlogCategory BlogCategory { get; set; }
     }
 }

@@ -16,10 +16,8 @@ namespace Resume.Models.Entities
 
         [Key]
         public int ID { get; set; }
-        [Column(TypeName = "nvarchar(max)")]
+        [Column(TypeName = "nvarchar(50)")]
         public string Category { get; set; }
-        [Column(TypeName = "nvarchar(max)")]
-        public string MyBlog { get; set; }
 
         public ICollection<Blog> Blogs  { get; set; }
     }

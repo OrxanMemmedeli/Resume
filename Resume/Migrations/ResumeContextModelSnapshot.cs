@@ -26,7 +26,7 @@ namespace Resume.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("BlogCategoryID")
+                    b.Property<int>("BlogCategoryID")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Datetime")
@@ -56,10 +56,7 @@ namespace Resume.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Category")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MyBlog")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("ID");
 
@@ -166,7 +163,7 @@ namespace Resume.Migrations
                     b.Property<string>("FotoURL")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("PortfolioID")
+                    b.Property<int>("PortfolioID")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
@@ -358,7 +355,9 @@ namespace Resume.Migrations
                 {
                     b.HasOne("Resume.Models.Entities.BlogCategory", "BlogCategory")
                         .WithMany("Blogs")
-                        .HasForeignKey("BlogCategoryID");
+                        .HasForeignKey("BlogCategoryID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("BlogCategory");
                 });
@@ -367,7 +366,9 @@ namespace Resume.Migrations
                 {
                     b.HasOne("Resume.Models.Entities.Portfolio", "Portfolio")
                         .WithMany("fotoLists")
-                        .HasForeignKey("PortfolioID");
+                        .HasForeignKey("PortfolioID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Portfolio");
                 });
