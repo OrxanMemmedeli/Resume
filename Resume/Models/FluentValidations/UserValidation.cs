@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Resume.Models.FluentValidations
 {
-    public class UserValidations : AbstractValidator<User>
+    public class UserValidation : AbstractValidator<User>
     {
-        public UserValidations()
+        public UserValidation()
         {
             RuleFor(x => x.Email).NotNull().WithMessage("Email Boş ola bilməz!").NotEmpty().WithMessage("Email Boş ola bilməz!").MaximumLength(100).WithMessage("Email 100 simvoldan çox ola bilməz!");
             RuleFor(x => x.Password).NotNull().WithMessage("Parol Boş ola bilməz!").NotEmpty().WithMessage("Parol Boş ola bilməz!");

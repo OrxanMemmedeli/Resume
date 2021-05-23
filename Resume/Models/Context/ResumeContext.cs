@@ -30,5 +30,15 @@ namespace Resume.Models.Context
         public DbSet<SkillCategory> SkillCategories { get; set; }
         public DbSet<Sosial> Sosials { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<HideTable> HideTables { get; set; }
+        public DbSet<RoleControl> RoleControls { get; set; }
+        public DbSet<UserRoleControl> UserRoleControls { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<UserRoleControl>().HasKey(sc => new { sc.UserID, sc.RoleID });  // for 3 row M-M relationship
+            modelBuilder.Entity<UserRoleControl>().HasOne<User>(sc => sc.User).WithMany(s => s.UserRoleControls).HasForeignKey(sc => sc.UserID);
+            modelBuilder.Entity<UserRoleControl>().HasOne<RoleControl>(sc => sc.RoleControl).WithMany(s => s.UserRoleControls).HasForeignKey(sc => sc.RoleID);
+        }
     }
 }

@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Resume.Models.FluentValidations
 {
-    public class PortfolioValidations : AbstractValidator<Portfolio>
+    public class PortfolioValidation : AbstractValidator<Portfolio>
     {
-        public PortfolioValidations()
+        public PortfolioValidation()
         {
             RuleFor(x => x.Title).NotNull().WithMessage("Başlıq Boş ola bilməz!").NotEmpty().WithMessage("Başlıq Boş ola bilməz!").MaximumLength(50).WithMessage("Başlıq 50 simvoldan çox ola bilməz!");
             RuleFor(x => x.Client).MaximumLength(50).WithMessage("Müştəri 50 simvoldan çox ola bilməz!");

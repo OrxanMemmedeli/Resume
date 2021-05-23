@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Resume.Models.Entities
 {
-    public class User
+    public class RoleControl
     {
-        public User()
+        public RoleControl()
         {
             this.UserRoleControls = new HashSet<UserRoleControl>();
         }
@@ -17,13 +17,9 @@ namespace Resume.Models.Entities
         [Key]
         public int ID { get; set; }
         [Column(TypeName = "nvarchar(100)")]
-        public string Email { get; set; }
-        [Column(TypeName = "nvarchar(max)")]
-        public string Password { get; set; }
-        [NotMapped]
-        [Compare("Password")]
-        [Column(TypeName = "nvarchar(max)")]
-        public string ConfirmPassword { get; set; }
+        public string ControllerName { get; set; }
+        [Column(TypeName = "nvarchar(100)")]
+        public string ActionName { get; set; }
 
         public virtual ICollection<UserRoleControl> UserRoleControls { get; set; }
     }

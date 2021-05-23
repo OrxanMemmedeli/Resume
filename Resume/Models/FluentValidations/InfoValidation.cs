@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Resume.Models.FluentValidations
 {
-    public class InfoValidations : AbstractValidator<Info>
+    public class InfoValidation : AbstractValidator<Info>
     {
-        public InfoValidations()
+        public InfoValidation()
         {
             RuleFor(x => x.Name).NotNull().WithMessage("Ad Boş ola bilməz!").NotEmpty().WithMessage("Ad Boş ola bilməz!").MaximumLength(20).WithMessage("Ad 20 simvoldan çox ola bilməz!");
             RuleFor(x => x.Surname).NotNull().WithMessage("Soyad Boş ola bilməz!").NotEmpty().WithMessage("Soyad Boş ola bilməz!").MaximumLength(30).WithMessage("Soyad 30 simvoldan çox ola bilməz!");

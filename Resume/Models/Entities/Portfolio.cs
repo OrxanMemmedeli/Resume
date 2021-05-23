@@ -28,6 +28,10 @@ namespace Resume.Models.Entities
         public string SiteURL { get; set; }
         [Column(TypeName = "nvarchar(150)")]
         public string Type { get; set; }
+        [Column(TypeName = "nvarchar(250)")]
+        public string FotoURL { get; set; }
+        [Column(TypeName = "nvarchar(250)")]
+        public string VideoURL { get; set; }
 
 
         public virtual int PortfolioCategoryID { get; set; }
