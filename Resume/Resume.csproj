@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
+    <Folder Include="Models\FluentValidations\ViewModelsValidations\" />
     <Folder Include="wwwroot\theme\html\demo1\dist\assets\plugins\custom\leaflet\images\" />
     <Folder Include="wwwroot\theme\html\demo1\dist\assets\plugins\custom\leaflet\img\" />
   </ItemGroup>

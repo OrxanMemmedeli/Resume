@@ -24,7 +24,7 @@ namespace Resume.Models.Entities
         [Compare("Password")]
         [Column(TypeName = "nvarchar(max)")]
         public string ConfirmPassword { get; set; }
-
+        public bool Status { get; set; }
         public virtual ICollection<UserRoleControl> UserRoleControls { get; set; }
     }
 }
