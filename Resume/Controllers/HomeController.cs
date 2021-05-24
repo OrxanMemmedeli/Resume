@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Resume.Models;
+using Resume.Models.Context;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,15 +13,18 @@ namespace Resume.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ResumeContext db;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ResumeContext context)
         {
             _logger = logger;
+            db = context;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var info = db.Infos.Single();
+            return View(info);
         }
 
         public IActionResult Privacy()
