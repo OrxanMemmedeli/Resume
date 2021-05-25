@@ -1,0 +1,20 @@
+﻿@model ErrorViewModel
+@{
+    ViewData["Title"] = "Error";
+}
+
+<h1 class="text-danger">Xəta.</h1>
+<h2 class="text-danger">Sorğunuz işlənərkən xəta baş verdi.</h2>
+
+@if (Model.ShowRequestId)
+{
+    <p>
+        <strong>Request ID:</strong> <code>@Model.RequestId</code>
+    </p>
+}
+
+
+<p>
+    <strong>Xətanın aradan qalxması üçün</strong>
+    səhifəni yedidən başlada və ya Proqramçınız ilə əlaqə saxlamanız məsləhət görülür.
+</p>

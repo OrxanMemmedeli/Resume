@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Resume.Models.Entities;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ namespace Resume.Models.Context
 {
     public class ResumeContext :DbContext
     {
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(@"Server=ILQAR\SQLEXPRESS01; Database=Resume; Integrated Security = true;");

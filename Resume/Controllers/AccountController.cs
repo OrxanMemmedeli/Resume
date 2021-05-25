@@ -91,6 +91,8 @@ namespace Resume.Controllers
 
         public IActionResult LogOut()
         {
+            var users = db.Users.FirstOrDefault(x => x.Email == User.Identity.Name);
+
             HttpContext.SignOutAsync();
             return RedirectToAction("Login");
         }

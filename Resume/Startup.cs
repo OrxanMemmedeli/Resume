@@ -1,6 +1,7 @@
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,6 +27,7 @@ namespace Resume
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<ResumeContext>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();  // use user.identiyi.name in class
 
             services.AddControllersWithViews().AddFluentValidation(o => o.RegisterValidatorsFromAssemblyContaining<Startup>());
 
