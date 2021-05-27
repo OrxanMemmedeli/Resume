@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Resume.Areas.Admin.Controllers
 {
-    public class HomeController : Controller
+    public class DefaultController : Controller
     {
         public IActionResult Index()
         {
