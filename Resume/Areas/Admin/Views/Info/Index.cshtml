@@ -1,90 +1,206 @@
-﻿@model IEnumerable<Resume.Models.Entities.Info>
+﻿@model Resume.Models.Entities.Info
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Index</h1>
+<div class="d-flex flex-row">
+    <!--begin::Aside-->
+    <div class="flex-row-auto offcanvas-mobile w-250px w-xxl-350px" id="kt_profile_aside">
+        <!--begin::Profile Card-->
+        <div class="card card-custom card-stretch">
+            <!--begin::Body-->
+            <div class="card-body pt-4">
+                <!--begin::User-->
+                <div class="d-flex align-items-center">
+                    <div class="symbol symbol-60 symbol-xxl-100 mr-5 align-self-start align-self-xxl-center">
+                        <div class="symbol-label" style="background-image:url('@Html.Raw(Model.FotoURL)')"></div>
+                        <i class="symbol-badge bg-success"></i>
+                    </div>
+                    <div>
+                        <a href="#" class="font-weight-bolder font-size-h5 text-dark-75 text-hover-primary">@Model.Name @Model.Surname</a>
+                        <div class="text-muted">@Model.Speciality</div>
+                        <div class="mt-2">
+                            <a href="/Admin/Contact" class="btn btn-sm btn-primary font-weight-bold mr-2 py-2 px-3 px-xxl-5 my-1">Mesajlar</a>
+                            <a href="/Admin/UserRoleControl" class="btn btn-sm btn-success font-weight-bold py-2 px-3 px-xxl-5 my-1">Istifadəçi</a>
+                        </div>
+                    </div>
+                </div>
+                <!--end::User-->
+                <!--begin::Contact-->
+                <div class="py-9">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <span class="font-weight-bold mr-2">Email:</span>
+                        <a href="#" class="text-muted text-hover-primary">@Model.Email</a>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <span class="font-weight-bold mr-2">Telefon:</span>
+                        <span class="text-muted">@Model.Telephone</span>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <span class="font-weight-bold mr-2">Adres:</span>
+                        <span class="text-muted">@Model.Adress</span>
+                    </div>
+                </div>
+                <!--end::Contact-->
+            </div>
+            <!--end::Body-->
+        </div>
+        <!--end::Profile Card-->
+    </div>
+    <!--end::Aside-->
+    <!--begin::Content-->
+    <div class="flex-row-fluid ml-lg-8">
+        <!--begin::Card-->
+        <div class="card card-custom card-stretch">
+            <form class="form">
+                <!--begin::Header-->
+                <div class="card-header py-3">
+                    <div class="card-title align-items-start flex-column">
+                        <h3 class="card-label font-weight-bolder text-dark">Məlumatlar</h3>
+                        <span class="text-muted font-weight-bold font-size-sm mt-1">Şəxsi məlumaylara dəyişiklik</span>
+                    </div>
+                    <div class="card-toolbar">
+                        <button type="submit" class="btn btn-success mr-2">Yadda Saxla</button>
+                    </div>
+                </div>
+                <!--end::Header-->
+                <!--begin::Form-->
+                <!--begin::Body-->
+                <div class="card-body">
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Surname)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Speciality)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Telephone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Adress)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BirthDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Profil)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FotoURL)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Coordinates)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Surname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Speciality)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Telephone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Adress)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BirthDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Profil)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FotoURL)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Coordinates)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+                    <div class="form-group row">
+                        <label class="col-xl-3 col-lg-3 col-form-label">Foto</label>
+                        <div class="col-lg-9 col-xl-6">
+                            <div class="image-input image-input-outline image-input-empty" id="kt_profile_avatar" style="background-image: url('@Html.Raw(Model.FotoURL)')">
+                                <div class="image-input-wrapper" style="background-image: none;"></div>
+                                <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">
+                                    <i class="fa fa-pen icon-sm text-muted"></i>
+                                    <input type="file" asp-for="FotoURL" accept=".png, .jpg, .jpeg">
+                                    <input type="hidden" asp-for="FotoURL" value="">
+                                </label>
+                                <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="cancel" data-toggle="tooltip" title="" data-original-title="Cancel avatar">
+                                    <i class="ki ki-bold-close icon-xs text-muted"></i>
+                                </span>
+                                <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="remove" data-toggle="tooltip" title="" data-original-title="Remove avatar">
+                                    <i class="ki ki-bold-close icon-xs text-muted"></i>
+                                </span>
+                            </div>
+                            <span class="form-text text-muted">İcazə verilən fayl növləri: png, jpg, jpeg.</span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-xl-3 col-lg-3 col-form-label">Ad </label>
+                        <div class="col-lg-9 col-xl-6">
+                            <input class="form-control form-control-lg form-control-solid" type="text" value="@Model.Name" asp-for="Name">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-xl-3 col-lg-3 col-form-label">Soyad </label>
+                        <div class="col-lg-9 col-xl-6">
+                            <input class="form-control form-control-lg form-control-solid" type="text" value="@Model.Surname" asp-for="Surname">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-xl-3 col-lg-3 col-form-label">Soyad </label>
+                        <div class="col-lg-9 col-xl-6">
+                            <input class="form-control form-control-lg form-control-solid" type="date" value="@Model.BirthDate" asp-for="BirthDate">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-xl-3 col-lg-3 col-form-label">İxtisas/Peşə</label>
+                        <div class="col-lg-9 col-xl-6">
+                            <input class="form-control form-control-lg form-control-solid" type="text" value="@Model.Speciality" asp-for="Speciality">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-xl-3 col-lg-3 col-form-label">Haqqımda</label>
+                        <div class="col-lg-9 col-xl-6">
+                            <textarea class="form-control form-control-lg form-control-solid" asp-for="Profil"></textarea>
+                            <textarea id="kt-ckeditor-1" asp-for="Profil"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <label class="col-xl-3"></label>
+                        <div class="col-lg-9 col-xl-6">
+                            <h5 class="font-weight-bold mt-10 mb-6">Əlaqə məlumatları</h5>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-xl-3 col-lg-3 col-form-label">Telefon</label>
+                        <div class="col-lg-9 col-xl-6">
+                            <div class="input-group input-group-lg input-group-solid">
+                                <input type="text" class="form-control form-control-lg form-control-solid" value="@Model.Telephone" placeholder="Phone" asp-for="Telephone">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-xl-3 col-lg-3 col-form-label">Email</label>
+                        <div class="col-lg-9 col-xl-6">
+                            <div class="input-group input-group-lg input-group-solid">
+                                <input type="text" class="form-control form-control-lg form-control-solid" value="@Model.Email" placeholder="Email" asp-for="Email">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-xl-3 col-lg-3 col-form-label">Ünvan</label>
+                        <div class="col-lg-9 col-xl-6">
+                            <div class="input-group input-group-lg input-group-solid">
+                                <input type="text" class="form-control form-control-lg form-control-solid" value="@Model.Adress" placeholder="Phone" asp-for="Adress">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-xl-3 col-lg-3 col-form-label">Kordinatlar</label>
+                        <div class="col-lg-9 col-xl-6">
+                            <div class="input-group input-group-lg input-group-solid">
+                                <input type="text" class="form-control form-control-lg form-control-solid" value="@Model.Coordinates" placeholder="Email" asp-for="Coordinates">
+                                <span class="form-text text-muted">Ön hissədə googleMap istifadə edilən zaman yazılmalıdır.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Body-->
+            </form>
+            <!--end::Form-->
+        </div>
+    </div>
+    <!--end::Content-->
+</div>
+
+<!--begin::Page Vendors(used by this page)-->
+<script src="~/theme/html/demo1/dist/assets/plugins/custom/ckeditor/ckeditor-classic.bundlee3c3.js"></script>
+<!--end::Page Vendors-->
+<!--begin::Page Scripts(used by this page)-->
+<script src="~/theme/html/demo1/dist/assets/js/pages/crud/forms/editors/ckeditor-classice3c3.js"></script>
+<!--end::Page Scripts-->
+
+<script>
+    var KTCkeditor = function () {
+        // Private functions
+        var demos = function () {
+            ClassicEditor
+                .create(document.querySelector('#kt-ckeditor-1'))
+                .then(editor => {
+                    console.log(editor);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
+
+        return {
+            // public functions
+            init: function () {
+                demos();
+            }
+        };
+    }();
+
+    // Initialization
+    jQuery(document).ready(function () {
+        KTCkeditor.init();
+    });
+</script>
