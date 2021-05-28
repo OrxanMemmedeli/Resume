@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -31,5 +32,9 @@ namespace Resume.Models.Entities
         public string FotoURL { get; set; }
         [Column(TypeName = "nvarchar(50)")]
         public string Coordinates { get; set; }
+
+
+        [NotMapped]
+        public IFormFile Foto { get; set; }
     }
 }

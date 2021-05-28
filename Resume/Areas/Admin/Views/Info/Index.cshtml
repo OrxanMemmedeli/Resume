@@ -1,9 +1,11 @@
 ﻿@model Resume.Models.Entities.Info
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Məlumatlar";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    string age = ((DateTime.Now - Model.BirthDate).TotalDays / 365.242199).ToString();
 }
+
 
 <div class="d-flex flex-row">
     <!--begin::Aside-->
@@ -32,7 +34,7 @@
                 <div class="py-9">
                     <div class="d-flex align-items-center justify-content-between mb-2">
                         <span class="font-weight-bold mr-2">Email:</span>
-                        <a href="#" class="text-muted text-hover-primary">@Model.Email</a>
+                        <a class="text-muted text-hover-primary">@Model.Email</a>
                     </div>
                     <div class="d-flex align-items-center justify-content-between mb-2">
                         <span class="font-weight-bold mr-2">Telefon:</span>
@@ -41,6 +43,10 @@
                     <div class="d-flex align-items-center justify-content-between">
                         <span class="font-weight-bold mr-2">Adres:</span>
                         <span class="text-muted">@Model.Adress</span>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <span class="font-weight-bold mr-2">Yaş:</span>
+                        <span class="text-muted">@age.Remove(age.IndexOf("."))</span>
                     </div>
                 </div>
                 <!--end::Contact-->
@@ -54,7 +60,9 @@
     <div class="flex-row-fluid ml-lg-8">
         <!--begin::Card-->
         <div class="card card-custom card-stretch">
-            <form class="form">
+            <form class="form" asp-action="Index" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="ID" />
                 <!--begin::Header-->
                 <div class="card-header py-3">
                     <div class="card-title align-items-start flex-column">
@@ -71,96 +79,89 @@
                 <div class="card-body">
 
                     <div class="form-group row">
-                        <label class="col-xl-3 col-lg-3 col-form-label">Foto</label>
-                        <div class="col-lg-9 col-xl-6">
-                            <div class="image-input image-input-outline image-input-empty" id="kt_profile_avatar" style="background-image: url('@Html.Raw(Model.FotoURL)')">
-                                <div class="image-input-wrapper" style="background-image: none;"></div>
-                                <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">
-                                    <i class="fa fa-pen icon-sm text-muted"></i>
-                                    <input type="file" asp-for="FotoURL" accept=".png, .jpg, .jpeg">
-                                    <input type="hidden" asp-for="FotoURL" value="">
-                                </label>
-                                <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="cancel" data-toggle="tooltip" title="" data-original-title="Cancel avatar">
-                                    <i class="ki ki-bold-close icon-xs text-muted"></i>
-                                </span>
-                                <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="remove" data-toggle="tooltip" title="" data-original-title="Remove avatar">
-                                    <i class="ki ki-bold-close icon-xs text-muted"></i>
-                                </span>
-                            </div>
-                            <span class="form-text text-muted">İcazə verilən fayl növləri: png, jpg, jpeg.</span>
+                        <label class="col-xl-2 col-lg-2 col-form-label">Foto</label>
+                        <div class="col-lg-4 col-xl-4">
+                            <input class="form-control form-control-lg form-control-solid" type="file" asp-for="Foto">
+                            <span asp-validation-for="FotoURL" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-xl-3 col-lg-3 col-form-label">Ad </label>
-                        <div class="col-lg-9 col-xl-6">
-                            <input class="form-control form-control-lg form-control-solid" type="text" value="@Model.Name" asp-for="Name">
+                        <label class="col-xl-2 col-lg-2 col-form-label">Ad </label>
+                        <div class="col-lg-4 col-xl-4">
+                            <input class="form-control form-control-lg form-control-solid" type="text" value="@Model.Name" asp-for="Name" placeholder="Ad">
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <label class="col-xl-2 col-lg-3 col-form-label">Soyad </label>
+                        <div class="col-lg-4 col-xl-4">
+                            <input class="form-control form-control-lg form-control-solid" type="text" value="@Model.Surname" asp-for="Surname" placeholder="Soyad">
+                            <span asp-validation-for="Surname" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-xl-3 col-lg-3 col-form-label">Soyad </label>
-                        <div class="col-lg-9 col-xl-6">
-                            <input class="form-control form-control-lg form-control-solid" type="text" value="@Model.Surname" asp-for="Surname">
+                        <label class="col-xl-2 col-lg-2 col-form-label">Doğum tarixi </label>
+                        <div class="col-lg-4 col-xl-4">
+                            <input class="form-control form-control-lg form-control-solid" type="date" value="@Model.BirthDate.ToString("yyyy-MM-dd")" asp-for="BirthDate">
+                            <span asp-validation-for="BirthDate" class="text-danger"></span>
+                        </div>
+                        <label class="col-xl-2 col-lg-2 col-form-label">İxtisas/Peşə</label>
+                        <div class="col-lg-4 col-xl-4">
+                            <input class="form-control form-control-lg form-control-solid" type="text" value="@Model.Speciality" asp-for="Speciality" placeholder="İxtisas">
+                            <span asp-validation-for="Speciality" class="text-danger"></span>
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label class="col-xl-3 col-lg-3 col-form-label">Soyad </label>
-                        <div class="col-lg-9 col-xl-6">
-                            <input class="form-control form-control-lg form-control-solid" type="date" value="@Model.BirthDate" asp-for="BirthDate">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-xl-3 col-lg-3 col-form-label">İxtisas/Peşə</label>
-                        <div class="col-lg-9 col-xl-6">
-                            <input class="form-control form-control-lg form-control-solid" type="text" value="@Model.Speciality" asp-for="Speciality">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-xl-3 col-lg-3 col-form-label">Haqqımda</label>
-                        <div class="col-lg-9 col-xl-6">
-                            <textarea class="form-control form-control-lg form-control-solid" asp-for="Profil"></textarea>
-                            <textarea id="kt-ckeditor-1" asp-for="Profil"></textarea>
-                        </div>
-                    </div>
-
                     <div class="row">
-                        <label class="col-xl-3"></label>
-                        <div class="col-lg-9 col-xl-6">
+                        <label class="col-xl-2"></label>
+                        <div class="col-lg-4 col-xl-4">
                             <h5 class="font-weight-bold mt-10 mb-6">Əlaqə məlumatları</h5>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-xl-3 col-lg-3 col-form-label">Telefon</label>
-                        <div class="col-lg-9 col-xl-6">
+                        <label class="col-xl-2 col-lg-2 col-form-label">Telefon</label>
+                        <div class="col-lg-4 col-xl-4">
                             <div class="input-group input-group-lg input-group-solid">
-                                <input type="text" class="form-control form-control-lg form-control-solid" value="@Model.Telephone" placeholder="Phone" asp-for="Telephone">
+                                <input type="tel" class="form-control form-control-lg form-control-solid" value="@Model.Telephone" placeholder="Telefon" asp-for="Telephone">
+                                <span asp-validation-for="Telephone" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <label class="col-xl-2 col-lg-2 col-form-label">Email</label>
+                        <div class="col-lg-4 col-xl-4">
+                            <div class="input-group input-group-lg input-group-solid">
+                                <input type="email" class="form-control form-control-lg form-control-solid" value="@Model.Email" placeholder="Email" asp-for="Email">
+                                <span asp-validation-for="Email" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-xl-3 col-lg-3 col-form-label">Email</label>
-                        <div class="col-lg-9 col-xl-6">
+                        <label class="col-xl-2 col-lg-2 col-form-label">Ünvan</label>
+                        <div class="col-lg-4 col-xl-4">
                             <div class="input-group input-group-lg input-group-solid">
-                                <input type="text" class="form-control form-control-lg form-control-solid" value="@Model.Email" placeholder="Email" asp-for="Email">
+                                <input type="text" class="form-control form-control-lg form-control-solid" value="@Model.Adress" placeholder="Ünvan" asp-for="Adress">
+                                <span asp-validation-for="Adress" class="text-danger"></span>
                             </div>
+                        </div>
+                        <label class="col-xl-2 col-lg-2 col-form-label">Kordinatlar</label>
+                        <div class="col-lg-4 col-xl-4">
+                            <div class="input-group input-group-lg input-group-solid">
+                                <input type="text" class="form-control form-control-lg form-control-solid" value="@Model.Coordinates" placeholder="Kordinatlar" asp-for="Coordinates">
+                            </div><span class="form-text text-muted">GoogleMap istifadə edilən zaman yazılmalıdır.</span>
+                            <span asp-validation-for="Coordinates" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-xl-2"></label>
+                        <div class="col-lg-4 col-xl-4">
+                            <h5 class="font-weight-bold mt-10 mb-6">Profil</h5>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-xl-3 col-lg-3 col-form-label">Ünvan</label>
-                        <div class="col-lg-9 col-xl-6">
-                            <div class="input-group input-group-lg input-group-solid">
-                                <input type="text" class="form-control form-control-lg form-control-solid" value="@Model.Adress" placeholder="Phone" asp-for="Adress">
-                            </div>
+                        <label class="col-xl-2 col-lg-2 col-form-label">Haqqımda</label>
+                        <div class="col-lg-10 col-xl-10">
+                            <textarea id="editor" class="form-control form-control-lg form-control-solid" asp-for="Profil"></textarea>
+                            <span asp-validation-for="Profil" class="text-danger"></span>
                         </div>
+
                     </div>
-                    <div class="form-group row">
-                        <label class="col-xl-3 col-lg-3 col-form-label">Kordinatlar</label>
-                        <div class="col-lg-9 col-xl-6">
-                            <div class="input-group input-group-lg input-group-solid">
-                                <input type="text" class="form-control form-control-lg form-control-solid" value="@Model.Coordinates" placeholder="Email" asp-for="Coordinates">
-                                <span class="form-text text-muted">Ön hissədə googleMap istifadə edilən zaman yazılmalıdır.</span>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
                 <!--end::Body-->
             </form>
@@ -170,37 +171,40 @@
     <!--end::Content-->
 </div>
 
-<!--begin::Page Vendors(used by this page)-->
-<script src="~/theme/html/demo1/dist/assets/plugins/custom/ckeditor/ckeditor-classic.bundlee3c3.js"></script>
-<!--end::Page Vendors-->
-<!--begin::Page Scripts(used by this page)-->
-<script src="~/theme/html/demo1/dist/assets/js/pages/crud/forms/editors/ckeditor-classice3c3.js"></script>
-<!--end::Page Scripts-->
+
+<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 
 <script>
-    var KTCkeditor = function () {
-        // Private functions
-        var demos = function () {
-            ClassicEditor
-                .create(document.querySelector('#kt-ckeditor-1'))
-                .then(editor => {
-                    console.log(editor);
-                })
-                .catch(error => {
-                    console.error(error);
-                });
+    tinymce.init({
+        selector: '#editor',
+        menubar: false,
+        plugins: "link code emoticons hr lists charmap table media",
+        external_plugins: { tiny_mce_wiris: 'https://www.wiris.net/demo/plugins/tiny_mce/plugin.js' },
+        fontsize_formats: "8pt 10pt 12pt 13pt 14pt 18pt 24pt 36pt",
+        toolbar1: 'undo redo  |  fontsizeselect | bold italic underline strikethrough | superscript subscript |bullist numlist | removeformat| alignleft aligncenter alignright alignjustify | forecolor | outdent indent | link emoticons charmap hr | code ',
+        // enable automatic uploads of images represented by blob or data URIs
+        automatic_uploads: true,
+        // add custom filepicker only to Image dialog
+        file_picker_types: 'image',
+        file_picker_callback: function (cb, value, meta) {
+            var input = document.createElement('input');
+            input.setAttribute('type', 'file');
+            input.setAttribute('accept', 'image/*');
+            input.onchange = function () {
+                var file = this.files[0];
+                var reader = new FileReader();
+                reader.onload = function () {
+                    var id = 'blobid' + (new Date()).getTime();
+                    var blobCache = tinymce.activeEditor.editorUpload.blobCache;
+                    var base64 = reader.result.split(',')[1];
+                    var blobInfo = blobCache.create(id, file, base64);
+                    blobCache.add(blobInfo);
+                    // call the callback and populate the Title field with the file name
+                    cb(blobInfo.blobUri(), { title: file.name });
+                };
+                reader.readAsDataURL(file);
+            };
+            input.click();
         }
-
-        return {
-            // public functions
-            init: function () {
-                demos();
-            }
-        };
-    }();
-
-    // Initialization
-    jQuery(document).ready(function () {
-        KTCkeditor.init();
     });
 </script>
