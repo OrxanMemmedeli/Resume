@@ -18,6 +18,9 @@
                 <div class="d-flex align-items-center">
                     <div class="symbol symbol-60 symbol-xxl-100 mr-5 align-self-start align-self-xxl-center">
                         <div class="symbol-label" style="background-image:url('@Html.Raw(Model.FotoURL)')"></div>
+                        @*<img src="" alt="Foto" />*@
+                        <p> </p>
+                        <img src="@Html.DisplayFor(x => x.FotoURL)" />
                         <i class="symbol-badge bg-success"></i>
                     </div>
                     <div>
@@ -83,6 +86,7 @@
                         <div class="col-lg-4 col-xl-4">
                             <input class="form-control form-control-lg form-control-solid" type="file" asp-for="Foto">
                             <span asp-validation-for="FotoURL" class="text-danger"></span>
+                            <span class="text-danger">@(Model.FotoURL == null ? "" : Html.Raw(Model.FotoURL))</span>
                         </div>
                     </div>
                     <div class="form-group row">

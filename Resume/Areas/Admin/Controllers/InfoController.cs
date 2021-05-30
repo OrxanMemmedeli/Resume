@@ -75,7 +75,7 @@ namespace Resume.Areas.Admin
             if (info.FotoURL != fileName)
             {
                 string extension = Path.GetExtension(info.Foto.FileName);
-                info.FotoURL = /*fileName +*/ DateTime.Now.ToString("yymmssfff") + extension;
+                info.FotoURL = /*fileName +*/"~/Upload/Images/" + DateTime.Now.ToString("yymmssfff") + extension;
                 string path = Path.Combine(wwwRootPath + "/Upload/Images/", info.FotoURL);
                 using (var fileStream = new FileStream(path, FileMode.Create))
                 {
