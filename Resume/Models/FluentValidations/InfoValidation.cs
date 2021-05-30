@@ -17,7 +17,6 @@ namespace Resume.Models.FluentValidations
             RuleFor(x => x.Email).NotNull().WithMessage("Email Boş ola bilməz!").NotEmpty().WithMessage("Email Boş ola bilməz!").MaximumLength(50).WithMessage("Email 50 simvoldan çox ola bilməz!");
             RuleFor(x => x.Adress).MaximumLength(150).WithMessage("Ünvan 150 simvoldan çox ola bilməz!");
             RuleFor(x => x.Telephone).NotNull().MaximumLength(16).WithMessage("Mobil nömrə 16 simvoldan çox ola bilməz!");
-            RuleFor(x => x.Coordinates).NotNull().MaximumLength(50).WithMessage("Mobil nömrə 50 simvoldan çox ola bilməz!");
         }
     }
 }

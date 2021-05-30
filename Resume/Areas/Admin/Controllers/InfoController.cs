@@ -71,13 +71,16 @@ namespace Resume.Areas.Admin
         private void AddFotoFile(Info info)
         {
             string wwwRootPath = _hostEnvironment.WebRootPath;
-            //string fileName = Path.GetFileNameWithoutExtension(companyInfo.image.FileName);
-            string extension = Path.GetExtension(info.Foto.FileName);
-            info.FotoURL = /*fileName +*/ DateTime.Now.ToString("yymmssfff") + extension;
-            string path = Path.Combine(wwwRootPath + "/Upload/Images/", info.FotoURL);
-            using (var fileStream = new FileStream(path, FileMode.Create))
+            string fileName = Path.GetFileNameWithoutExtension(info.Foto.FileName);
+            if (info.FotoURL != fileName)
             {
-                info.Foto.CopyTo(fileStream);
+                string extension = Path.GetExtension(info.Foto.FileName);
+                info.FotoURL = /*fileName +*/ DateTime.Now.ToString("yymmssfff") + extension;
+                string path = Path.Combine(wwwRootPath + "/Upload/Images/", info.FotoURL);
+                using (var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    info.Foto.CopyTo(fileStream);
+                }
             }
         }
 
