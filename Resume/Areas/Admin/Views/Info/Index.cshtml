@@ -17,18 +17,19 @@
                 <!--begin::User-->
                 <div class="d-flex align-items-center">
                     <div class="symbol symbol-60 symbol-xxl-100 mr-5 align-self-start align-self-xxl-center">
-                        <div class="symbol-label" style="background-image:url('@Html.Raw(Model.FotoURL)')"></div>
+                        <div class="symbol-label" style="background-image:url('@("~/Upload/Images/" + Html.Raw(Model.FotoURL))')"></div>
                         @*<img src="" alt="Foto" />*@
                         <p> </p>
-                        <img src="@Html.DisplayFor(x => x.FotoURL)" />
+                        <img src="@("~/Upload/Images/" + Html.Raw(Model.FotoURL))" />
                         <i class="symbol-badge bg-success"></i>
                     </div>
                     <div>
                         <a href="#" class="font-weight-bolder font-size-h5 text-dark-75 text-hover-primary">@Model.Name @Model.Surname</a>
                         <div class="text-muted">@Model.Speciality</div>
                         <div class="mt-2">
-                            <a href="/Admin/Contact" class="btn btn-sm btn-primary font-weight-bold mr-2 py-2 px-3 px-xxl-5 my-1">Mesajlar</a>
-                            <a href="/Admin/UserRoleControl" class="btn btn-sm btn-success font-weight-bold py-2 px-3 px-xxl-5 my-1">Istifadəçi</a>
+                            <a href="/Admin/Contact" class="btn btn-sm btn-primary font-weight-bold mr-2 py-2 px-3 px-xxl-5 my-1" style="width: 100%">Mesajlar</a>
+                            <a href="/Admin/UserRoleControl" class="btn btn-sm btn-success font-weight-bold py-2 px-3 px-xxl-5 my-1" style="width: 100%">İstifadəçi</a>
+                            <a href="/Admin/Sosial" class="btn btn-sm btn-info font-weight-bold py-2 px-3 px-xxl-5 my-1" style="width: 100%">Sosial Şəbəkə</a>
                         </div>
                     </div>
                 </div>

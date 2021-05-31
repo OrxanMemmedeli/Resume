@@ -26,8 +26,8 @@ namespace Resume.Areas.Admin
 
         public async Task<IActionResult> Index()
         {
-
-            return View(await _context.Infos.FirstOrDefaultAsync());
+            var info = await _context.Infos.FirstOrDefaultAsync();
+            return View(info);
         }
 
 
@@ -43,6 +43,11 @@ namespace Resume.Areas.Admin
             if (info.Foto != null)
             {
                 AddFotoFile(info);
+            }
+            else
+            {
+                var fotuURL = _context.Infos.FirstOrDefault(x => x.ID == id);
+                info.FotoURL = (fotuURL.FotoURL == null ? null : fotuURL.FotoURL);
             }
 
             if (ModelState.IsValid)
@@ -75,7 +80,7 @@ namespace Resume.Areas.Admin
             if (info.FotoURL != fileName)
             {
                 string extension = Path.GetExtension(info.Foto.FileName);
-                info.FotoURL = /*fileName +*/"~/Upload/Images/" + DateTime.Now.ToString("yymmssfff") + extension;
+                info.FotoURL = /*fileName +*/ DateTime.Now.ToString("yymmssfff") + extension;
                 string path = Path.Combine(wwwRootPath + "/Upload/Images/", info.FotoURL);
                 using (var fileStream = new FileStream(path, FileMode.Create))
                 {
