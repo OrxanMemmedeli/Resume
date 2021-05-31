@@ -23,8 +23,7 @@ namespace Resume.Controllers
 
         public IActionResult Index()
         {
-            var info = db.Infos.Single();
-            return View(info);
+            return View();
         }
 
         public IActionResult Privacy()
