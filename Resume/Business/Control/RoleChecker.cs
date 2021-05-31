@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Resume.Business.Control
 {
-    public class RoleControl
+    public class RoleChecker
     {
         private readonly ResumeContext db;
 
-        public RoleControl(ResumeContext context)
+        public RoleChecker(ResumeContext context)
         {
             db = context;
         }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Resume.Business.Control;
 using Resume.Models.Context;
 using Resume.Models.Entities;
 
@@ -14,136 +15,172 @@ namespace Resume.Areas.Admin.Controllers
     public class UserController : Controller
     {
         private readonly ResumeContext _context;
+        private readonly RoleChecker _roleChecker;
+        private readonly CurrentUser _currentUser;
 
-        public UserController(ResumeContext context)
+        public UserController(ResumeContext context, RoleChecker roleChecker, CurrentUser currentUser)
         {
             _context = context;
+            _roleChecker = roleChecker;
+            _currentUser = currentUser;
         }
 
-        // GET: Admin/User
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Users.ToListAsync());
+            bool roleStatus = _roleChecker.AuthorizeRoles(_currentUser.FindUser(), "User", "Index");
+            if (roleStatus)
+            {
+                return View(await _context.Users.ToListAsync());
+            }
+            else
+            {
+                return RedirectToAction("Denied", "Account");
+            }
         }
 
-        // GET: Admin/User/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var user = await _context.Users
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            return View(user);
-        }
-
-        // GET: Admin/User/Create
         public IActionResult Create()
         {
-            return View();
+            bool roleStatus = _roleChecker.AuthorizeRoles(_currentUser.FindUser(), "User", "Create");
+            if (roleStatus)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Denied", "Account");
+            }
+
         }
 
-        // POST: Admin/User/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,Email,Password,Status")] User user)
         {
-            if (ModelState.IsValid)
+            bool roleStatus = _roleChecker.AuthorizeRoles(_currentUser.FindUser(), "User", "Create");
+            if (roleStatus)
             {
-                _context.Add(user);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    _context.Add(user);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(user);
             }
-            return View(user);
+            else
+            {
+                return RedirectToAction("Denied", "Account");
+            }
+
         }
 
-        // GET: Admin/User/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
+            bool roleStatus = _roleChecker.AuthorizeRoles(_currentUser.FindUser(), "User", "Edit");
+            if (roleStatus)
             {
-                return NotFound();
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                var user = await _context.Users.FindAsync(id);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+                return View(user);
+            }
+            else
+            {
+                return RedirectToAction("Denied", "Account");
             }
 
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-            return View(user);
         }
 
-        // POST: Admin/User/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Email,Password,Status")] User user)
         {
-            if (id != user.ID)
+            bool roleStatus = _roleChecker.AuthorizeRoles(_currentUser.FindUser(), "User", "Edit");
+            if (roleStatus)
             {
-                return NotFound();
+                if (id != user.ID)
+                {
+                    return NotFound();
+                }
+
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        _context.Update(user);
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!UserExists(user.ID))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(user);
+            }
+            else
+            {
+                return RedirectToAction("Denied", "Account");
             }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(user);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!UserExists(user.ID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(user);
         }
 
-        // GET: Admin/User/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            bool roleStatus = _roleChecker.AuthorizeRoles(_currentUser.FindUser(), "User", "Delete");
+            if (roleStatus)
             {
-                return NotFound();
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                var user = await _context.Users
+                    .FirstOrDefaultAsync(m => m.ID == id);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                return View(user);
+            }
+            else
+            {
+                return RedirectToAction("Denied", "Account");
             }
 
-            var user = await _context.Users
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            return View(user);
         }
 
-        // POST: Admin/User/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            bool roleStatus = _roleChecker.AuthorizeRoles(_currentUser.FindUser(), "User", "DeleteConfirmed");
+            if (roleStatus)
+            {
+                var user = await _context.Users.FindAsync(id);
+                _context.Users.Remove(user);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                return RedirectToAction("Denied", "Account");
+            }
         }
 
         private bool UserExists(int id)
