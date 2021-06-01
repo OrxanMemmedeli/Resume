@@ -1,11 +1,11 @@
 ﻿@model IEnumerable<Resume.Models.Entities.Sosial>
 
-<div class="links">
-    @foreach (var item in Model)
-    {
-        <a href="@item.PageURL" id="first_one"
-           class="social btn-floating indigo">
-            <i class="@item.Icon"></i>
-        </a>
-    }
-</div>
+    <div class="links">
+        @foreach (var item in Model)
+        {
+            <i class="fab fa-facebook"></i>
+            <a href="@item.PageURL" class="social">
+                <i class="@item.Icon"></i>
+            </a>
+        }
+    </div>
