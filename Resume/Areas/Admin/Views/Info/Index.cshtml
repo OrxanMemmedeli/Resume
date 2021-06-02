@@ -6,6 +6,12 @@
     string age = ((DateTime.Now - Model.BirthDate).TotalDays / 365.242199).ToString();
 }
 
+@if (TempData["InfoSuccess"] != null)
+{
+    <script>
+        alert("@Html.Raw(System.Web.HttpUtility.JavaScriptStringEncode(TempData["InfoSuccess"].ToString()))");
+    </script>
+}
 
 <div class="d-flex flex-row">
     <!--begin::Aside-->
@@ -17,7 +23,7 @@
                 <!--begin::User-->
                 <div class="d-flex align-items-center">
                     <div class="symbol symbol-60 symbol-xxl-100 mr-5 align-self-start align-self-xxl-center">
-                        <div class="symbol-label" style="background-image:url('@("~/Upload/Images/" + Html.Raw(Model.FotoURL))')"></div>
+                        <div class="symbol-label" style="background-image:url('@("Upload/Images/" + Html.Raw(Model.FotoURL))')"></div>
                         @*<img src="" alt="Foto" />*@
                         <p> </p>
                         <img src="@("~/Upload/Images/" + Html.Raw(Model.FotoURL))" />
@@ -146,7 +152,7 @@
                         <label class="col-xl-2 col-lg-2 col-form-label">Kordinatlar</label>
                         <div class="col-lg-4 col-xl-4">
                             <div class="input-group input-group-lg input-group-solid">
-                                <input type="text" class="form-control form-control-lg form-control-solid" value="@Model.Coordinates" placeholder="Kordinatlar" asp-for="Coordinates">
+                                <textarea type="text" class="form-control form-control-lg form-control-solid" value="@Model.Coordinates" placeholder="Kordinatlar" asp-for="Coordinates"></textarea>
                             </div><span class="form-text text-muted">GoogleMap istifadə edilən zaman yazılmalıdır.</span>
                             <span asp-validation-for="Coordinates" class="text-danger"></span>
                         </div>

@@ -7,11 +7,12 @@
             <h4 class="text-uppercase text-center"><img src="~/images/icons/envelope.png" alt="demo">Əlaqə (Contact)</h4>
         </div>
         <div class="row">
-            <div id="contact-card" class="col-md-5 col-sm-12 col-xs-12">
+            <div id="contact-card" class="col-md-5 col-sm-12 col-xs-12" style="height:450px">
                 <!-- CONTACT FORM -->
                 <div class="card">
                     <div class="card-content">
-                        <form id="contact-form" name="c-form">
+                        <form id="contact-form" name="c-form" asp-action="Create" asp-controller="Contact">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <!--SUBJECT-->
                             <div class="input-field">
                                 <input id="sub" type="text" class="validate" asp-for="Subject" required>
@@ -50,9 +51,9 @@
 
             <div class="col-md-7 col-sm-12 col-xs-12">
                 <!-- CONTACT MAP -->
-                <div id="map-card" class="card">
+                <div id="map-card" class="card" >
                     <!-- MAP -->
-                    <div id="myMap"></div>
+                    @await Component.InvokeAsync("Map")
                 </div>
             </div>
 

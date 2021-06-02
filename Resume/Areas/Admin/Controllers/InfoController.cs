@@ -44,11 +44,7 @@ namespace Resume.Areas.Admin
             {
                 AddFotoFile(info);
             }
-            else
-            {
-                var fotuURL = _context.Infos.FirstOrDefault(x => x.ID == id);
-                info.FotoURL = (fotuURL.FotoURL == null ? null : fotuURL.FotoURL);
-            }
+
 
             if (ModelState.IsValid)
             {
@@ -56,6 +52,7 @@ namespace Resume.Areas.Admin
                 {
                     _context.Update(info);
                     await _context.SaveChangesAsync();
+                    TempData["InfoSuccess"] = "Məlumatlar yeniləndi";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
