@@ -1,50 +1,41 @@
 ﻿@model Resume.Models.Entities.Blog
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Blog - Əlavə Et";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Create</h1>
-
-<h4>Blog</h4>
+<h4>Yeni Blog</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Datetime" value="@DateTime.Now" />
             <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
+                <label class="control-label">Başlıq</label>
                 <input asp-for="Title" class="form-control" />
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Text" class="control-label"></label>
+                <label class="control-label">Mətn</label>
                 <input asp-for="Text" class="form-control" />
                 <span asp-validation-for="Text" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="FotoURL" class="control-label"></label>
+                <label class="control-label">Foto URL</label>
                 <input asp-for="FotoURL" class="form-control" />
                 <span asp-validation-for="FotoURL" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Datetime" class="control-label"></label>
-                <input asp-for="Datetime" class="form-control" />
-                <span asp-validation-for="Datetime" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="BlogCategoryID" class="control-label"></label>
+                <label class="control-label">Kategoriya</label>
                 <select asp-for="BlogCategoryID" class ="form-control" asp-items="ViewBag.BlogCategoryID"></select>
             </div>
             <div class="form-group">
                 <input id="submit" data-submit-value="GÖZLƏYİN..." type="submit" value="Əlavə Et" class="btn btn-outline-primary">
+                <a asp-action="Index" class="btn btn-dark">Geri</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-                <a asp-action="Index" class="btn btn-dark">Geri</a>
 </div>
 

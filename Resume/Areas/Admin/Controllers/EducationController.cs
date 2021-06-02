@@ -20,39 +20,16 @@ namespace Resume.Areas.Admin.Controllers
             _context = context;
         }
 
-        // GET: Admin/Education
         public async Task<IActionResult> Index()
         {
             return View(await _context.Educations.ToListAsync());
         }
 
-        // GET: Admin/Education/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var education = await _context.Educations
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (education == null)
-            {
-                return NotFound();
-            }
-
-            return View(education);
-        }
-
-        // GET: Admin/Education/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Admin/Education/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,EducationCenter,StartDate,EndDate,Faculty,Specialty,Description")] Education education)
@@ -66,7 +43,6 @@ namespace Resume.Areas.Admin.Controllers
             return View(education);
         }
 
-        // GET: Admin/Education/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -82,9 +58,6 @@ namespace Resume.Areas.Admin.Controllers
             return View(education);
         }
 
-        // POST: Admin/Education/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,EducationCenter,StartDate,EndDate,Faculty,Specialty,Description")] Education education)
@@ -117,7 +90,6 @@ namespace Resume.Areas.Admin.Controllers
             return View(education);
         }
 
-        // GET: Admin/Education/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -135,7 +107,7 @@ namespace Resume.Areas.Admin.Controllers
             return View(education);
         }
 
-        // POST: Admin/Education/Delete/5
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

@@ -20,57 +20,33 @@ namespace Resume.Areas.Admin.Controllers
             _context = context;
         }
 
-        // GET: Admin/Blog
         public async Task<IActionResult> Index()
         {
             var resumeContext = _context.Blogs.Include(b => b.BlogCategory);
             return View(await resumeContext.ToListAsync());
         }
 
-        // GET: Admin/Blog/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var blog = await _context.Blogs
-                .Include(b => b.BlogCategory)
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (blog == null)
-            {
-                return NotFound();
-            }
-
-            return View(blog);
-        }
-
-        // GET: Admin/Blog/Create
         public IActionResult Create()
         {
             ViewData["BlogCategoryID"] = new SelectList(_context.BlogCategories, "ID", "ID");
             return View();
         }
 
-        // POST: Admin/Blog/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,Title,Text,FotoURL,Datetime,BlogCategoryID")] Blog blog)
         {
+
             if (ModelState.IsValid)
             {
                 _context.Add(blog);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BlogCategoryID"] = new SelectList(_context.BlogCategories, "ID", "ID", blog.BlogCategoryID);
+            ViewData["BlogCategoryID"] = new SelectList(_context.BlogCategories, "ID", "Category", blog.BlogCategoryID);
             return View(blog);
         }
 
-        // GET: Admin/Blog/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -83,13 +59,10 @@ namespace Resume.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            ViewData["BlogCategoryID"] = new SelectList(_context.BlogCategories, "ID", "ID", blog.BlogCategoryID);
+            ViewData["BlogCategoryID"] = new SelectList(_context.BlogCategories, "ID", "Category", blog.BlogCategoryID);
             return View(blog);
         }
 
-        // POST: Admin/Blog/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Title,Text,FotoURL,Datetime,BlogCategoryID")] Blog blog)
@@ -119,11 +92,10 @@ namespace Resume.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BlogCategoryID"] = new SelectList(_context.BlogCategories, "ID", "ID", blog.BlogCategoryID);
+            ViewData["BlogCategoryID"] = new SelectList(_context.BlogCategories, "ID", "Category", blog.BlogCategoryID);
             return View(blog);
         }
 
-        // GET: Admin/Blog/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -142,7 +114,6 @@ namespace Resume.Areas.Admin.Controllers
             return View(blog);
         }
 
-        // POST: Admin/Blog/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

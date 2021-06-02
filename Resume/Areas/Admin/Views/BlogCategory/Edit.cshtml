@@ -1,13 +1,11 @@
 ﻿@model Resume.Models.Entities.BlogCategory
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Blog Kateqoriya - Düzəliş Et";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Edit</h1>
-
-<h4>BlogCategory</h4>
+<h4>Kateqoriyanı Düzəlt </h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -15,18 +13,15 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ID" />
             <div class="form-group">
-                <label asp-for="Category" class="control-label"></label>
+                <label class="control-label">Kateqoriya </label>
                 <input asp-for="Category" class="form-control" />
                 <span asp-validation-for="Category" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input id="submit" data-submit-value="GÖZLƏYİN..." type="submit" value="Yadda Saxla" class="btn btn-outline-primary">
+                <a asp-action="Index" class="btn btn-dark">Geri</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-                <a asp-action="Index" class="btn btn-dark">Geri</a>
 </div>
 
