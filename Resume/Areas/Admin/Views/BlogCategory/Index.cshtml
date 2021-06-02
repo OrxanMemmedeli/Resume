@@ -13,7 +13,7 @@
     <thead>
         <tr>
             <th>
-               Keteqoriya
+                Keteqoriya
             </th>
             <th></th>
         </tr>
@@ -26,8 +26,8 @@
                     @item.Category
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.ID" class="text-success" title="Düzəliş et"><i class="fas fa-edit"></i></a> |
-                    <a asp-action="Delete" asp-route-id="@item.ID" class="text-danger" title="Sil"><i class="fas fa-trash-alt"></i></a>
+                    <a asp-action="Edit" asp-route-id="@item.ID" title="Düzəliş et"><i class="fas fa-edit test" style="color:green"></i></a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID" title="Sil"><i class="fas fa-trash-alt" style="color:red"></i></a>
                 </td>
             </tr>
         }

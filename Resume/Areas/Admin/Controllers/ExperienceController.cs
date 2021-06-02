@@ -20,39 +20,18 @@ namespace Resume.Areas.Admin.Controllers
             _context = context;
         }
 
-        // GET: Admin/Experiences
         public async Task<IActionResult> Index()
         {
             return View(await _context.Experiences.ToListAsync());
         }
 
-        // GET: Admin/Experiences/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var experience = await _context.Experiences
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (experience == null)
-            {
-                return NotFound();
-            }
-
-            return View(experience);
-        }
-
-        // GET: Admin/Experiences/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Admin/Experiences/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,Company,StartDate,EndDate,Position,Description")] Experience experience)
@@ -66,7 +45,7 @@ namespace Resume.Areas.Admin.Controllers
             return View(experience);
         }
 
-        // GET: Admin/Experiences/Edit/5
+
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -82,9 +61,7 @@ namespace Resume.Areas.Admin.Controllers
             return View(experience);
         }
 
-        // POST: Admin/Experiences/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Company,StartDate,EndDate,Position,Description")] Experience experience)
@@ -117,7 +94,7 @@ namespace Resume.Areas.Admin.Controllers
             return View(experience);
         }
 
-        // GET: Admin/Experiences/Delete/5
+
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -135,7 +112,7 @@ namespace Resume.Areas.Admin.Controllers
             return View(experience);
         }
 
-        // POST: Admin/Experiences/Delete/5
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

@@ -5,11 +5,11 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h4>Yeni Blog</h4>
+<h4>Blog - Əlavə Et</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" class="form-disable">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Datetime" value="@DateTime.Now" />
             <div class="form-group">
@@ -29,7 +29,7 @@
             </div>
             <div class="form-group">
                 <label class="control-label">Kategoriya</label>
-                <select asp-for="BlogCategoryID" class ="form-control" asp-items="ViewBag.BlogCategoryID"></select>
+                <select asp-for="BlogCategoryID" class="form-control" asp-items="ViewBag.BlogCategoryID"></select>
             </div>
             <div class="form-group">
                 <input id="submit" data-submit-value="GÖZLƏYİN..." type="submit" value="Əlavə Et" class="btn btn-outline-primary">
@@ -39,3 +39,11 @@
     </div>
 </div>
 
+<script>
+    $('.form-disable').on('submit', function () {
+        var self = $(this),
+            button = self.find('input[type=submit],button'),
+            submitValue = button.data('submit-value');
+        button.attr('disabled', 'disabled').val((submitValue) ? submitValue : 'GÖZLƏYİN...');
+    });
+</script>

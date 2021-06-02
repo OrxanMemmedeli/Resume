@@ -1,11 +1,10 @@
 ﻿@model IEnumerable<Resume.Models.Entities.Experience>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Təcrübə";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Index</h1>
 
 <p>
     <a asp-action="Create" class="btn btn-outline-success">Əlavə Et</a>
@@ -14,47 +13,47 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Company)
+                Müəssisə
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.StartDate)
+                Başlama
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EndDate)
+                Bitirmə
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Position)
+                Mövqey
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                Açıqlama
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Company)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Position)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-    <a asp-action="Edit"  asp-route-id="@item.ID"><i class="fas fa-edit"></i></a> |
-                <a asp-action="Details" asp-route-id="@item.ID"><i class="fas fa-info-circle"></i></a> |
-                    <a asp-action="Delete" asp-route-id="@item.ID" class="text-danger" title="Sil"><i class="fas fa-trash-alt"></i></a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Company
+                </td>
+                <td>
+                    @item.StartDate
+                </td>
+                <td>
+                    @item.EndDate
+                </td>
+                <td>
+                    @item.Position
+                </td>
+                <td>
+                    @item.Description
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ID" title="Düzəliş et"><i class="fas fa-edit test" style="color:green"></i></a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID" title="Sil"><i class="fas fa-trash-alt" style="color:red"></i></a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

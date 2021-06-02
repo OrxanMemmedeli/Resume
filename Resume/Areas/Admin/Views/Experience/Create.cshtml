@@ -1,51 +1,47 @@
 ﻿@model Resume.Models.Entities.Experience
 
 @{
-    ViewData["Title"] = " - Əlavə Et";
+    ViewData["Title"] = "Təcrübə - Əlavə Et";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Create</h1>
 
-<h4>Experience</h4>
+<h4>Təcrübə - Əlavə Et</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" class="form-disable">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Company" class="control-label"></label>
+                <label class="control-label">Müəssisə</label>
                 <input asp-for="Company" class="form-control" />
                 <span asp-validation-for="Company" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="StartDate" class="control-label"></label>
+                <label class="control-label">Başlama</label>
                 <input asp-for="StartDate" class="form-control" />
                 <span asp-validation-for="StartDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="EndDate" class="control-label"></label>
+                <label class="control-label">Bitmə</label>
                 <input asp-for="EndDate" class="form-control" />
                 <span asp-validation-for="EndDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Position" class="control-label"></label>
+                <label class="control-label">Mövqey</label>
                 <input asp-for="Position" class="form-control" />
                 <span asp-validation-for="Position" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
+                <label class="control-label">Açıqlama</label>
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input id="submit" data-submit-value="GÖZLƏYİN..." type="submit" value="Əlavə Et" class="btn btn-outline-primary">
+                <a asp-action="Index" class="btn btn-dark">Geri</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-                <a asp-action="Index" class="btn btn-dark">Geri</a>
 </div>
 
