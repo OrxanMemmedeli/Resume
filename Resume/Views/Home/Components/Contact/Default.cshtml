@@ -1,11 +1,6 @@
 ﻿@model Resume.Models.ViewModels.ContactViewModel
 
-@if (TempData["InfoSuccess"] != null)
-{
-    <script>
-        alert("@Html.Raw(System.Web.HttpUtility.JavaScriptStringEncode(TempData["MessageSuccess"].ToString()))");
-    </script>
-}
+
 
 
 <section id="contact" class="section">
@@ -19,7 +14,7 @@
                 <!-- CONTACT FORM -->
                 <div class="card">
                     <div class="card-content">
-                        <form asp-area="Admin" asp-controller="Contact" asp-action="Create" method="post">
+                        <form asp-area="Admin" asp-controller="Contact" asp-action="Create" method="post" class="form-disable">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <!--SUBJECT-->
                             <div class="input-field">
@@ -43,10 +38,7 @@
                             </div>
                             <!-- SEND BUTTON -->
                             <div class="contact-send">
-                                <button id="submit" name="contactSubmit" type="submit" value="Submit"
-                                        class="btn waves-effect">
-                                    Göndər
-                                </button>
+                                <input id="submit" data-submit-value="GÖZLƏYİN..." type="submit" value="Əlavə Et" class="btn waves-effect" name="contactSubmit"  >
                             </div>
                         </form>
                     </div>
@@ -68,3 +60,13 @@
         </div>
     </div>
 </section>
+
+
+<script>
+    $('.form-disable').on('submit', function () {
+        var self = $(this),
+            button = self.find('input[type=submit],button'),
+            submitValue = button.data('submit-value');
+        button.attr('disabled', 'disabled').val((submitValue) ? submitValue : 'GÖZLƏYİN...');
+    });
+</script>

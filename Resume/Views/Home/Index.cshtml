@@ -47,7 +47,7 @@
     <link href="~/stylesheets/style.css" id="switch_style" rel="stylesheet">
 
     <script src="https://use.fontawesome.com/7b0b2c68b4.js"></script>
-
+    <script src="~/Default/lib/jquery/dist/jquery.min.js"></script>
     <script>
         window.addEventListener("pageshow", function (event) {
             var historyTraversal = event.persisted ||
@@ -61,6 +61,16 @@
     </script>
 </head>
 <body style="font-family:'Times New Roman'">
+    @if (TempData["InfoSuccess"] != null)
+    {
+        <script>
+        alert("@Html.Raw(System.Web.HttpUtility.JavaScriptStringEncode(TempData["MessageSuccess"].ToString()))");
+        </script>
+    }
+
+
+
+
 
     @await Component.InvokeAsync("Info")
 
