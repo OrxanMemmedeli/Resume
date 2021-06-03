@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Resume.Models.Context;
 
 namespace Resume.Migrations
 {
     [DbContext(typeof(ResumeContext))]
-    partial class ResumeContextModelSnapshot : ModelSnapshot
+    [Migration("20210603104344_ContactStatusConvertTypeOfBool")]
+    partial class ContactStatusConvertTypeOfBool
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -81,9 +83,6 @@ namespace Resume.Migrations
 
                     b.Property<string>("NameSurname")
                         .HasColumnType("nvarchar(60)");
-
-                    b.Property<bool>("Respons")
-                        .HasColumnType("bit");
 
                     b.Property<DateTime>("ResponseDate")
                         .HasColumnType("datetime2");

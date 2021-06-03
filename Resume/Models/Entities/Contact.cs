@@ -20,7 +20,8 @@ namespace Resume.Models.Entities
         public string Email { get; set; }
         [Column(TypeName = "nvarchar(max)")]
         public string Message { get; set; }
-        public string Status { get; set; }
+        public bool Status { get; set; } = true;
+        public bool Respons { get; set; } = false;
         public DateTime InsertDate { get; set; }
         public DateTime ResponseDate { get; set; }
 

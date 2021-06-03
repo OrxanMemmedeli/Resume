@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Resume.Models.Context;
 using Resume.Models.Entities;
+using Resume.Models.ViewModels;
 
 namespace Resume.Areas.Admin.Controllers
 {
@@ -44,26 +45,23 @@ namespace Resume.Areas.Admin.Controllers
             return View(contact);
         }
 
-        // GET: Admin/Contact/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
 
-        // POST: Admin/Contact/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,NameSurname,Subject,Email,Message,Status,InsertDate,ResponseDate")] Contact contact)
+        public async Task<IActionResult> Create(ContactViewModel contact)
         {
+            Contact _contact = contact;
+            _contact.Status = true;
+            _contact.InsertDate = DateTime.Now;
+            _contact.ResponseDate = DateTime.Now;
             if (ModelState.IsValid)
             {
-                _context.Add(contact);
+                _context.Add(_contact);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                TempData["MessageSuccess"] = "Mesajınız göndərilmişdir";
+                return Redirect("~/");
             }
-            return View(contact);
+            return Redirect("~/");
         }
 
         // GET: Admin/Contact/Edit/5

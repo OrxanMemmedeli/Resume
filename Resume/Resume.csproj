@@ -23,7 +23,6 @@
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="Migrations\" />
     <Folder Include="wwwroot\theme\html\demo1\dist\assets\plugins\custom\leaflet\images\" />
     <Folder Include="wwwroot\theme\html\demo1\dist\assets\plugins\custom\leaflet\img\" />
     <Folder Include="wwwroot\Upload\Images\" />

@@ -1,5 +1,13 @@
 ﻿@model Resume.Models.ViewModels.ContactViewModel
 
+@if (TempData["InfoSuccess"] != null)
+{
+    <script>
+        alert("@Html.Raw(System.Web.HttpUtility.JavaScriptStringEncode(TempData["MessageSuccess"].ToString()))");
+    </script>
+}
+
+
 <section id="contact" class="section">
     <div class="container">
         <!-- SECTION TITLE -->
@@ -11,7 +19,7 @@
                 <!-- CONTACT FORM -->
                 <div class="card">
                     <div class="card-content">
-                        <form id="contact-form" name="c-form" asp-action="Create" asp-controller="Contact">
+                        <form asp-area="Admin" asp-controller="Contact" asp-action="Create" method="post">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <!--SUBJECT-->
                             <div class="input-field">
@@ -51,7 +59,7 @@
 
             <div class="col-md-7 col-sm-12 col-xs-12">
                 <!-- CONTACT MAP -->
-                <div id="map-card" class="card" >
+                <div id="map-card" class="card">
                     <!-- MAP -->
                     @await Component.InvokeAsync("Map")
                 </div>
