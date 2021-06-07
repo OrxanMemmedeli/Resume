@@ -21,13 +21,30 @@ namespace Resume.Areas.Admin.Controllers
             _context = context;
         }
 
-        // GET: Admin/Contact
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string category)
         {
-            return View(await _context.Contacts.ToListAsync());
+            var messages = new List<Contact>();
+
+            if (category == null)
+            {
+                category = "Inbox";
+            }
+
+            switch (category)
+            {
+                case "Inbox":
+                    messages = await _context.Contacts.Where(s=> s.Respons == false && s.Status == true).ToListAsync();
+                    break;
+                case "Read":
+                    messages = await _context.Contacts.Where(s => s.Respons == false && s.Status == false).ToListAsync();
+                    break;
+                case "Answered":
+                    messages = await _context.Contacts.Where(s => s.Respons == true && s.Status == false).ToListAsync();
+                    break;
+            }
+            return View(messages);
         }
 
-        // GET: Admin/Contact/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)

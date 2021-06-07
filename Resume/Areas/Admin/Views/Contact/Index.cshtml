@@ -82,7 +82,7 @@
                 <div class="navi navi-hover navi-active navi-link-rounded navi-bold navi-icon-center navi-light-icon">
                     <!--begin::Item-->
                     <div class="navi-item my-2">
-                        <a href="#" class="navi-link active">
+                        <a href="/Admin/Contact/Index?category=Inbox" class="navi-link active">
                             <span class="navi-icon mr-4">
                                 <span class="svg-icon svg-icon-lg">
                                     <!--begin::Svg Icon | path:/metronic/theme/html/demo1/dist/assets/media/svg/icons/Communication/Mail-heart.svg-->
@@ -105,7 +105,7 @@
                     <!--end::Item-->
                     <!--begin::Item-->
                     <div class="navi-item my-2">
-                        <a href="#" class="navi-link">
+                        <a href="/Admin/Contact/Index?category=Read" class="navi-link">
                             <span class="navi-icon mr-4">
                                 <span class="svg-icon svg-icon-lg">
                                     <!--begin::Svg Icon | path:/metronic/theme/html/demo1/dist/assets/media/svg/icons/Design/PenAndRuller.svg-->
@@ -128,7 +128,7 @@
                     <!--end::Item-->
                     <!--begin::Item-->
                     <div class="navi-item my-2">
-                        <a href="#" class="navi-link">
+                        <a href="/Admin/Contact/Index?category=Answered" class="navi-link">
                             <span class="navi-icon mr-4">
                                 <span class="svg-icon svg-icon-lg">
                                     <!--begin::Svg Icon | path:/metronic/theme/html/demo1/dist/assets/media/svg/icons/Communication/Sending.svg-->
@@ -170,7 +170,7 @@
                     {
                         <div class="d-flex align-items-start list-item card-spacer-x py-3" data-inbox="message">
                             <!--begin::Toolbar-->
-                            <div class="d-flex align-items-center">
+                            <div class="d-flex align-items-center" style="width:30%">
                                 <!--begin::Actions-->
                                 <div class="d-flex align-items-center mr-3" data-inbox="actions">
                                     <a href="#" class="btn btn-icon btn-xs text-hover-warning" title="Oxundu olaraq işarələ">
@@ -193,10 +193,10 @@
                             </div>
                             <!--end::Toolbar-->
                             <!--begin::Info-->
-                            <div class="flex-grow-1 mt-2 mr-2" data-toggle="view">
+                            <div class="flex-grow-1 mt-2 mr-2" data-toggle="view" style="width:70%">
                                 <div>
                                     <span class="font-weight-bolder font-size-lg mr-2">@item.Subject -</span>
-                                    <span class="text-muted">@(item.Message.Length > 50 ? item.Message.Substring(0,50): item.Message)</span>
+                                    <span class="text-muted">@(item.Message.Length > 50 ? item.Message.Substring(0,50)+"...": item.Message)</span>
                                 </div>
                                 <div class="mt-2">
                                     <span class="label label-light-primary font-weight-bold label-inline mr-1">inbox</span>
@@ -205,7 +205,7 @@
                             </div>
                             <!--end::Info-->
                             <!--begin::Datetime-->
-                            <div class="mt-2 mr-3 font-weight-bolder w-50px text-right" data-toggle="view">@item.InsertDate.ToString("dd-MM-yy HH:mm")</div>
+                            <div class="mt-2 mr-3 font-weight-bolder w-70px text-right" data-toggle="view">@item.InsertDate.ToString("dd/MM/yy HH:mm")</div>
                             <!--end::Datetime-->
                         </div>
                     }
