@@ -10,17 +10,18 @@ namespace Resume.Areas.Admin.ViewComponents
 {
     public class MessageAsideViewComponent : ViewComponent
     {
-        private readonly MessageCount _count;
+        //private readonly MessageCount _count;
         private readonly ResumeContext db;
 
-        public MessageAsideViewComponent(MessageCount count, ResumeContext context)
+        public MessageAsideViewComponent(/*MessageCount count,*/ ResumeContext context)
         {
-            _count = count;
+            //_count = count;
             db = context;
         }
 
         public IViewComponentResult Invoke()
         {
+            MessageCount _count = new MessageCount();
             var messages = db.Contacts;
             _count.Inbox = messages.Where(s => s.Respons == false && s.Status == true).Count();
             _count.Answered = messages.Where(s => s.Respons == true && s.Status == false).Count();
