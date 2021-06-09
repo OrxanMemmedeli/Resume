@@ -6,70 +6,6 @@
 }
 
 
-@*<p>
-    <a asp-action="Create" class="btn btn-outline-success">Əlavə Et</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.NameSurname)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Subject)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Message)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.InsertDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ResponseDate)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.NameSurname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Subject)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Message)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.InsertDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ResponseDate)
-            </td>
-            <td>
-    <a asp-action="Edit"  asp-route-id="@item.ID"><i class="fas fa-edit"></i></a> |
-                <a asp-action="Details" asp-route-id="@item.ID"><i class="fas fa-info-circle"></i></a> |
-                                        <a asp-action="Delete" asp-route-id="@item.ID" title="Sil"><i class="fas fa-trash-alt" style="color:red"></i></a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>*@
-
 
 <div class="d-flex flex-row">
     <!--begin::Aside-->
@@ -91,17 +27,30 @@
                             <div class="d-flex align-items-center" style="width:30%">
                                 <!--begin::Actions-->
                                 <div class="d-flex align-items-center mr-3" data-inbox="actions">
-                                    <a href="#" class="btn btn-icon btn-xs text-hover-warning" title="Oxundu olaraq işarələ">
-                                        <i class="fas fa-envelope-open-text"></i>
-                                    </a>
-                                    <a href="#" class="btn btn-icon btn-xs text-hover-success" title="Mesajı Cavabla">
-                                        <i class="fas fa-share-square"></i>
-                                    </a>
+                                    @if (item.Status)
+                                    {
+                                        <a href="/Admin/Contact/Readed/@item.ID" class="btn btn-icon btn-xs text-hover-warning" title="Oxundu olaraq işarələ">
+                                            <i class="fas fa-envelope-open-text"></i>
+                                        </a>
+                                    }
+                                    else if (!item.Status && !item.Respons)
+                                    {
+                                        <a href="/Admin/Contact/Unread/@item.ID" class="btn btn-icon btn-xs text-hover-primary" title="Oxunmadı olaraq işarələ">
+                                            <i class="fas fa-envelope-open-text"></i>
+                                        </a>
+                                    }
+                                   @if (!item.Respons)
+                                    {
+                                        <a href="/Admin/Contact/Details/@item.ID" class="btn btn-icon btn-xs text-hover-success" title="Mesajı Cavabla">
+                                            <i class="fas fa-share-square"></i>
+                                        </a>
+                                    }
+
                                 </div>
                                 <!--end::Actions-->
                                 <!--begin::Author-->
                                 <div class="d-flex align-items-center flex-wrap w-xxl-200px mr-3" data-toggle="view" style="padding-left:10px">
-                                    <a class="font-weight-bold text-dark-75 text-hover-primary">
+                                    <a href="/Admin/Contact/Details/@item.ID" class="font-weight-bold text-dark-75 text-hover-primary">
                                         @item.NameSurname
                                         <br />
                                         @item.Email
@@ -112,14 +61,14 @@
                             <!--end::Toolbar-->
                             <!--begin::Info-->
                             <div class="flex-grow-1 mt-2 mr-2" data-toggle="view" style="width:70%">
-                                <div>
+                                <a href="/Admin/Contact/Details/@item.ID">
                                     <span class="font-weight-bolder font-size-lg mr-2">@item.Subject -</span>
                                     <span class="text-muted">@(item.Message.Length > 50 ? item.Message.Substring(0,50)+"...": item.Message)</span>
-                                </div>
-                                <div class="mt-2">
+                                </a>
+                                @*<div class="mt-2">
                                     <span class="label label-light-primary font-weight-bold label-inline mr-1">inbox</span>
                                     <span class="label label-light-danger font-weight-bold label-inline">task</span>
-                                </div>
+                                </div>*@
                             </div>
                             <!--end::Info-->
                             <!--begin::Datetime-->

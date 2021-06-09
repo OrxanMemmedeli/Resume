@@ -33,13 +33,13 @@ namespace Resume.Areas.Admin.Controllers
             switch (category)
             {
                 case "Inbox":
-                    messages = await _context.Contacts.Where(s=> s.Respons == false && s.Status == true).ToListAsync();
+                    messages = await _context.Contacts.Where(s => s.Respons == false && s.Status == true).OrderByDescending(x => x.InsertDate).ToListAsync();
                     break;
                 case "Read":
-                    messages = await _context.Contacts.Where(s => s.Respons == false && s.Status == false).ToListAsync();
+                    messages = await _context.Contacts.Where(s => s.Respons == false && s.Status == false).OrderByDescending(x => x.InsertDate).ToListAsync();
                     break;
                 case "Answered":
-                    messages = await _context.Contacts.Where(s => s.Respons == true && s.Status == false).ToListAsync();
+                    messages = await _context.Contacts.Where(s => s.Respons == true && s.Status == false).OrderByDescending(x => x.InsertDate).ToListAsync();
                     break;
             }
             return View(messages);
@@ -58,7 +58,6 @@ namespace Resume.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-
             return View(contact);
         }
 
@@ -81,58 +80,6 @@ namespace Resume.Areas.Admin.Controllers
             return Redirect("~/");
         }
 
-        // GET: Admin/Contact/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var contact = await _context.Contacts.FindAsync(id);
-            if (contact == null)
-            {
-                return NotFound();
-            }
-            return View(contact);
-        }
-
-        // POST: Admin/Contact/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,NameSurname,Subject,Email,Message,Status,InsertDate,ResponseDate")] Contact contact)
-        {
-            if (id != contact.ID)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(contact);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ContactExists(contact.ID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(contact);
-        }
-
-        // GET: Admin/Contact/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -150,7 +97,6 @@ namespace Resume.Areas.Admin.Controllers
             return View(contact);
         }
 
-        // POST: Admin/Contact/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -160,6 +106,32 @@ namespace Resume.Areas.Admin.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+        public async Task<IActionResult> Readed(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var message = await _context.Contacts.FirstOrDefaultAsync(x => x.ID == id);
+            message.Status = false;
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+
+        public async Task<IActionResult> Unread(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var message = await _context.Contacts.FirstOrDefaultAsync(x => x.ID == id);
+            message.Status = true;
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
 
         private bool ContactExists(int id)
         {
