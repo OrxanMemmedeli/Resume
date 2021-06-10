@@ -5,7 +5,12 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-
+@if (TempData["Message"] != null)
+{
+    <script>
+        alert("@Html.Raw(System.Web.HttpUtility.JavaScriptStringEncode(TempData["Message"].ToString()))");
+    </script>
+}
 
 <div class="d-flex flex-row">
     <!--begin::Aside-->
@@ -36,16 +41,18 @@
                                     else if (!item.Status && !item.Respons)
                                     {
                                         <a href="/Admin/Contact/Unread/@item.ID" class="btn btn-icon btn-xs text-hover-primary" title="Oxunmadı olaraq işarələ">
-                                            <i class="fas fa-envelope-open-text"></i>
+                                            <i class="fas fa-envelope"></i>
                                         </a>
                                     }
-                                   @if (!item.Respons)
+                                    @if (!item.Respons)
                                     {
                                         <a href="/Admin/Contact/Details/@item.ID" class="btn btn-icon btn-xs text-hover-success" title="Mesajı Cavabla">
                                             <i class="fas fa-share-square"></i>
                                         </a>
                                     }
-
+                                    <a href="/Admin/Contact/Delete/@item.ID" class="btn btn-icon btn-xs text-hover-danger" title="Mesajı Sil">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
                                 </div>
                                 <!--end::Actions-->
                                 <!--begin::Author-->
@@ -66,9 +73,9 @@
                                     <span class="text-muted">@(item.Message.Length > 50 ? item.Message.Substring(0,50)+"...": item.Message)</span>
                                 </a>
                                 @*<div class="mt-2">
-                                    <span class="label label-light-primary font-weight-bold label-inline mr-1">inbox</span>
-                                    <span class="label label-light-danger font-weight-bold label-inline">task</span>
-                                </div>*@
+                                        <span class="label label-light-primary font-weight-bold label-inline mr-1">inbox</span>
+                                        <span class="label label-light-danger font-weight-bold label-inline">task</span>
+                                    </div>*@
                             </div>
                             <!--end::Info-->
                             <!--begin::Datetime-->

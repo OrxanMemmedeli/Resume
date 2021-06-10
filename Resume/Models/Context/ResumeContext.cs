@@ -35,6 +35,7 @@ namespace Resume.Models.Context
         public DbSet<HideTable> HideTables { get; set; }
         public DbSet<RoleControl> RoleControls { get; set; }
         public DbSet<UserRoleControl> UserRoleControls { get; set; }
+        public DbSet<EmailConfig> EmailConfigs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
