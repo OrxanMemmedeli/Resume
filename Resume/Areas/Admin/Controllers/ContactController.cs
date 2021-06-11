@@ -167,6 +167,7 @@ namespace Resume.Areas.Admin.Controllers
                 var mainMessage = await _context.Contacts.FindAsync(messageID);
                 mainMessage.Respons = true;
                 mainMessage.ResponseDate = DateTime.Now;
+                mainMessage.ResponsMessage = model.Message;
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)

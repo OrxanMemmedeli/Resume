@@ -24,6 +24,8 @@ namespace Resume.Models.Entities
         public bool Respons { get; set; } = false;
         public DateTime InsertDate { get; set; }
         public DateTime ResponseDate { get; set; }
+        [Column(TypeName = "nvarchar(max)")]
+        public string ResponsMessage { get; set; }
 
         public static implicit operator Contact(ContactViewModel model)
         {

@@ -42,6 +42,8 @@ namespace Resume.Models.Context
             modelBuilder.Entity<UserRoleControl>().HasKey(sc => new { sc.UserID, sc.RoleID });  // for 3 row M-M relationship
             modelBuilder.Entity<UserRoleControl>().HasOne<User>(sc => sc.User).WithMany(s => s.UserRoleControls).HasForeignKey(sc => sc.UserID);
             modelBuilder.Entity<UserRoleControl>().HasOne<RoleControl>(sc => sc.RoleControl).WithMany(s => s.UserRoleControls).HasForeignKey(sc => sc.RoleID);
+
         }
+    
     }
 }
