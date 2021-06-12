@@ -59,12 +59,18 @@
                     </div>
                     <!--end::Message Heading-->
                     <div class="card-spacer-x py-3 toggle-off-item">
+                        <hr />
+                        <br />
+                        <h4><strong>İstifadəçi Müraciəti:</strong></h4> <br />
                         @Model.Message
                     </div>
 
                     @if (!string.IsNullOrEmpty(Model.ResponsMessage))
                     {
                         <div class="card-spacer-x py-3 toggle-off-item">
+                            <hr />
+                            <br />
+                            <h4><strong>Göndərilmiş Cavab mətni:</strong></h4> <br />
                             @Model.ResponsMessage
                         </div>
                     }

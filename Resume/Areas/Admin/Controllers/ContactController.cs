@@ -143,26 +143,37 @@ namespace Resume.Areas.Admin.Controllers
             var email = await _context.EmailConfigs.FirstOrDefaultAsync();
             email.Password = AncryptionAndDecryption.decodedata(AncryptionAndDecryption.decodedata(email.Password).Replace("encodedata", ""));
 
-            MailMessage message = new MailMessage();
-            message.To.Add(model.Email);
-            message.From = new MailAddress(email.Gmail, email.Gmail);
+            MailMessage message = new MailMessage(new MailAddress(email.Gmail.Trim(), email.Gmail.Trim()), new MailAddress(model.Email.Trim()));
+            //message.To.Add(model.Email.Trim());
+            //message.From = new MailAddress(email.Gmail.Trim(), email.Gmail.Trim());
             message.IsBodyHtml = true;
             message.Subject = model.Subject;
             message.Body = model.Message;
 
 
-            SmtpClient client = new SmtpClient();
-            client.DeliveryFormat = SmtpDeliveryFormat.SevenBit;
-            client.DeliveryMethod = SmtpDeliveryMethod.Network;
-            client.UseDefaultCredentials = false;
-            client.Host = "smtp.gmail.com";
-            client.Port = 587;
-            client.EnableSsl = true;
-            client.Credentials = new NetworkCredential(email.Gmail, email.Password);
+            //SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
+            ////client.DeliveryFormat = SmtpDeliveryFormat.SevenBit;
+            //client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            //client.Credentials = new NetworkCredential(email.Gmail.Trim(), email.Password.Trim());
+            //client.UseDefaultCredentials = false;
+            //client.Host = "smtp.gmail.com";
+            //client.Port = 587;
+            //client.EnableSsl = true;
+
+            SmtpClient smtp = new SmtpClient
+            {
+                Host = "smtp.office365.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryFormat = SmtpDeliveryFormat.SevenBit,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(email.Gmail.Trim(), email.Password.Trim())
+            };
 
             try
             {
-                client.Send(message);
+                smtp.Send(message);
                 TempData["Message"] = "Mesaj göndərildi";
                 var mainMessage = await _context.Contacts.FindAsync(messageID);
                 mainMessage.Respons = true;
