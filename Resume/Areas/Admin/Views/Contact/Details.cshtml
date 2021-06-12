@@ -11,7 +11,10 @@
         <!--begin::Header-->
         <div class="row">
             <a href="/Admin/Contact/Index" class="btn btn-dark" style="margin-left:10px"><i class="fas fa-arrow-circle-left"></i>Geri</a>
-            <a href="/Admin/Contact/Unread/@Model.ID" class="btn btn-info" style="margin-left:10px"><i class="fas fa-envelope"></i>Oxunmadı</a>
+            @if (string.IsNullOrEmpty(Model.ResponsMessage))
+            {
+                <a href="/Admin/Contact/Unread/@Model.ID" class="btn btn-info" style="margin-left:10px"><i class="fas fa-envelope"></i>Oxunmadı</a>
+            }
             <a href="/Admin/Contact/Delete/@Model.ID" class="btn btn-danger" style="margin-left:10px"><i class="fas fa-trash"></i>Sil</a>
         </div>
         <div class="card-header justify-content-between py-5 h-auto">
