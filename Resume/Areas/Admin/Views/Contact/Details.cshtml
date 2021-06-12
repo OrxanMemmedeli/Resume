@@ -87,7 +87,7 @@
                     <div class="card card-custom shadow-sm">
                         <div class="card-body p-0">
                             <!--begin::Form-->
-                            <form id="kt_inbox_reply_form" asp-action="SendEmail" asp-controller="Contact" method="post">
+                            <form id="kt_inbox_reply_form" asp-action="SendEmail" asp-controller="Contact" method="post" class="form-disable">
                                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                 <input type="hidden" name="messageID" value="@Model.ID" />
                                 <input type="hidden" name="Email" value="@Model.Email" />
@@ -119,7 +119,7 @@
                                     <div class="d-flex align-items-center mr-3">
                                         <!--begin::Send-->
                                         <div class="btn-group mr-4">
-                                            <button type="submit" class="btn btn-primary font-weight-bold px-6">Cavabla</button>
+                                            <input id="submit" data-submit-value="GÖZLƏYİN..." type="submit" value="Cavabla" class="btn btn-primary font-weight-bold px-6">
                                         </div>
                                         <!--end::Send-->
                                     </div>
@@ -139,3 +139,13 @@
     </div>
     <!--end::Card-->
 </div>
+
+
+<script>
+    $('.form-disable').on('submit', function () {
+        var self = $(this),
+            button = self.find('input[type=submit],button'),
+            submitValue = button.data('submit-value');
+        button.attr('disabled', 'disabled').val((submitValue) ? submitValue : 'GÖZLƏYİN...');
+    });
+</script>
