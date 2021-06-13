@@ -11,5 +11,7 @@ namespace Resume.Models.ViewModels
         public string Subject { get; set; }
         public string Email { get; set; }
         public string Message { get; set; }
+
+        public string captcha { get; set; }
     }
 }

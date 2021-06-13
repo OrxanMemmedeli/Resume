@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
 using Resume.Business.Tools;
+using Resume.Models;
 using Resume.Models.Context;
 using Resume.Models.ViewModels;
 using System;
@@ -20,11 +21,11 @@ namespace Resume.Controllers
     public class AccountController : Controller
     {
         private readonly ResumeContext db;
-        //private readonly GoogleConfigModel _googleConfig;
-        public AccountController(ResumeContext context/*, IOptions<GoogleConfigModel> googleConfig*/)
+        private readonly GoogleConfigModel _googleConfig;
+        public AccountController(ResumeContext context, IOptions<GoogleConfigModel> googleConfig)
         {
             db = context;
-            //_googleConfig = googleConfig.Value;
+            _googleConfig = googleConfig.Value;
         }
 
         public IActionResult Login()
@@ -58,31 +59,31 @@ namespace Resume.Controllers
 
                     HttpContext.SignInAsync(claimsPrincipal);
 
-                    return RedirectToAction("Index", "Default");
+                    return Redirect("/Admin/Info");
                 }
             }
             return View();
         }
 
-        //private bool IsReCaptchValidV3(string captchaResponse)
-        //{
-        //    var result = false;
-        //    var secretKey = _googleConfig.Secret;
-        //    var apiUrl = "https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}";
-        //    var requestUri = string.Format(apiUrl, secretKey, captchaResponse);
-        //    var request = (HttpWebRequest)WebRequest.Create(requestUri);
+        private bool IsReCaptchValidV3(string captchaResponse)
+        {
+            var result = false;
+            var secretKey = _googleConfig.Secret;
+            var apiUrl = "https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}";
+            var requestUri = string.Format(apiUrl, secretKey, captchaResponse);
+            var request = (HttpWebRequest)WebRequest.Create(requestUri);
 
-        //    using (WebResponse response = request.GetResponse())
-        //    {
-        //        using (StreamReader stream = new StreamReader(response.GetResponseStream()))
-        //        {
-        //            JObject jResponse = JObject.Parse(stream.ReadToEnd());
-        //            var isSuccess = jResponse.Value<bool>("success");
-        //            result = (isSuccess) ? true : false;
-        //        }
-        //    }
-        //    return result;
-        //}
+            using (WebResponse response = request.GetResponse())
+            {
+                using (StreamReader stream = new StreamReader(response.GetResponseStream()))
+                {
+                    JObject jResponse = JObject.Parse(stream.ReadToEnd());
+                    var isSuccess = jResponse.Value<bool>("success");
+                    result = (isSuccess) ? true : false;
+                }
+            }
+            return result;
+        }
 
         public IActionResult Denied()
         {

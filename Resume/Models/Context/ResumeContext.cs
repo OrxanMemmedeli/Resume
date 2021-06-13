@@ -13,8 +13,8 @@ namespace Resume.Models.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=ILQAR\SQLEXPRESS01; Database=Resume; Integrated Security = true;");
-            //optionsBuilder.UseSqlServer(@"Server=DESKTOP-TROAMS4; Database=Resume; Integrated Security = true;");
+            //optionsBuilder.UseSqlServer(@"Server=ILQAR\SQLEXPRESS01; Database=Resume; Integrated Security = true;");
+            optionsBuilder.UseSqlServer(@"Server=DESKTOP-TROAMS4; Database=Resume; Integrated Security = true;");
 
             //optionsBuilder.UseSqlServer("data source=ILQAR\SQLEXPRESS01-DESKTOP-TROAMS4; initial catalog=CoreTicketSales; Integrated Security = true;");
         }
@@ -36,6 +36,9 @@ namespace Resume.Models.Context
         public DbSet<RoleControl> RoleControls { get; set; }
         public DbSet<UserRoleControl> UserRoleControls { get; set; }
         public DbSet<EmailConfig> EmailConfigs { get; set; }
+        public DbSet<ControllerNames> ControllerNames { get; set; }
+        public DbSet<ControllerActionUser> ControllerActionUsers { get; set; }
+        public DbSet<ActiomNames> ActiomNames { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -43,6 +46,11 @@ namespace Resume.Models.Context
             modelBuilder.Entity<UserRoleControl>().HasOne<User>(sc => sc.User).WithMany(s => s.UserRoleControls).HasForeignKey(sc => sc.UserID);
             modelBuilder.Entity<UserRoleControl>().HasOne<RoleControl>(sc => sc.RoleControl).WithMany(s => s.UserRoleControls).HasForeignKey(sc => sc.RoleID);
 
+
+            modelBuilder.Entity<ControllerActionUser>().HasKey(x => new { x.ActionID, x.ControllerID, x.UserID });
+            modelBuilder.Entity<ControllerActionUser>().HasOne<ControllerNames>(x => x.ControllerNames).WithMany(x => x.ControllerActionUsers).HasForeignKey(x => x.ControllerID);
+            modelBuilder.Entity<ControllerActionUser>().HasOne<ActiomNames>(x => x.ActiomNames).WithMany(x => x.ControllerActionUsers).HasForeignKey(x => x.ActionID);
+            modelBuilder.Entity<ControllerActionUser>().HasOne<User>(x => x.User).WithMany(x => x.ControllerActionUsers).HasForeignKey(x => x.UserID);
         }
     
     }

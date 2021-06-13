@@ -26,6 +26,22 @@ namespace Resume.Areas.Admin.Controllers
             return View(await _context.EmailConfigs.FirstOrDefaultAsync());
         }
 
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(EmailConfig emailConfig)
+        {
+
+            if (ModelState.IsValid)
+            {
+                emailConfig.Password = AncryptionAndDecryption.encodedata("encodedata" + AncryptionAndDecryption.encodedata(emailConfig.Password));
+                _context.Add(emailConfig);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(emailConfig);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, EmailConfig emailConfig, string NewPassword)

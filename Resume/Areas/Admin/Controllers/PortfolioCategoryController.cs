@@ -11,11 +11,11 @@ using Resume.Models.Entities;
 namespace Resume.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class PortfolioCategoriyController : Controller
+    public class PortfolioCategoryController : Controller
     {
         private readonly ResumeContext _context;
 
-        public PortfolioCategoriyController(ResumeContext context)
+        public PortfolioCategoryController(ResumeContext context)
         {
             _context = context;
         }

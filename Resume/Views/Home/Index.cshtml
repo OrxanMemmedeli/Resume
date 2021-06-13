@@ -1,6 +1,7 @@
 ﻿
 @{
     Layout = null;
+    @inject Microsoft.Extensions.Options.IOptions<GoogleConfigModel> googleConfig
 }
 
 <!DOCTYPE html>
@@ -936,5 +937,14 @@
     <script src="~/javascript/vendors/jquery.magnific-popup.min.js"></script>
     <script src="~/javascript/custom.js"></script>
 
+    <script src="https://www.google.com/recaptcha/api.js?render=@googleConfig.Value.Key"></script>
+
+    <script>
+        grecaptcha.ready(function () {
+            grecaptcha.execute('@googleConfig.Value.Key', { action: 'Login' }).then(function (token) {
+                document.getElementById("captcha").value = token;
+            });
+        });
+    </script>
 </body>
 </html>

@@ -1,25 +1,22 @@
-﻿@model Resume.Models.Entities.EmailConfig
+﻿@model Resume.Models.Entities.ControllerNames
 
 @{
-    ViewData["Title"] = "Gmail - Əlavə Et";
+    ViewData["Title"] = "Controller - Əlavə Et";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h4>Gmail - Əlavə Et</h4>
+
+
+<h4>Controller - Əlavə Et</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create" class="form-disable">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Gmail" class="control-label"></label>
-                <input asp-for="Gmail" class="form-control" />
-                <span asp-validation-for="Gmail" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Parol</label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
+                <label class="control-label">Controller</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input id="submit" data-submit-value="GÖZLƏYİN..." type="submit" value="Əlavə Et" class="btn btn-outline-primary">

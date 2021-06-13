@@ -1,0 +1,31 @@
+﻿@model IEnumerable<Resume.Models.Entities.ControllerNames>
+
+@{
+    ViewData["Title"] = "Controller-lər";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    int say = 1;
+}
+
+
+<p>
+    <a asp-action="Create" class="btn btn-outline-success">Əlavə Et</a>
+</p>
+<div class="flex-row-fluid ml-lg-12">
+    <div class="card card-custom">
+        <div class="row col-md-12 col-lg-12 col-sm-12" >
+            @foreach (var item in Model)
+            {
+                <div class="col-md-3">
+                    <div class="row border" style="padding-top:2px">
+                        <div class="col-md-8">
+                            <p><span><strong>@(say++)</strong></span>. @item.Name</p>
+                        </div>
+                        <div class="col-md-2"><a asp-action="Edit" asp-route-id="@item.ID" title="Düzəliş et"><i class="fas fa-edit test" style="color:green"></i></a> </div>
+                        <div class="col-md-2"><a asp-action="Delete" asp-route-id="@item.ID" title="Sil"><i class="fas fa-trash-alt" style="color:red"></i></a></div>
+
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div> 

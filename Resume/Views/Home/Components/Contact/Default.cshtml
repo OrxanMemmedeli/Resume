@@ -16,6 +16,7 @@
                     <div class="card-content">
                         <form asp-area="Admin" asp-controller="Contact" asp-action="Create" method="post" class="form-disable">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="captcha" id="captcha" />
                             <!--SUBJECT-->
                             <div class="input-field">
                                 <input id="sub" type="text" class="validate" asp-for="Subject" required>
@@ -38,7 +39,7 @@
                             </div>
                             <!-- SEND BUTTON -->
                             <div class="contact-send">
-                                <input id="submit" data-submit-value="GÖZLƏYİN..." type="submit" value="Əlavə Et" class="btn waves-effect" name="contactSubmit"  >
+                                <input id="submit" data-submit-value="GÖZLƏYİN..." type="submit" value="Əlavə Et" class="g-recaptcha btn waves-effect" name="contactSubmit">
                             </div>
                         </form>
                     </div>
@@ -70,3 +71,4 @@
         button.attr('disabled', 'disabled').val((submitValue) ? submitValue : 'GÖZLƏYİN...');
     });
 </script>
+

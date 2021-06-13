@@ -1,0 +1,35 @@
+﻿@model Resume.Models.Entities.ControllerNames
+
+@{
+    ViewData["Title"] = "Controller - Sil";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h3>Silinən məlumatlar geri qaytarılmır!</h3>
+<div>
+    <h4>ControllerNames</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Controller
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+    </dl>
+
+    <form asp-action="Delete" class="form-disable">
+        <input type="hidden" asp-for="ID" />
+        <input id="submit" data-submit-value="GÖZLƏYİN..." type="submit" value="Sil" class="btn btn-outline-primary"> |
+        <a asp-action="Index" class="btn btn-dark">Geri</a>
+    </form>
+</div>
+
+<script>
+    $('.form-disable').on('submit', function () {
+        var self = $(this),
+            button = self.find('input[type=submit],button'),
+            submitValue = button.data('submit-value');
+        button.attr('disabled', 'disabled').val((submitValue) ? submitValue : 'GÖZLƏYİN...');
+    });
+</script>

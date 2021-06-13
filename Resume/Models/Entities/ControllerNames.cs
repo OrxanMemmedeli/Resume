@@ -7,26 +7,18 @@ using System.Threading.Tasks;
 
 namespace Resume.Models.Entities
 {
-    public class User
+    public class ControllerNames
     {
-        public User()
+        public ControllerNames()
         {
-            this.UserRoleControls = new HashSet<UserRoleControl>();
             this.ControllerActionUsers = new HashSet<ControllerActionUser>();
         }
 
         [Key]
         public int ID { get; set; }
         [Column(TypeName = "nvarchar(100)")]
-        public string Email { get; set; }
-        [Column(TypeName = "nvarchar(max)")]
-        public string Password { get; set; }
-        [NotMapped]
-        [Compare("Password")]
-        [Column(TypeName = "nvarchar(max)")]
-        public string ConfirmPassword { get; set; }
-        public bool Status { get; set; }
-        public virtual ICollection<UserRoleControl> UserRoleControls { get; set; }
+        public string Name { get; set; }
+
         public ICollection<ControllerActionUser> ControllerActionUsers { get; set; }
     }
 }
