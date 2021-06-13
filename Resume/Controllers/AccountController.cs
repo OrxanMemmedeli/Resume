@@ -38,8 +38,8 @@ namespace Resume.Controllers
         public IActionResult Login(LoginDatasViewModel loginDatas)
         {
             //loginDatas = loginDatas.ProtectForSQLInjection(loginDatas);
-            //var isValid = IsReCaptchValidV3(loginDatas.captcha);
-            if (ModelState.IsValid == true /*&& isValid == true*/)
+            var isValid = IsReCaptchValidV3(loginDatas.captcha);
+            if (ModelState.IsValid == true && isValid == true)
             {
                 loginDatas.Password = AncryptionAndDecryption.encodedata("encodedata" + AncryptionAndDecryption.encodedata(loginDatas.Password));
 

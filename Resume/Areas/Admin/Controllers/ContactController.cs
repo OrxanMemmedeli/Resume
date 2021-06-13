@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -7,7 +8,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json.Linq;
 using Resume.Business.Tools;
+using Resume.Models;
 using Resume.Models.Context;
 using Resume.Models.Entities;
 using Resume.Models.ViewModels;
@@ -18,10 +22,12 @@ namespace Resume.Areas.Admin.Controllers
     public class ContactController : Controller
     {
         private readonly ResumeContext _context;
+        private readonly GoogleConfigModel _googleConfig;
 
-        public ContactController(ResumeContext context)
+        public ContactController(ResumeContext context, IOptions<GoogleConfigModel> googleConfig)
         {
             _context = context;
+            _googleConfig = googleConfig.Value;
         }
 
         public async Task<IActionResult> Index(string category)
@@ -70,18 +76,42 @@ namespace Resume.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ContactViewModel contact)
         {
-            Contact _contact = contact;
-            _contact.Status = true;
-            _contact.InsertDate = DateTime.Now;
-            _contact.ResponseDate = DateTime.Now;
-            if (ModelState.IsValid)
+            var isValid = IsReCaptchValidV3(contact.captcha);
+            if (isValid)
             {
-                _context.Add(_contact);
-                await _context.SaveChangesAsync();
-                TempData["MessageSuccess"] = "Mesajınız göndərilmişdir";
-                return Redirect("~/");
+                Contact _contact = contact;
+                _contact.Status = true;
+                _contact.InsertDate = DateTime.Now;
+                _contact.ResponseDate = DateTime.Now;
+                if (ModelState.IsValid)
+                {
+                    _context.Add(_contact);
+                    await _context.SaveChangesAsync();
+                    TempData["MessageSuccess"] = "Mesajınız göndərilmişdir";
+                    return Redirect("~/");
+                }
             }
             return Redirect("~/");
+        }
+
+        private bool IsReCaptchValidV3(string captchaResponse)
+        {
+            var result = false;
+            var secretKey = _googleConfig.Secret;
+            var apiUrl = "https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}";
+            var requestUri = string.Format(apiUrl, secretKey, captchaResponse);
+            var request = (HttpWebRequest)WebRequest.Create(requestUri);
+
+            using (WebResponse response = request.GetResponse())
+            {
+                using (StreamReader stream = new StreamReader(response.GetResponseStream()))
+                {
+                    JObject jResponse = JObject.Parse(stream.ReadToEnd());
+                    var isSuccess = jResponse.Value<bool>("success");
+                    result = (isSuccess) ? true : false;
+                }
+            }
+            return result;
         }
 
         public async Task<IActionResult> Delete(int? id)

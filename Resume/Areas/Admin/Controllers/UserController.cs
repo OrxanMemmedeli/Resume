@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -15,19 +16,19 @@ namespace Resume.Areas.Admin.Controllers
     public class UserController : Controller
     {
         private readonly ResumeContext _context;
-        private readonly RoleChecker _roleChecker;
-        private readonly CurrentUser _currentUser;
-
-        public UserController(ResumeContext context, RoleChecker roleChecker, CurrentUser currentUser)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public UserController(ResumeContext context, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
-            _roleChecker = roleChecker;
-            _currentUser = currentUser;
+            _httpContextAccessor = httpContextAccessor;
         }
+
+
+        int UserID = CurrentUser.FindUser(_context, _httpContextAccessor);
 
         public async Task<IActionResult> Index()
         {
-            bool roleStatus = _roleChecker.AuthorizeRoles(_currentUser.FindUser(), "User", "Index");
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context,_currentUser.FindUser(), "User", "Index");
             if (roleStatus)
             {
                 return View(await _context.Users.ToListAsync());
@@ -40,7 +41,7 @@ namespace Resume.Areas.Admin.Controllers
 
         public IActionResult Create()
         {
-            bool roleStatus = _roleChecker.AuthorizeRoles(_currentUser.FindUser(), "User", "Create");
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, _currentUser.FindUser(), "User", "Create");
             if (roleStatus)
             {
                 return View();
@@ -56,7 +57,7 @@ namespace Resume.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,Email,Password,Status")] User user)
         {
-            bool roleStatus = _roleChecker.AuthorizeRoles(_currentUser.FindUser(), "User", "Create");
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, _currentUser.FindUser(), "User", "Create");
             if (roleStatus)
             {
                 if (ModelState.IsValid)
@@ -76,7 +77,7 @@ namespace Resume.Areas.Admin.Controllers
 
         public async Task<IActionResult> Edit(int? id)
         {
-            bool roleStatus = _roleChecker.AuthorizeRoles(_currentUser.FindUser(), "User", "Edit");
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, _currentUser.FindUser(), "User", "Edit");
             if (roleStatus)
             {
                 if (id == null)
@@ -102,7 +103,7 @@ namespace Resume.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Email,Password,Status")] User user)
         {
-            bool roleStatus = _roleChecker.AuthorizeRoles(_currentUser.FindUser(), "User", "Edit");
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, _currentUser.FindUser(), "User", "Edit");
             if (roleStatus)
             {
                 if (id != user.ID)
@@ -141,7 +142,7 @@ namespace Resume.Areas.Admin.Controllers
 
         public async Task<IActionResult> Delete(int? id)
         {
-            bool roleStatus = _roleChecker.AuthorizeRoles(_currentUser.FindUser(), "User", "Delete");
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, _currentUser.FindUser(), "User", "Delete");
             if (roleStatus)
             {
                 if (id == null)
@@ -169,7 +170,7 @@ namespace Resume.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            bool roleStatus = _roleChecker.AuthorizeRoles(_currentUser.FindUser(), "User", "DeleteConfirmed");
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, _currentUser.FindUser(), "User", "DeleteConfirmed");
             if (roleStatus)
             {
                 var user = await _context.Users.FindAsync(id);
