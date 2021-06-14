@@ -8,11 +8,11 @@ using Microsoft.AspNetCore.Http;
 
 namespace Resume.Business.Control
 {
-    public class CurrentUser
+    public static class CurrentUser
     {
-        public int FindUser(ResumeContext contex, string userName)
+        public static int FindUser(ResumeContext contex, IHttpContextAccessor httpContextAccessor)
         {
-            var user = contex.Users.FirstOrDefault(x => x.Email == userName);
+            var user = contex.Users.FirstOrDefault(x => x.Email == httpContextAccessor.HttpContext.User.Identity.Name);
             return user.ID;
         }
     }

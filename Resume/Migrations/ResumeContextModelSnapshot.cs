@@ -117,37 +117,24 @@ namespace Resume.Migrations
                     b.ToTable("Contacts");
                 });
 
-            modelBuilder.Entity("Resume.Models.Entities.ControllerAction", b =>
+            modelBuilder.Entity("Resume.Models.Entities.ControllerActionUser", b =>
                 {
-                    b.Property<int>("ControllerID")
-                        .HasColumnType("int");
-
                     b.Property<int>("ActionID")
                         .HasColumnType("int");
 
-                    b.Property<int>("ID")
-                        .HasColumnType("int");
-
-                    b.HasKey("ControllerID", "ActionID");
-
-                    b.HasIndex("ActionID");
-
-                    b.ToTable("ControllerActions");
-                });
-
-            modelBuilder.Entity("Resume.Models.Entities.ControllerActionUser", b =>
-                {
-                    b.Property<int>("ControllerActionID")
+                    b.Property<int>("ControllerID")
                         .HasColumnType("int");
 
                     b.Property<int>("UserID")
                         .HasColumnType("int");
 
-                    b.HasKey("ControllerActionID", "UserID");
+                    b.HasKey("ActionID", "ControllerID", "UserID");
+
+                    b.HasIndex("ControllerID");
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("ControllerActionUsers");
+                    b.ToTable("ControllerActions");
                 });
 
             modelBuilder.Entity("Resume.Models.Entities.ControllerNames", b =>
@@ -509,31 +496,17 @@ namespace Resume.Migrations
                     b.Navigation("BlogCategory");
                 });
 
-            modelBuilder.Entity("Resume.Models.Entities.ControllerAction", b =>
+            modelBuilder.Entity("Resume.Models.Entities.ControllerActionUser", b =>
                 {
                     b.HasOne("Resume.Models.Entities.ActiomNames", "ActiomNames")
-                        .WithMany("ControllerActions")
+                        .WithMany("ControllerActionUsers")
                         .HasForeignKey("ActionID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Resume.Models.Entities.ControllerNames", "ControllerNames")
-                        .WithMany("ControllerActions")
-                        .HasForeignKey("ControllerID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ActiomNames");
-
-                    b.Navigation("ControllerNames");
-                });
-
-            modelBuilder.Entity("Resume.Models.Entities.ControllerActionUser", b =>
-                {
-                    b.HasOne("Resume.Models.Entities.ControllerAction", "ControllerAction")
                         .WithMany("ControllerActionUsers")
-                        .HasForeignKey("ControllerActionID")
-                        .HasPrincipalKey("ID")
+                        .HasForeignKey("ControllerID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -543,7 +516,9 @@ namespace Resume.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ControllerAction");
+                    b.Navigation("ActiomNames");
+
+                    b.Navigation("ControllerNames");
 
                     b.Navigation("User");
                 });
@@ -602,7 +577,7 @@ namespace Resume.Migrations
 
             modelBuilder.Entity("Resume.Models.Entities.ActiomNames", b =>
                 {
-                    b.Navigation("ControllerActions");
+                    b.Navigation("ControllerActionUsers");
                 });
 
             modelBuilder.Entity("Resume.Models.Entities.BlogCategory", b =>
@@ -610,14 +585,9 @@ namespace Resume.Migrations
                     b.Navigation("Blogs");
                 });
 
-            modelBuilder.Entity("Resume.Models.Entities.ControllerAction", b =>
-                {
-                    b.Navigation("ControllerActionUsers");
-                });
-
             modelBuilder.Entity("Resume.Models.Entities.ControllerNames", b =>
                 {
-                    b.Navigation("ControllerActions");
+                    b.Navigation("ControllerActionUsers");
                 });
 
             modelBuilder.Entity("Resume.Models.Entities.Portfolio", b =>
