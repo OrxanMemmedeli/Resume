@@ -16,39 +16,36 @@ namespace Resume.Areas.Admin.Controllers
     public class UserController : Controller
     {
         private readonly ResumeContext _context;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        public UserController(ResumeContext context, IHttpContextAccessor httpContextAccessor)
+        public UserController(ResumeContext context)
         {
             _context = context;
-            _httpContextAccessor = httpContextAccessor;
         }
 
-
-        int UserID = CurrentUser.FindUser(_context, _httpContextAccessor);
+        public CurrentUser currentUser = new CurrentUser();
 
         public async Task<IActionResult> Index()
         {
-            bool roleStatus = RoleChecker.AuthorizeRoles(_context,_currentUser.FindUser(), "User", "Index");
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "User", "Index");
             if (roleStatus)
             {
                 return View(await _context.Users.ToListAsync());
             }
             else
             {
-                return RedirectToAction("Denied", "Account");
+                return Redirect("/Account/Denied");
             }
         }
 
         public IActionResult Create()
         {
-            bool roleStatus = RoleChecker.AuthorizeRoles(_context, _currentUser.FindUser(), "User", "Create");
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "User", "Create");
             if (roleStatus)
             {
                 return View();
             }
             else
             {
-                return RedirectToAction("Denied", "Account");
+                return Redirect("/Account/Denied");
             }
 
         }
@@ -57,7 +54,7 @@ namespace Resume.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,Email,Password,Status")] User user)
         {
-            bool roleStatus = RoleChecker.AuthorizeRoles(_context, _currentUser.FindUser(), "User", "Create");
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "User", "Create");
             if (roleStatus)
             {
                 if (ModelState.IsValid)
@@ -70,14 +67,14 @@ namespace Resume.Areas.Admin.Controllers
             }
             else
             {
-                return RedirectToAction("Denied", "Account");
+                return Redirect("/Account/Denied");
             }
 
         }
 
         public async Task<IActionResult> Edit(int? id)
         {
-            bool roleStatus = RoleChecker.AuthorizeRoles(_context, _currentUser.FindUser(), "User", "Edit");
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "User", "Edit");
             if (roleStatus)
             {
                 if (id == null)
@@ -94,7 +91,7 @@ namespace Resume.Areas.Admin.Controllers
             }
             else
             {
-                return RedirectToAction("Denied", "Account");
+                return Redirect("/Account/Denied");
             }
 
         }
@@ -103,7 +100,7 @@ namespace Resume.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Email,Password,Status")] User user)
         {
-            bool roleStatus = RoleChecker.AuthorizeRoles(_context, _currentUser.FindUser(), "User", "Edit");
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "User", "Edit");
             if (roleStatus)
             {
                 if (id != user.ID)
@@ -135,14 +132,14 @@ namespace Resume.Areas.Admin.Controllers
             }
             else
             {
-                return RedirectToAction("Denied", "Account");
+                return Redirect("/Account/Denied");
             }
 
         }
 
         public async Task<IActionResult> Delete(int? id)
         {
-            bool roleStatus = RoleChecker.AuthorizeRoles(_context, _currentUser.FindUser(), "User", "Delete");
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "User", "Delete");
             if (roleStatus)
             {
                 if (id == null)
@@ -161,7 +158,7 @@ namespace Resume.Areas.Admin.Controllers
             }
             else
             {
-                return RedirectToAction("Denied", "Account");
+                return Redirect("/Account/Denied");
             }
 
         }
@@ -170,7 +167,7 @@ namespace Resume.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            bool roleStatus = RoleChecker.AuthorizeRoles(_context, _currentUser.FindUser(), "User", "DeleteConfirmed");
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "User", "DeleteConfirmed");
             if (roleStatus)
             {
                 var user = await _context.Users.FindAsync(id);
@@ -180,7 +177,7 @@ namespace Resume.Areas.Admin.Controllers
             }
             else
             {
-                return RedirectToAction("Denied", "Account");
+                return Redirect("/Account/Denied");
             }
         }
 
