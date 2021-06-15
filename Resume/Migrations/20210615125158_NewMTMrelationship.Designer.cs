@@ -10,8 +10,8 @@ using Resume.Models.Context;
 namespace Resume.Migrations
 {
     [DbContext(typeof(ResumeContext))]
-    [Migration("20210613072312_ThreeTableMTMRelationship")]
-    partial class ThreeTableMTMRelationship
+    [Migration("20210615125158_NewMTMrelationship")]
+    partial class NewMTMrelationship
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,10 +28,15 @@ namespace Resume.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("ControllerNamesID")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("ControllerNamesID");
 
                     b.ToTable("ActionNames");
                 });
@@ -121,22 +126,22 @@ namespace Resume.Migrations
 
             modelBuilder.Entity("Resume.Models.Entities.ControllerActionUser", b =>
                 {
-                    b.Property<int>("ActionID")
-                        .HasColumnType("int");
-
                     b.Property<int>("ControllerID")
                         .HasColumnType("int");
 
                     b.Property<int>("UserID")
                         .HasColumnType("int");
 
-                    b.HasKey("ActionID", "ControllerID", "UserID");
+                    b.Property<int?>("ActionNamesID")
+                        .HasColumnType("int");
 
-                    b.HasIndex("ControllerID");
+                    b.HasKey("ControllerID", "UserID");
+
+                    b.HasIndex("ActionNamesID");
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("ControllerActions");
+                    b.ToTable("ControllerActionUsers");
                 });
 
             modelBuilder.Entity("Resume.Models.Entities.ControllerNames", b =>
@@ -487,6 +492,17 @@ namespace Resume.Migrations
                     b.ToTable("UserRoleControls");
                 });
 
+            modelBuilder.Entity("Resume.Models.Entities.ActionNames", b =>
+                {
+                    b.HasOne("Resume.Models.Entities.ControllerNames", "ControllerNames")
+                        .WithMany("ActionNames")
+                        .HasForeignKey("ControllerNamesID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ControllerNames");
+                });
+
             modelBuilder.Entity("Resume.Models.Entities.Blog", b =>
                 {
                     b.HasOne("Resume.Models.Entities.BlogCategory", "BlogCategory")
@@ -500,11 +516,9 @@ namespace Resume.Migrations
 
             modelBuilder.Entity("Resume.Models.Entities.ControllerActionUser", b =>
                 {
-                    b.HasOne("Resume.Models.Entities.ActionNames", "ActionNames")
+                    b.HasOne("Resume.Models.Entities.ActionNames", null)
                         .WithMany("ControllerActionUsers")
-                        .HasForeignKey("ActionID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ActionNamesID");
 
                     b.HasOne("Resume.Models.Entities.ControllerNames", "ControllerNames")
                         .WithMany("ControllerActionUsers")
@@ -517,8 +531,6 @@ namespace Resume.Migrations
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("ActionNames");
 
                     b.Navigation("ControllerNames");
 
@@ -589,6 +601,8 @@ namespace Resume.Migrations
 
             modelBuilder.Entity("Resume.Models.Entities.ControllerNames", b =>
                 {
+                    b.Navigation("ActionNames");
+
                     b.Navigation("ControllerActionUsers");
                 });
 

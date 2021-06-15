@@ -19,19 +19,24 @@ namespace Resume.Migrations
                 .HasAnnotation("ProductVersion", "5.0.6")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Resume.Models.Entities.ActiomNames", b =>
+            modelBuilder.Entity("Resume.Models.Entities.ActionNames", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("ControllerNamesID")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("ID");
 
-                    b.ToTable("ActiomNames");
+                    b.HasIndex("ControllerNamesID");
+
+                    b.ToTable("ActionNames");
                 });
 
             modelBuilder.Entity("Resume.Models.Entities.Blog", b =>
@@ -119,22 +124,22 @@ namespace Resume.Migrations
 
             modelBuilder.Entity("Resume.Models.Entities.ControllerActionUser", b =>
                 {
-                    b.Property<int>("ActionID")
-                        .HasColumnType("int");
-
                     b.Property<int>("ControllerID")
                         .HasColumnType("int");
 
                     b.Property<int>("UserID")
                         .HasColumnType("int");
 
-                    b.HasKey("ActionID", "ControllerID", "UserID");
+                    b.Property<int?>("ActionNamesID")
+                        .HasColumnType("int");
 
-                    b.HasIndex("ControllerID");
+                    b.HasKey("ControllerID", "UserID");
+
+                    b.HasIndex("ActionNamesID");
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("ControllerActions");
+                    b.ToTable("ControllerActionUsers");
                 });
 
             modelBuilder.Entity("Resume.Models.Entities.ControllerNames", b =>
@@ -485,6 +490,17 @@ namespace Resume.Migrations
                     b.ToTable("UserRoleControls");
                 });
 
+            modelBuilder.Entity("Resume.Models.Entities.ActionNames", b =>
+                {
+                    b.HasOne("Resume.Models.Entities.ControllerNames", "ControllerNames")
+                        .WithMany("ActionNames")
+                        .HasForeignKey("ControllerNamesID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ControllerNames");
+                });
+
             modelBuilder.Entity("Resume.Models.Entities.Blog", b =>
                 {
                     b.HasOne("Resume.Models.Entities.BlogCategory", "BlogCategory")
@@ -498,11 +514,9 @@ namespace Resume.Migrations
 
             modelBuilder.Entity("Resume.Models.Entities.ControllerActionUser", b =>
                 {
-                    b.HasOne("Resume.Models.Entities.ActiomNames", "ActiomNames")
+                    b.HasOne("Resume.Models.Entities.ActionNames", null)
                         .WithMany("ControllerActionUsers")
-                        .HasForeignKey("ActionID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ActionNamesID");
 
                     b.HasOne("Resume.Models.Entities.ControllerNames", "ControllerNames")
                         .WithMany("ControllerActionUsers")
@@ -515,8 +529,6 @@ namespace Resume.Migrations
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("ActiomNames");
 
                     b.Navigation("ControllerNames");
 
@@ -575,7 +587,7 @@ namespace Resume.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Resume.Models.Entities.ActiomNames", b =>
+            modelBuilder.Entity("Resume.Models.Entities.ActionNames", b =>
                 {
                     b.Navigation("ControllerActionUsers");
                 });
@@ -587,6 +599,8 @@ namespace Resume.Migrations
 
             modelBuilder.Entity("Resume.Models.Entities.ControllerNames", b =>
                 {
+                    b.Navigation("ActionNames");
+
                     b.Navigation("ControllerActionUsers");
                 });
 

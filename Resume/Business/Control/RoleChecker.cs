@@ -12,10 +12,13 @@ namespace Resume.Business.Control
         public static bool AuthorizeRoles(ResumeContext context, int userID, string controllerName, string actionName)
         {
             bool result = false;
-            var role = context.ControllerActionUsers.FirstOrDefault(x => x.UserID == userID && x.ControllerNames.Name == controllerName && x.ActiomNames.Name == actionName);
+            var role = context.ControllerActionUsers.FirstOrDefault(x => x.UserID == userID && x.ControllerNames.Name == controllerName);
             if (role != null)
             {
-                result = true;
+                if (role.ControllerNames.ActionNames.Select(x => x.Name).Contains(actionName))
+                {
+                    result = true;
+                }
             }
             return result;
         }

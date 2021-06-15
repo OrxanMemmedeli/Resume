@@ -12,6 +12,7 @@ namespace Resume.Models.Entities
         public ControllerNames()
         {
             this.ControllerActionUsers = new HashSet<ControllerActionUser>();
+            this.ActionNames = new HashSet<ActionNames>();
         }
 
         [Key]
@@ -19,6 +20,8 @@ namespace Resume.Models.Entities
         [Column(TypeName = "nvarchar(100)")]
         public string Name { get; set; }
 
+
         public ICollection<ControllerActionUser> ControllerActionUsers { get; set; }
+        public ICollection<ActionNames> ActionNames { get; set; }
     }
 }

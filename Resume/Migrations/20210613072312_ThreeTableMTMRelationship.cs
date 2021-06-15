@@ -7,7 +7,7 @@ namespace Resume.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "ActiomNames",
+                name: "ActionNames",
                 columns: table => new
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
@@ -16,7 +16,7 @@ namespace Resume.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ActiomNames", x => x.ID);
+                    table.PrimaryKey("PK_ActionNames", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -44,9 +44,9 @@ namespace Resume.Migrations
                 {
                     table.PrimaryKey("PK_ControllerActionUsers", x => new { x.ActionID, x.ControllerID, x.UserID });
                     table.ForeignKey(
-                        name: "FK_ControllerActionUsers_ActiomNames_ActionID",
+                        name: "FK_ControllerActionUsers_ActionNames_ActionID",
                         column: x => x.ActionID,
-                        principalTable: "ActiomNames",
+                        principalTable: "ActionNames",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -80,7 +80,7 @@ namespace Resume.Migrations
                 name: "ControllerActionUsers");
 
             migrationBuilder.DropTable(
-                name: "ActiomNames");
+                name: "ActionNames");
 
             migrationBuilder.DropTable(
                 name: "ControllerNames");

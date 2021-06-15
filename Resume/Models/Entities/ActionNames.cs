@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Resume.Models.Entities
 {
-    public class ActiomNames
+    public class ActionNames
     {
-        public ActiomNames()
+        public ActionNames()
         {
             this.ControllerActionUsers = new HashSet<ControllerActionUser>();
         }
@@ -19,6 +19,9 @@ namespace Resume.Models.Entities
         [Column(TypeName = "nvarchar(100)")]
         public string Name { get; set; }
 
+        public int ControllerNamesID { get; set; }
+
+        public ControllerNames ControllerNames { get; set; }
         public ICollection<ControllerActionUser> ControllerActionUsers { get; set; }
     }
 }
