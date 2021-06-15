@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Resume.Models.Entities.ActionNames>
+
+@{
+    ViewData["Title"] = "Action-lar";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>@Model.Select(x => x.ControllerNames.Name).Distinct()</h1>
+
+<p>
+    <a asp-action="Create" asp-route-id="@ViewBag.Controller" class="btn btn-outline-success">Əlavə Et</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Action
+            </th>
+            <th>
+                Controller
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Name
+                </td>
+                <td>
+                    @item.ControllerNames.Name
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ID" title="Düzəliş et"><i class="fas fa-edit test" style="color:green"></i></a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID" title="Sil"><i class="fas fa-trash-alt" style="color:red"></i></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
