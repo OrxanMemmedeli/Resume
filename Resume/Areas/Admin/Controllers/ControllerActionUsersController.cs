@@ -36,43 +36,6 @@ namespace Resume.Areas.Admin.Controllers
             return View(resumeContext);
         }
 
-
-        public IActionResult Create(int? userID)
-        {
-            if (userID == null)
-            {
-                return NotFound();
-            }
-            ViewBag.userID = userID;
-
-            ViewData["ControllerID"] = _context.ControllerNames.ToList();
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int UserID, int[] controllerID)
-        {
-            List<ControllerActionUser> list = new List<ControllerActionUser>();
-            ControllerActionUser controllerActionUser = new ControllerActionUser();
-            foreach (var item in controllerID)
-            {
-                controllerActionUser.UserID = UserID;
-                controllerActionUser.ControllerID = item;
-                list.Add(controllerActionUser);
-            }
-
-            if (ModelState.IsValid)
-            {
-                await _context.AddRangeAsync(list);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewBag.userID = UserID;
-            ViewData["ControllerID"] = _context.ControllerNames.ToList();
-            return View(controllerActionUser);
-        }
-
         public async Task<IActionResult> Edit(int? userID)
         {
             if (userID == null)
