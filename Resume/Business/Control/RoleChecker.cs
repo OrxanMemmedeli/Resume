@@ -15,8 +15,8 @@ namespace Resume.Business.Control
             var role = context.ControllerActionUsers.FirstOrDefault(x => x.UserID == userID && x.ControllerNames.Name == controllerName);
             if (role != null)
             {
-                var controller = context.ControllerNames.FirstOrDefault(x => x.ID == role.ControllerID).include(x => x.ActionNames);
-                if (controller.Contains(actionName))
+                var control = context.ActionNames.FirstOrDefault(x => x.ControllerNamesID == role.ControllerID && x.Name == actionName);
+                if (control != null)
                 {
                     result = true;
                 }
