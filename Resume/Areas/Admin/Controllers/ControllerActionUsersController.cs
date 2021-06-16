@@ -22,86 +22,115 @@ namespace Resume.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var resumeContext = _context.ControllerActionUsers.Include(c => c.ControllerNames).Include(c => c.User);
-            return View(await resumeContext.ToListAsync());
+            List<int> idList = new List<int>();
+            var resumeContext = await _context.Users.Include(c => c.ControllerActionUsers).ToListAsync();
+            var control = await _context.ControllerActionUsers.ToArrayAsync();
+            foreach (var item in resumeContext)
+            {
+                if (control.FirstOrDefault(x => x.UserID == item.ID) != null)
+                {
+                    idList.Add(item.ID);
+                }
+            }
+            ViewBag.List = idList;
+            return View(resumeContext);
         }
 
 
-        public IActionResult Create()
+        public IActionResult Create(int? userID)
         {
-            ViewData["ControllerID"] = new SelectList(_context.ControllerNames, "ID", "ID");
-            ViewData["UserID"] = new SelectList(_context.Users, "ID", "ID");
+            if (userID == null)
+            {
+                return NotFound();
+            }
+            ViewBag.userID = userID;
+
+            ViewData["ControllerID"] = _context.ControllerNames.ToList();
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ControllerID,UserID")] ControllerActionUser controllerActionUser)
+        public async Task<IActionResult> Create(int UserID, int[] controllerID)
         {
+            List<ControllerActionUser> list = new List<ControllerActionUser>();
+            ControllerActionUser controllerActionUser = new ControllerActionUser();
+            foreach (var item in controllerID)
+            {
+                controllerActionUser.UserID = UserID;
+                controllerActionUser.ControllerID = item;
+                list.Add(controllerActionUser);
+            }
+
             if (ModelState.IsValid)
             {
-                _context.Add(controllerActionUser);
+                await _context.AddRangeAsync(list);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ControllerID"] = new SelectList(_context.ControllerNames, "ID", "ID", controllerActionUser.ControllerID);
-            ViewData["UserID"] = new SelectList(_context.Users, "ID", "ID", controllerActionUser.UserID);
+            ViewBag.userID = UserID;
+            ViewData["ControllerID"] = _context.ControllerNames.ToList();
             return View(controllerActionUser);
         }
 
-        // GET: Admin/ControllerActionUsers/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? userID)
         {
-            if (id == null)
+            if (userID == null)
             {
                 return NotFound();
             }
+            ViewBag.userID = userID;
 
-            var controllerActionUser = await _context.ControllerActionUsers.FindAsync(id);
+            var controllerActionUser = await _context.ControllerActionUsers.Where(x => x.UserID == userID).ToListAsync();
             if (controllerActionUser == null)
             {
                 return NotFound();
             }
-            ViewData["ControllerID"] = new SelectList(_context.ControllerNames, "ID", "ID", controllerActionUser.ControllerID);
-            ViewData["UserID"] = new SelectList(_context.Users, "ID", "ID", controllerActionUser.UserID);
+            ViewData["ControllerID"] = _context.ControllerNames.ToList();
+            ViewBag.userID = userID;
             return View(controllerActionUser);
         }
 
-        // POST: Admin/ControllerActionUsers/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ControllerID,UserID")] ControllerActionUser controllerActionUser)
+        public async Task<IActionResult> Edit(int UserID, int[] controllerID)
         {
-            if (id != controllerActionUser.ControllerID)
+            List<ControllerActionUser> listRemove = new List<ControllerActionUser>();
+            List<ControllerActionUser> listCreate = new List<ControllerActionUser>();
+            var control = await _context.ControllerActionUsers.Where(x => x.UserID == UserID).ToListAsync();
+
+            foreach (var item in controllerID)
             {
-                return NotFound();
+                ControllerActionUser controllerActionUser = new ControllerActionUser();
+                controllerActionUser.UserID = UserID;
+                controllerActionUser.ControllerID = item;
+                if (control.FirstOrDefault(x => x.ControllerID == controllerActionUser.ControllerID) == null)
+                {
+                    listCreate.Add(controllerActionUser);
+                }
+            }
+
+            foreach (var item in control)
+            {
+                if (!controllerID.Contains(item.ControllerID))
+                {
+                    listRemove.Add(item);
+                }
             }
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(controllerActionUser);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ControllerActionUserExists(controllerActionUser.ControllerID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                await _context.AddRangeAsync(listCreate);
+                _context.RemoveRange(listRemove);
+                await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ControllerID"] = new SelectList(_context.ControllerNames, "ID", "ID", controllerActionUser.ControllerID);
-            ViewData["UserID"] = new SelectList(_context.Users, "ID", "ID", controllerActionUser.UserID);
-            return View(controllerActionUser);
+
+            ViewData["ControllerID"] = _context.ControllerNames.ToList();
+            ViewBag.userID = UserID;
+            return View();
         }
 
         // GET: Admin/ControllerActionUsers/Delete/5

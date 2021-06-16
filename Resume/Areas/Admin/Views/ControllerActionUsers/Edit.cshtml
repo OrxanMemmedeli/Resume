@@ -1,28 +1,55 @@
-﻿@model Resume.Models.Entities.ControllerActionUser
+﻿@model IEnumerable<Resume.Models.Entities.ControllerActionUser>
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Əlaqə - Düzəliş Et";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Edit</h1>
 
-<h4>ControllerActionUser</h4>
+<h4>Əlaqə - Düzəliş Et</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" class="form-disable">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="ControllerID" />
-            <input type="hidden" asp-for="UserID" />
+            <input type="hidden" name="UserID" value="@ViewBag.userID" />
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <label class="control-label">Controllerlər</label>
+                <div class="checkbox-list">
+                    @foreach (var item in ViewBag.ControllerID)
+                    {
+                        if (Model.FirstOrDefault(x => x.ControllerID == item.ID) == null)
+                        {
+                            <label class="checkbox">
+                                <input type="checkbox" name="controllerID" value="@item.ID">
+                                <span></span>@item.Name
+                            </label>
+                        }
+                        else
+                        {
+                            <label class="checkbox">
+                                <input type="checkbox" name="controllerID" value="@item.ID" checked>
+                                <span></span>@item.Name
+                            </label>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="form-group">
+                <input id="submit" data-submit-value="GÖZLƏYİN..." type="submit" value="Yadda Saxla" class="btn btn-outline-primary">
+                <a asp-action="Index" class="btn btn-dark">Geri</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
+
+<script>
+    $('.form-disable').on('submit', function () {
+        var self = $(this),
+            button = self.find('input[type=submit],button'),
+            submitValue = button.data('submit-value');
+        button.attr('disabled', 'disabled').val((submitValue) ? submitValue : 'GÖZLƏYİN...');
+    });
+</script>

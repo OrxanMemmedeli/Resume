@@ -13,8 +13,8 @@ namespace Resume.Models.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //optionsBuilder.UseSqlServer(@"Server=ILQAR\SQLEXPRESS01; Database=Resume; Integrated Security = true;");
-            optionsBuilder.UseSqlServer(@"Server=DESKTOP-TROAMS4; Database=ResumeCore; Integrated Security = true;");
+            optionsBuilder.UseSqlServer(@"Server=ILQAR\SQLEXPRESS01; Database=ResumeCore; Integrated Security = true;");
+            //optionsBuilder.UseSqlServer(@"Server=DESKTOP-TROAMS4; Database=ResumeCore; Integrated Security = true;");
 
             //optionsBuilder.UseSqlServer("data source=ILQAR\SQLEXPRESS01-DESKTOP-TROAMS4; initial catalog=CoreTicketSales; Integrated Security = true;");
         }

@@ -1,42 +1,32 @@
-﻿@model IEnumerable<Resume.Models.Entities.ControllerActionUser>
+﻿@model IEnumerable<Resume.Models.Entities.User>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Sistem";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    int say = 1;
 }
 
-<h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Index" asp-controller="ControllerName" class="btn btn-outline-dark">Controller-lər</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ControllerNames)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ControllerNames.ID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.ID)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="flex-row-fluid ml-lg-12">
+    <div class="card card-custom">
+        <div class="row col-md-12 col-lg-12 col-sm-12">
+            @foreach (var item in Model.Distinct())
+            {
+                <div class="col-md-3">
+                    <div class="row border" style="padding-top:2px">
+                        <div class="col-md-10">
+                            <p><span><strong>@(say++)</strong></span>. @item.Email</p>
+                        </div>
+
+                        <div class="col-md-1"><a asp-action="Edit" asp-route-userID="@item.ID" title="Düzəliş et"><i class="fas fa-edit test" style="color:green"></i></a> </div>
+                        <div class="col-md-1"><a asp-action="Delete" asp-route-userID="@item.ID" title="Sil"><i class="fas fa-trash-alt" style="color:red"></i></a></div>
+
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div> 
