@@ -133,36 +133,6 @@ namespace Resume.Areas.Admin.Controllers
             return View();
         }
 
-        // GET: Admin/ControllerActionUsers/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var controllerActionUser = await _context.ControllerActionUsers
-                .Include(c => c.ControllerNames)
-                .Include(c => c.User)
-                .FirstOrDefaultAsync(m => m.ControllerID == id);
-            if (controllerActionUser == null)
-            {
-                return NotFound();
-            }
-
-            return View(controllerActionUser);
-        }
-
-        // POST: Admin/ControllerActionUsers/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var controllerActionUser = await _context.ControllerActionUsers.FindAsync(id);
-            _context.ControllerActionUsers.Remove(controllerActionUser);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
 
         private bool ControllerActionUserExists(int id)
         {
