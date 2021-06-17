@@ -13,8 +13,8 @@ namespace Resume.Models.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //optionsBuilder.UseSqlServer(@"Server=ILQAR\SQLEXPRESS01; Database=ResumeCore; Integrated Security = true;");
-            optionsBuilder.UseSqlServer(@"Server=DESKTOP-TROAMS4; Database=ResumeCore; Integrated Security = true;");
+            optionsBuilder.UseSqlServer(@"Server=ILQAR\SQLEXPRESS01; Database=ResumeCore; Integrated Security = true;");
+            //optionsBuilder.UseSqlServer(@"Server=DESKTOP-TROAMS4; Database=ResumeCore; Integrated Security = true;");
 
             //optionsBuilder.UseSqlServer("data source=ILQAR\SQLEXPRESS01-DESKTOP-TROAMS4; initial catalog=CoreTicketSales; Integrated Security = true;");
         }
@@ -33,8 +33,8 @@ namespace Resume.Models.Context
         public DbSet<Sosial> Sosials { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<HideTable> HideTables { get; set; }
-        public DbSet<RoleControl> RoleControls { get; set; }
-        public DbSet<UserRoleControl> UserRoleControls { get; set; }
+        public DbSet<ActionUser> ActionUsers { get; set; }
+
         public DbSet<EmailConfig> EmailConfigs { get; set; }
         public DbSet<ControllerNames> ControllerNames { get; set; }
         public DbSet<ControllerActionUser> ControllerActionUsers { get; set; }
@@ -42,14 +42,14 @@ namespace Resume.Models.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<UserRoleControl>().HasKey(sc => new { sc.UserID, sc.RoleID });  // for 3 row M-M relationship
-            modelBuilder.Entity<UserRoleControl>().HasOne<User>(sc => sc.User).WithMany(s => s.UserRoleControls).HasForeignKey(sc => sc.UserID);
-            modelBuilder.Entity<UserRoleControl>().HasOne<RoleControl>(sc => sc.RoleControl).WithMany(s => s.UserRoleControls).HasForeignKey(sc => sc.RoleID);
-
-
             modelBuilder.Entity<ControllerActionUser>().HasKey(x => new {x.ControllerID, x.UserID });
             modelBuilder.Entity<ControllerActionUser>().HasOne<ControllerNames>(x => x.ControllerNames).WithMany(x => x.ControllerActionUsers).HasForeignKey(x => x.ControllerID);
             modelBuilder.Entity<ControllerActionUser>().HasOne<User>(x => x.User).WithMany(x => x.ControllerActionUsers).HasForeignKey(x => x.UserID);
+            //modelBuilder.Entity<ControllerActionUser>().HasOne<ActionNames>(x => x.ActionNames).WithMany(x => x.ControllerActionUsers).HasForeignKey(x => x.ActionNamesID);
+
+            modelBuilder.Entity<ActionUser>().HasKey(x => new { x.ActionID, x.UserID });
+            modelBuilder.Entity<ActionUser>().HasOne<ActionNames>(x => x.ActionNames).WithMany(x => x.ActionUsers).HasForeignKey(x => x.ActionID);
+            modelBuilder.Entity<ActionUser>().HasOne<User>(x => x.User).WithMany(x => x.ActionUsers).HasForeignKey(x => x.UserID);
         }
     
     }

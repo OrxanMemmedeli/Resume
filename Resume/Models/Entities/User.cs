@@ -11,8 +11,8 @@ namespace Resume.Models.Entities
     {
         public User()
         {
-            this.UserRoleControls = new HashSet<UserRoleControl>();
             this.ControllerActionUsers = new HashSet<ControllerActionUser>();
+            this.ActionUsers = new HashSet<ActionUser>();
         }
 
         [Key]
@@ -26,7 +26,8 @@ namespace Resume.Models.Entities
         [Column(TypeName = "nvarchar(max)")]
         public string ConfirmPassword { get; set; }
         public bool Status { get; set; }
-        public virtual ICollection<UserRoleControl> UserRoleControls { get; set; }
+
         public ICollection<ControllerActionUser> ControllerActionUsers { get; set; }
+        public ICollection<ActionUser> ActionUsers { get; set; }
     }
 }

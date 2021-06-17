@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Resume.Models.Entities.ControllerActionUser>
+﻿@model Resume.Areas.Admin.Models.ViewModels.ActionCotrollerUserRelationship
 
 @{
     ViewData["Title"] = "Əlaqə - Düzəliş Et";
@@ -14,24 +14,72 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" name="UserID" value="@ViewBag.userID" />
             <div class="form-group">
-                <label class="control-label">Controllerlər</label>
-                <div class="checkbox-list">
-                    @foreach (var item in ViewBag.ControllerID)
+                <div class="checkbox-list" style="margin-left:25px">
+                    <label class="control-label text-danger" style="margin-left:25px; margin-bottom:5px; color:red"><strong>Controllerlər</strong></label>
+                    @foreach (var controller in ViewBag.ControllerID)
                     {
-                        if (Model.FirstOrDefault(x => x.ControllerID == item.ID) == null)
-                        {
-                            <label class="checkbox">
-                                <input type="checkbox" name="controllerID" value="@item.ID">
-                                <span></span>@item.Name
-                            </label>
-                        }
-                        else
-                        {
-                            <label class="checkbox">
-                                <input type="checkbox" name="controllerID" value="@item.ID" checked>
-                                <span></span>@item.Name
-                            </label>
-                        }
+                        <div class="text-xl-left border border-3" style="margin-left:25px; margin-bottom:5px; background-color:whitesmoke">
+                            @if (Model.controllerActionUsers.FirstOrDefault(x => x.ControllerID == controller.ID) == null)
+                            {
+                                <label class="checkbox">
+                                    <input type="checkbox" name="controllerID" value="@controller.ID">
+                                    <span></span>@controller.Name
+                                </label>
+                                <div class="text-xl-left border border-3" style="margin-left:65px;">
+                                    <label class="control-label text-danger" style="color:red"><strong>Metodlar</strong></label>
+                                    @foreach (var action in ViewBag.ActionID)
+                                    {
+                                        if (action.ControllerNamesID == controller.ID)
+                                        {
+                                            if (Model.actionUsers.FirstOrDefault(x => x.ActionID == action.ID) == null)
+                                            {
+                                                <label class="checkbox">
+                                                    <input type="checkbox" name="actionID" value="@action.ID">
+                                                    <span></span>@action.Name
+                                                </label>
+                                            }
+                                            else
+                                            {
+                                                <label class="checkbox">
+                                                    <input type="checkbox" name="actionID" value="@action.ID" checked>
+                                                    <span></span>@action.Name
+                                                </label>
+                                            }
+                                        }
+                                    }
+                                </div>
+                            }
+                            else
+                            {
+                                <label class="checkbox">
+                                    <input type="checkbox" name="controllerID" value="@controller.ID" checked>
+                                    <span></span>@controller.Name
+                                </label>
+                                <div class="text-xl-left border border-3" style="margin-left:65px;">
+                                    <label class="control-label text-danger" style="color:red"><strong>Metodlar</strong></label>
+                                    @foreach (var action in ViewBag.ActionID)
+                                    {
+                                        if (action.ControllerNamesID == controller.ID)
+                                        {
+                                            if (Model.actionUsers.FirstOrDefault(x => x.ActionID == action.ID) == null)
+                                            {
+                                                <label class="checkbox">
+                                                    <input type="checkbox" name="actionID" value="@action.ID">
+                                                    <span></span>@action.Name
+                                                </label>
+                                            }
+                                            else
+                                            {
+                                                <label class="checkbox">
+                                                    <input type="checkbox" name="actionID" value="@action.ID" checked>
+                                                    <span></span>@action.Name
+                                                </label>
+                                            }
+                                        }
+                                    }
+                                </div>
+                            }
+                        </div>
                     }
                 </div>
             </div>

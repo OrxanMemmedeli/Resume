@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 
 namespace Resume.Models.Entities
 {
-    public class UserRoleControl
+    public class ActionUser
     {
+        public int ActionID { get; set; }
         public int UserID { get; set; }
-        public int RoleID { get; set; }
 
+        public ActionNames ActionNames { get; set; }
         public User User { get; set; }
-        public RoleControl RoleControl { get; set; }
     }
 }

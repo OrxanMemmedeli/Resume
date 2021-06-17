@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Resume.Models.Context;
 
 namespace Resume.Migrations
 {
     [DbContext(typeof(ResumeContext))]
-    partial class ResumeContextModelSnapshot : ModelSnapshot
+    [Migration("20210617060829_DeleteAndCreateSomeTables")]
+    partial class DeleteAndCreateSomeTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -145,7 +147,12 @@ namespace Resume.Migrations
                     b.Property<int>("UserID")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ActionNamesID")
+                        .HasColumnType("int");
+
                     b.HasKey("ControllerID", "UserID");
+
+                    b.HasIndex("ActionNamesID");
 
                     b.HasIndex("UserID");
 
@@ -510,6 +517,10 @@ namespace Resume.Migrations
 
             modelBuilder.Entity("Resume.Models.Entities.ControllerActionUser", b =>
                 {
+                    b.HasOne("Resume.Models.Entities.ActionNames", null)
+                        .WithMany("ControllerActionUsers")
+                        .HasForeignKey("ActionNamesID");
+
                     b.HasOne("Resume.Models.Entities.ControllerNames", "ControllerNames")
                         .WithMany("ControllerActionUsers")
                         .HasForeignKey("ControllerID")
@@ -563,6 +574,8 @@ namespace Resume.Migrations
             modelBuilder.Entity("Resume.Models.Entities.ActionNames", b =>
                 {
                     b.Navigation("ActionUsers");
+
+                    b.Navigation("ControllerActionUsers");
                 });
 
             modelBuilder.Entity("Resume.Models.Entities.BlogCategory", b =>

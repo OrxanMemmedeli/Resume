@@ -11,7 +11,8 @@ namespace Resume.Models.Entities
     {
         public ActionNames()
         {
-            this.ControllerActionUsers = new HashSet<ControllerActionUser>();
+            //this.ControllerActionUsers = new HashSet<ControllerActionUser>();
+            this.ActionUsers = new HashSet<ActionUser>();
         }
 
         [Key]
@@ -22,6 +23,7 @@ namespace Resume.Models.Entities
         public int ControllerNamesID { get; set; }
 
         public ControllerNames ControllerNames { get; set; }
-        public ICollection<ControllerActionUser> ControllerActionUsers { get; set; }
+        //public ICollection<ControllerActionUser> ControllerActionUsers { get; set; }
+        public ICollection<ActionUser> ActionUsers { get; set; }
     }
 }
