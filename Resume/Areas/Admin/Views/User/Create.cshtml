@@ -1,13 +1,17 @@
 ﻿@model Resume.Models.Entities.User
 
 @{
-    ViewData["Title"] = "Yeni İstifadəçi";
+    ViewData["Title"] = "İstifadəçi - Əlavə Et";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Yeni İstifadəçi</h1>
-
-
+<h4>İstifadəçi - Əlavə Et</h4>
+@if (TempData["UserError"] != null)
+{
+    <script>
+        alert("@Html.Raw(System.Web.HttpUtility.JavaScriptStringEncode(TempData["UserError"].ToString()))");
+    </script>
+}
 <hr />
 <div class="row">
     <div class="col-md-4">

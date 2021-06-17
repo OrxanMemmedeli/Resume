@@ -44,13 +44,14 @@ namespace Resume.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Name,ControllerNamesID")] ActionNames actionNames)
+        public async Task<IActionResult> Create(ActionNames actionNames)
         {
+            actionNames.ID = 0;
             if (ModelState.IsValid)
             {
                 _context.Add(actionNames);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { id = actionNames.ControllerNamesID});
             }
             ViewBag.Controller = actionNames.ControllerNamesID;
             return View(actionNames);
@@ -74,7 +75,7 @@ namespace Resume.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,ControllerNamesID")] ActionNames actionNames)
+        public async Task<IActionResult> Edit(int id, ActionNames actionNames)
         {
             if (id != actionNames.ID)
             {
@@ -99,13 +100,12 @@ namespace Resume.Areas.Admin.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { id = actionNames.ControllerNamesID });
             }
             ViewBag.Controller = actionNames.ControllerNamesID;
             return View(actionNames);
         }
 
-        // GET: Admin/ActionNames/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,7 +124,6 @@ namespace Resume.Areas.Admin.Controllers
             return View(actionNames);
         }
 
-        // POST: Admin/ActionNames/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -132,7 +131,7 @@ namespace Resume.Areas.Admin.Controllers
             var actionNames = await _context.ActionNames.FindAsync(id);
             _context.ActionNames.Remove(actionNames);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { id = actionNames.ControllerNamesID });
         }
 
         private bool ActionNamesExists(int id)

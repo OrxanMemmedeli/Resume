@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Resume.Business.Control;
+using Resume.Business.Tools;
 using Resume.Models.Context;
 using Resume.Models.Entities;
 
@@ -23,7 +24,7 @@ namespace Resume.Areas.Admin.Controllers
 
 
         CurrentUser currentUser = new CurrentUser();
-        
+
 
         public async Task<IActionResult> Index()
         {
@@ -59,11 +60,20 @@ namespace Resume.Areas.Admin.Controllers
             bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "User", "Create");
             if (roleStatus)
             {
-                if (ModelState.IsValid)
+                var users = await _context.Users.FirstOrDefaultAsync(x => x.Email == user.Email);
+                if (user == null)
                 {
-                    _context.Add(user);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+                    if (ModelState.IsValid)
+                    {
+                        user.Password = AncryptionAndDecryption.encodedata("encodedata" + AncryptionAndDecryption.encodedata(user.Password));
+                        _context.Add(user);
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction(nameof(Index));
+                    }
+                }
+                else
+                {
+                    TempData["UserError"] = "Bu Email sistemdə qeydiyyatlıdır. Başqa Email adresi istifadə edin.";
                 }
                 return View(user);
             }
@@ -100,7 +110,7 @@ namespace Resume.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Email,Password,Status")] User user)
+        public async Task<IActionResult> Edit(int id, string Parol, string gmail, [Bind("ID,Email,Password,Status")] User user)
         {
             bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "User", "Edit");
             if (roleStatus)
@@ -109,26 +119,46 @@ namespace Resume.Areas.Admin.Controllers
                 {
                     return NotFound();
                 }
-
-                if (ModelState.IsValid)
+                if (gmail != user.Email)
                 {
-                    try
+                    var users = await _context.Users.FirstOrDefaultAsync(x => x.Email == user.Email);
+                }
+                if (user == null)
+                {
+                    if (Parol == null)
                     {
-                        _context.Update(user);
-                        await _context.SaveChangesAsync();
+                        user.ConfirmPassword = user.Password;
                     }
-                    catch (DbUpdateConcurrencyException)
+                    else
                     {
-                        if (!UserExists(user.ID))
-                        {
-                            return NotFound();
-                        }
-                        else
-                        {
-                            throw;
-                        }
+                        user.Password = Parol;
                     }
-                    return RedirectToAction(nameof(Index));
+                    if (ModelState.IsValid)
+                    {
+                        try
+                        {
+                            user.Password = AncryptionAndDecryption.encodedata("encodedata" + AncryptionAndDecryption.encodedata(user.Password));
+
+                            _context.Update(user);
+                            await _context.SaveChangesAsync();
+                        }
+                        catch (DbUpdateConcurrencyException)
+                        {
+                            if (!UserExists(user.ID))
+                            {
+                                return NotFound();
+                            }
+                            else
+                            {
+                                throw;
+                            }
+                        }
+                        return RedirectToAction(nameof(Index));
+                    }
+                }
+                else
+                {
+                    TempData["UserError"] = "Bu Email sistemdə qeydiyyatlıdır. Başqa Email adresi istifadə edin.";
                 }
                 return View(user);
             }
@@ -169,11 +199,12 @@ namespace Resume.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "User", "DeleteConfirmed");
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "User", "Delete");
             if (roleStatus)
             {
                 var user = await _context.Users.FindAsync(id);
-                _context.Users.Remove(user);
+                user.Status = false;
+                _context.Users.Update(user);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }

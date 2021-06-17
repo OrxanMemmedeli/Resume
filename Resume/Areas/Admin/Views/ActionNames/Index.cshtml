@@ -5,10 +5,10 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>@Model.Select(x => x.ControllerNames.Name).Distinct()</h1>
 
 <p>
     <a asp-action="Create" asp-route-id="@ViewBag.Controller" class="btn btn-outline-success">Əlavə Et</a>
+    <a asp-action="Index" asp-controller="ControllerName" class="btn btn-outline-dark">Controller-lər</a>
 </p>
 <table class="table">
     <thead>
