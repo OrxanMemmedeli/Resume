@@ -7,7 +7,6 @@
 
 <h3>Silinən məlumatlar geri qaytarılmır!</h3>
 <div>
-    <h4>Experience</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -48,3 +47,12 @@
         <a asp-action="Index" class="btn btn-dark">Geri</a>
     </form>
 </div>
+
+<script>
+    $('.form-disable').on('submit', function () {
+        var self = $(this),
+            button = self.find('input[type=submit],button'),
+            submitValue = button.data('submit-value');
+        button.attr('disabled', 'disabled').val((submitValue) ? submitValue : 'GÖZLƏYİN...');
+    });
+</script>

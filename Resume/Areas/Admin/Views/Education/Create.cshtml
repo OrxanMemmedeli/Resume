@@ -19,13 +19,34 @@
             </div>
             <div class="form-group">
                 <label class="control-label">Başlama</label>
-                <input asp-for="StartDate" class="form-control" />
+                <input asp-for="StartDate" class="form-control" type="date" />
                 <span asp-validation-for="StartDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label class="control-label">Bitirmə</label>
-                <input asp-for="EndDate" class="form-control" />
+                <input asp-for="EndDate" class="form-control" type="date" />
+                <label class="checkbox border border-3" style="color:red">
+                    <input type="checkbox" class="form-control" asp-for="Present">
+                    <span></span>Dəvam edir.
+                </label>
                 <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Tarix Formatı</label>
+                <div class="row">
+                    <label class="checkbox col-md-4" style="color:red">
+                        <input type="checkbox" class="form-control" asp-for="ShowDay" checked>
+                        <span></span>Günü göstər
+                    </label>
+                    <label class="checkbox col-md-4" style="color:red">
+                        <input type="checkbox" class="form-control" asp-for="ShowMonth" checked>
+                        <span></span>Ayı göstər
+                    </label>
+                    <label class="checkbox col-md-4" style="color:red">
+                        <input type="checkbox" class="form-control" asp-for="ShowYear" checked>
+                        <span></span>İli göstər
+                    </label>
+                </div>
             </div>
             <div class="form-group">
                 <label class="control-label">Fakültə</label>

@@ -21,5 +21,11 @@ namespace Resume.Models.Entities
         public string Specialty { get; set; }
         [Column(TypeName = "nvarchar(500)")]
         public string Description { get; set; }
+
+        public bool ShowYear { get; set; } = true;
+        public bool ShowDay { get; set; } = true;
+        public bool ShowMonth { get; set; } = true;
+        public bool Present { get; set; } = false;
+
     }
 }

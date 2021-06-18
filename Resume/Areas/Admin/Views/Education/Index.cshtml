@@ -19,16 +19,19 @@
                 Başlama vaxtı
             </th>
             <th>
-               Bitirmə vaxtı
+                Bitirmə vaxtı
             </th>
             <th>
-               Fakultə
+                Fakultə
             </th>
             <th>
                 İxtisas
             </th>
             <th>
                 Açıqlama
+            </th>
+            <th>
+                Tarix tipi
             </th>
             <th></th>
         </tr>
@@ -40,11 +43,18 @@
                 <td>
                     @item.EducationCenter
                 </td>
-                <td>
+                <td style="width:120px">
                     @item.StartDate.ToString("dd-MM-yyyy")
                 </td>
-                <td>
-                    @item.EndDate.ToString("dd-MM-yyyy")
+                <td style="width:120px">
+                    @if (item.Present)
+                    {
+                        <span>dəvam edir</span>
+                    }
+                    else
+                    {
+                        @item.EndDate.ToString("dd-MM-yyyy")
+                    }
                 </td>
                 <td>
                     @item.Faculty
@@ -56,8 +66,22 @@
                     @item.Description
                 </td>
                 <td>
+                    @if (item.ShowDay)
+                    {
+                        <span>Gün.</span>
+                    }
+                    @if (item.ShowMonth)
+                    {
+                        <span>Ay.</span>
+                    }
+                    @if (item.ShowYear)
+                    {
+                        <span>İl</span>
+                    }
+                </td>
+                <td style="width:70px">
                     <a asp-action="Edit" asp-route-id="@item.ID" title="Düzəliş et"><i class="fas fa-edit test" style="color:green"></i></a> |
-                                        <a asp-action="Delete" asp-route-id="@item.ID" title="Sil"><i class="fas fa-trash-alt" style="color:red"></i></a>
+                    <a asp-action="Delete" asp-route-id="@item.ID" title="Sil"><i class="fas fa-trash-alt" style="color:red"></i></a>
                 </td>
             </tr>
         }
