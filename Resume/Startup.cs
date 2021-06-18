@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -31,12 +32,15 @@ namespace Resume
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<ResumeContext>();
+
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();  // use user.identiyi.name in class
 
             services.AddControllersWithViews().AddFluentValidation(o => o.RegisterValidatorsFromAssemblyContaining<Startup>());
-            
+
+            //services.AddSingleton<IActionContextAccessor, ActionContextAccessor>(); // for client IP adress
+
             services.Configure<GoogleConfigModel>(Configuration.GetSection(GoogleConfigModel.GoogleConfig)); //recaptcha
-           
+
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(o =>
             {
                 o.ExpireTimeSpan = TimeSpan.FromMinutes(30);
@@ -44,7 +48,7 @@ namespace Resume
                 o.LogoutPath = "/Account/LogOut";
                 o.AccessDeniedPath = "/Account/Denied"; //Role uyğun olmadıqda yonelmeni temin edecekdir.
                 o.SlidingExpiration = true;
-            }); //Routing Login
+            }); //Routing for Login
 
             services.AddMvc(config =>
             {
@@ -79,8 +83,8 @@ namespace Resume
 
 
             app.UseEndpoints(endpoints =>
-            {                
-                
+            {
+
                 endpoints.MapControllerRoute(
                     name: "area",
                     pattern: "{area}/{controller=Default}/{action=Index}/{id?}");

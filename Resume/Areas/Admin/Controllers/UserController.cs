@@ -110,7 +110,7 @@ namespace Resume.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, string Parol, string gmail, [Bind("ID,Email,Password,Status")] User user)
+        public async Task<IActionResult> Edit(int id, string Parol, string tekrar, string gmail,User user)
         {
             bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "User", "Edit");
             if (roleStatus)
@@ -122,17 +122,60 @@ namespace Resume.Areas.Admin.Controllers
                 if (gmail != user.Email)
                 {
                     var users = await _context.Users.FirstOrDefaultAsync(x => x.Email == user.Email);
-                }
-                if (user == null)
-                {
-                    if (Parol == null)
+                    if (user == null)
                     {
-                        user.ConfirmPassword = user.Password;
+                        if (Parol != null)
+                        {      
+                            user.Password = Parol;
+                            user.ConfirmPassword = tekrar;
+                        }
+                        else
+                        {
+                            user.Password = AncryptionAndDecryption.decodedata(AncryptionAndDecryption.decodedata(user.Password).Replace("encodedata", ""));
+                            user.ConfirmPassword = user.Password;
+                        }
+
+                        if (ModelState.IsValid)
+                        {
+                            try
+                            {
+                                user.Password = AncryptionAndDecryption.encodedata("encodedata" + AncryptionAndDecryption.encodedata(user.Password));
+
+                                _context.Update(user);
+                                await _context.SaveChangesAsync();
+                            }
+                            catch (DbUpdateConcurrencyException)
+                            {
+                                if (!UserExists(user.ID))
+                                {
+                                    return NotFound();
+                                }
+                                else
+                                {
+                                    throw;
+                                }
+                            }
+                            return RedirectToAction(nameof(Index));
+                        }
                     }
                     else
                     {
-                        user.Password = Parol;
+                        TempData["UserError"] = "Bu Email sistemdə qeydiyyatlıdır. Başqa Email adresi istifadə edin.";
                     }
+                }
+                else
+                {
+                    if (Parol != null)
+                    {
+                        user.Password = Parol;
+                        user.ConfirmPassword = tekrar;
+                    }
+                    else
+                    {
+                        user.Password = AncryptionAndDecryption.decodedata(AncryptionAndDecryption.decodedata(user.Password).Replace("encodedata", ""));
+                        user.ConfirmPassword = user.Password;
+                    }
+
                     if (ModelState.IsValid)
                     {
                         try
@@ -156,10 +199,7 @@ namespace Resume.Areas.Admin.Controllers
                         return RedirectToAction(nameof(Index));
                     }
                 }
-                else
-                {
-                    TempData["UserError"] = "Bu Email sistemdə qeydiyyatlıdır. Başqa Email adresi istifadə edin.";
-                }
+
                 return View(user);
             }
             else

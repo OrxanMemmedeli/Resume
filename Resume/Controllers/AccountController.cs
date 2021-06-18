@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
 using Resume.Business.Tools;
@@ -14,7 +15,7 @@ using System.Linq;
 using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
-
+using System.Web;
 namespace Resume.Controllers
 {       
     [AllowAnonymous]
@@ -22,10 +23,13 @@ namespace Resume.Controllers
     {
         private readonly ResumeContext db;
         private readonly GoogleConfigModel _googleConfig;
-        public AccountController(ResumeContext context, IOptions<GoogleConfigModel> googleConfig)
+        //private readonly IActionContextAccessor _accessor;
+
+        public AccountController(ResumeContext context, IOptions<GoogleConfigModel> googleConfig/*, IActionContextAccessor accessor*/)
         {
             db = context;
             _googleConfig = googleConfig.Value;
+            //_accessor = accessor;
         }
 
         public IActionResult Login()
@@ -39,6 +43,12 @@ namespace Resume.Controllers
         {
             //loginDatas = loginDatas.ProtectForSQLInjection(loginDatas);
             var isValid = IsReCaptchValidV3(loginDatas.captcha);
+            //var ip = _accessor.ActionContext.HttpContext.Connection.RemoteIpAddress.ToString();
+            //if (ip != null)
+            //{
+
+            //}
+            
             if (ModelState.IsValid == true && isValid == true)
             {
                 loginDatas.Password = AncryptionAndDecryption.encodedata("encodedata" + AncryptionAndDecryption.encodedata(loginDatas.Password));
@@ -46,7 +56,6 @@ namespace Resume.Controllers
                 var user = db.Users.SingleOrDefault(u => u.Email == loginDatas.Email && u.Password == loginDatas.Password && u.Status == true);
                 if (user != null)
                 {
-
 
                     var claims = new List<Claim>
                     {
@@ -84,6 +93,8 @@ namespace Resume.Controllers
             }
             return result;
         }
+
+
 
         public IActionResult Denied()
         {

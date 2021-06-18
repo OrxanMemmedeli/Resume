@@ -34,7 +34,7 @@ namespace Resume.Models.Context
         public DbSet<User> Users { get; set; }
         public DbSet<HideTable> HideTables { get; set; }
         public DbSet<ActionUser> ActionUsers { get; set; }
-
+        public DbSet<ClientIP> ClientIPs { get; set; }
         public DbSet<EmailConfig> EmailConfigs { get; set; }
         public DbSet<ControllerNames> ControllerNames { get; set; }
         public DbSet<ControllerActionUser> ControllerActionUsers { get; set; }
