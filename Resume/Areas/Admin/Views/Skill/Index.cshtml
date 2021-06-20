@@ -1,11 +1,10 @@
 ﻿@model IEnumerable<Resume.Models.Entities.Skill>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Biliklər";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Index</h1>
 
 <p>
     <a asp-action="Create" class="btn btn-outline-success">Əlavə Et</a>
@@ -14,35 +13,35 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                Bilik
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Percent)
+                Bilik faizi
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SkillCategory)
+                Kateqoriya
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Percent)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SkillCategory.ID)
-            </td>
-            <td>
-    <a asp-action="Edit"  asp-route-id="@item.ID"><i class="fas fa-edit"></i></a> |
-                <a asp-action="Details" asp-route-id="@item.ID"><i class="fas fa-info-circle"></i></a> |
-                                        <a asp-action="Delete" asp-route-id="@item.ID" title="Sil"><i class="fas fa-trash-alt" style="color:red"></i></a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Percent)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SkillCategory.Category)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ID" title="Düzəliş et"><i class="fas fa-edit test" style="color:green"></i></a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID" title="Sil"><i class="fas fa-trash-alt" style="color:red"></i></a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

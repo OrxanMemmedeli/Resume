@@ -1,11 +1,10 @@
 ﻿@model IEnumerable<Resume.Models.Entities.SkillCategory>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Bilik Kateqoriyaları";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Index</h1>
 
 <p>
     <a asp-action="Create" class="btn btn-outline-success">Əlavə Et</a>
@@ -14,10 +13,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Category)
+                Kateqoriya
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                Açıqlama
             </th>
             <th></th>
         </tr>
@@ -34,7 +33,7 @@
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.ID" title="Düzəliş et"><i class="fas fa-edit test" style="color:green"></i></a> |
-                                        <a asp-action="Delete" asp-route-id="@item.ID" title="Sil"><i class="fas fa-trash-alt" style="color:red"></i></a>
+                    <a asp-action="Delete" asp-route-id="@item.ID" title="Sil"><i class="fas fa-trash-alt" style="color:red"></i></a>
                 </td>
             </tr>
         }

@@ -20,39 +20,18 @@ namespace Resume.Areas.Admin.Controllers
             _context = context;
         }
 
-        // GET: Admin/SkillCategory
         public async Task<IActionResult> Index()
         {
             return View(await _context.SkillCategories.ToListAsync());
         }
 
-        // GET: Admin/SkillCategory/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var skillCategory = await _context.SkillCategories
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (skillCategory == null)
-            {
-                return NotFound();
-            }
-
-            return View(skillCategory);
-        }
-
-        // GET: Admin/SkillCategory/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Admin/SkillCategory/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,Category,Description")] SkillCategory skillCategory)
@@ -66,7 +45,7 @@ namespace Resume.Areas.Admin.Controllers
             return View(skillCategory);
         }
 
-        // GET: Admin/SkillCategory/Edit/5
+
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -82,9 +61,7 @@ namespace Resume.Areas.Admin.Controllers
             return View(skillCategory);
         }
 
-        // POST: Admin/SkillCategory/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Category,Description")] SkillCategory skillCategory)
@@ -117,7 +94,7 @@ namespace Resume.Areas.Admin.Controllers
             return View(skillCategory);
         }
 
-        // GET: Admin/SkillCategory/Delete/5
+
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -135,7 +112,7 @@ namespace Resume.Areas.Admin.Controllers
             return View(skillCategory);
         }
 
-        // POST: Admin/SkillCategory/Delete/5
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

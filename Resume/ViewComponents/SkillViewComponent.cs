@@ -18,10 +18,8 @@ namespace Resume.ViewComponents
         }
         public IViewComponentResult Invoke()
         {
-
-            //model.Category = 
-            //var skills = db.Skills.Include(c => c.SkillCategory).ToList();
-            return View(/*skills*/);
+            var skills = db.Skills.Include(x => x.SkillCategory);
+            return View(skills.ToList());
         }
     }
 }

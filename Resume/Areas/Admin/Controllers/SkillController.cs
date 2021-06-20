@@ -20,42 +20,18 @@ namespace Resume.Areas.Admin.Controllers
             _context = context;
         }
 
-        // GET: Admin/Skill
         public async Task<IActionResult> Index()
         {
             var resumeContext = _context.Skills.Include(s => s.SkillCategory);
             return View(await resumeContext.ToListAsync());
         }
 
-        // GET: Admin/Skill/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var skill = await _context.Skills
-                .Include(s => s.SkillCategory)
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (skill == null)
-            {
-                return NotFound();
-            }
-
-            return View(skill);
-        }
-
-        // GET: Admin/Skill/Create
         public IActionResult Create()
         {
-            ViewData["SkillCategoryID"] = new SelectList(_context.SkillCategories, "ID", "ID");
+            ViewData["SkillCategoryID"] = new SelectList(_context.SkillCategories, "ID", "Category");
             return View();
         }
 
-        // POST: Admin/Skill/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,Name,Percent,SkillCategoryID")] Skill skill)
@@ -66,11 +42,10 @@ namespace Resume.Areas.Admin.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SkillCategoryID"] = new SelectList(_context.SkillCategories, "ID", "ID", skill.SkillCategoryID);
+            ViewData["SkillCategoryID"] = new SelectList(_context.SkillCategories, "ID", "Category", skill.SkillCategoryID);
             return View(skill);
         }
 
-        // GET: Admin/Skill/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -83,13 +58,10 @@ namespace Resume.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            ViewData["SkillCategoryID"] = new SelectList(_context.SkillCategories, "ID", "ID", skill.SkillCategoryID);
+            ViewData["SkillCategoryID"] = new SelectList(_context.SkillCategories, "ID", "Category", skill.SkillCategoryID);
             return View(skill);
         }
 
-        // POST: Admin/Skill/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Name,Percent,SkillCategoryID")] Skill skill)
@@ -119,11 +91,10 @@ namespace Resume.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SkillCategoryID"] = new SelectList(_context.SkillCategories, "ID", "ID", skill.SkillCategoryID);
+            ViewData["SkillCategoryID"] = new SelectList(_context.SkillCategories, "ID", "Category", skill.SkillCategoryID);
             return View(skill);
         }
 
-        // GET: Admin/Skill/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -142,7 +113,6 @@ namespace Resume.Areas.Admin.Controllers
             return View(skill);
         }
 
-        // POST: Admin/Skill/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

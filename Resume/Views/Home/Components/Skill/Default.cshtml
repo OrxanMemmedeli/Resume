@@ -1,7 +1,8 @@
 ﻿@model IEnumerable<Resume.Models.Entities.Skill>
-
-
 <!-- SECTION TITLE -->
+@{
+    Layout = null;
+}
 <div class="section-title">
     <h4 class="text-uppercase text-center"><img src="~/images/icons/mixer.png" alt="demo">Bilik və Bacarıqlar (Skills)</h4>
 </div>
@@ -10,101 +11,24 @@
         <div id="skills-card" class="card">
             <div class="card-content">
                 <div class="row">
-                    <div class="col-md-4 col-sm-4 col-xs-12">
+                    @foreach (var category in Model.Select(x => x.SkillCategory).Distinct())
+                    {
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <!-- FIRST SKILL SECTION -->
+                            <div class="skills-title">
+                                <h6 class="text-center">@category.Category</h6>
+                            </div>
+                            @foreach (var item in Model.Where(x => x.SkillCategoryID == category.ID))
+                            {
+                                <div class="skillbar" data-percent="@item.Percent%">
+                                    <div class="skillbar-title"><span>@item.Name</span></div>
+                                    <div class="skillbar-bar"></div>
+                                    <div class="skill-bar-percent">@item.Percent%</div>
+                                </div>
+                            }
+                        </div>
+                    }
 
-                        <!-- FIRST SKILL SECTION -->
-                        <div class="skills-title">
-                            <h6 class="text-center">Professional</h6>
-                        </div>
-                        <!-- FIRST SKILL BAR -->
-                        <div class="skillbar" data-percent="90%">
-                            <div class="skillbar-title"><span>HTML5</span></div>
-                            <div class="skillbar-bar"></div>
-                            <div class="skill-bar-percent">90%</div>
-                        </div>
-                        <!-- SECOND SKILL BAR  -->
-                        <div class="skillbar" data-percent="90%">
-                            <div class="skillbar-title"><span>CSS3</span></div>
-                            <div class="skillbar-bar"></div>
-                            <div class="skill-bar-percent">90%</div>
-                        </div>
-                        <!-- THIRD SKILL BAR  -->
-                        <div class="skillbar" data-percent="70%">
-                            <div class="skillbar-title"><span>jQuery</span></div>
-                            <div class="skillbar-bar"></div>
-                            <div class="skill-bar-percent">70%</div>
-                        </div>
-                        <!-- FOURTH SKILL BAR  -->
-                        <div class="skillbar" data-percent="68%">
-                            <div class="skillbar-title"><span>PHP</span></div>
-                            <div class="skillbar-bar"></div>
-                            <div class="skill-bar-percent">68%</div>
-                        </div>
-                    </div>
-
-
-                    <div class="col-md-4 col-sm-4 col-xs-12">
-                        <!-- SECOND SKILL SECTION -->
-                        <div class="skills-title">
-                            <h6 class="text-center">Personal</h6>
-                        </div>
-                        <!-- FIRST SKILL BAR -->
-                        <div class="skillbar" data-percent="80%">
-                            <div class="skillbar-title"><span>Communication</span></div>
-                            <div class="skillbar-bar"></div>
-                            <div class="skill-bar-percent">80%</div>
-                        </div>
-                        <!-- SECOND SKILL BAR  -->
-                        <div class="skillbar" data-percent="60%">
-                            <div class="skillbar-title"><span>Teamwork</span></div>
-                            <div class="skillbar-bar"></div>
-                            <div class="skill-bar-percent">60%</div>
-                        </div>
-                        <!-- THIRD SKILL BAR  -->
-                        <div class="skillbar" data-percent="70%">
-                            <div class="skillbar-title"><span>Creativity</span></div>
-                            <div class="skillbar-bar"></div>
-                            <div class="skill-bar-percent">70%</div>
-                        </div>
-                        <!-- FOURTH SKILL BAR  -->
-                        <div class="skillbar" data-percent="70%">
-                            <div class="skillbar-title"><span>Dedication</span></div>
-                            <div class="skillbar-bar"></div>
-                            <div class="skill-bar-percent">70%</div>
-                        </div>
-                    </div>
-
-
-                    <div class="col-md-4 col-sm-4 col-xs-12">
-                        <!-- THIRD SKILL SECTION -->
-                        <div class="skills-title">
-                            <h6 class="text-center">Software</h6>
-                        </div>
-                        <!-- FIRST SKILL BAR -->
-                        <div class="skillbar" data-percent="80%">
-                            <div class="skillbar-title"><span>Adobe Illustrator</span></div>
-                            <div class="skillbar-bar"></div>
-                            <div class="skill-bar-percent">80%</div>
-                        </div>
-                        <!-- SECOND SKILL BAR  -->
-                        <div class="skillbar" data-percent="70%">
-                            <div class="skillbar-title"><span>Adobe InDesign</span></div>
-                            <div class="skillbar-bar"></div>
-                            <div class="skill-bar-percent">70%</div>
-                        </div>
-                        <!-- THIRD SKILL BAR  -->
-                        <div class="skillbar" data-percent="60%">
-                            <div class="skillbar-title"><span>PHP Storm</span></div>
-                            <div class="skillbar-bar"></div>
-                            <div class="skill-bar-percent">60%</div>
-                        </div>
-                        <!-- FOURTH SKILL BAR  -->
-                        <div class="skillbar" data-percent="80%">
-                            <div class="skillbar-title"><span>Dev Console</span></div>
-                            <div class="skillbar-bar"></div>
-                            <div class="skill-bar-percent">80%</div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
