@@ -1,15 +1,57 @@
-﻿
+﻿@model IEnumerable<Resume.Models.Entities.Experience>
 @{
     Layout = null;
+    string date = string.Empty;
 }
 
-<!DOCTYPE html>
+<section id="experience" class="section">
+    <div class="container">
+        <!-- SECTION TITLE -->
+        <div class="section-title">
+            <h4 class="text-uppercase text-center"><img src="~/images/icons/layers.png" alt="demo">Təcrübə (Experience)</h4>
+        </div>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Default</title>
-</head>
-<body>
-</body>
-</html>
+        <div id="">
+            @foreach (var item in Model)
+            {
+                if (item.ShowDay)
+                {
+                    date += "dd.";
+                }
+                if (item.ShowMonth)
+                {
+                    date += "MM.";
+                }
+                if (item.ShowYear)
+                {
+                    date += "yyyy";
+                }
+                <div class="timeline-block">
+                    <!-- DOT -->
+                    <div class="timeline-dot"><i class="fa fa-globe"></i></div>
+                    <!-- TIMELINE CONTENT -->
+                    <div class="card timeline-content">
+                        <div class="card-content">
+                            <!-- TIMELINE TITLE -->
+                            <h6 class="timeline-title"><strong>@item.Company</strong></h6>
+                            <!-- TIMELINE TITLE INFO -->
+                            <div class="timeline-info">
+                                <h6 style="color:#06a763">
+                                    <small>@item.StartDate.ToString(date) - @(item.Present == true? "Dəvam edir" : item.EndDate.ToString(date))</small>
+                                    @(date = null)
+                                </h6>
+                                <h6 style="color:#1976d2">
+                                    <small><strong>@item.Position</strong></small>
+                                </h6>
+                            </div>
+                            <!-- TIMELINE PARAGRAPH -->
+                            <p>
+                                @item.Description
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>

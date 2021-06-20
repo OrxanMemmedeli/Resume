@@ -34,7 +34,7 @@ namespace Resume.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Company,StartDate,EndDate,Position,Description")] Experience experience)
+        public async Task<IActionResult> Create(Experience experience)
         {
             if (ModelState.IsValid)
             {
@@ -64,7 +64,7 @@ namespace Resume.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Company,StartDate,EndDate,Position,Description")] Experience experience)
+        public async Task<IActionResult> Edit(int id, Experience experience)
         {
             if (id != experience.ID)
             {

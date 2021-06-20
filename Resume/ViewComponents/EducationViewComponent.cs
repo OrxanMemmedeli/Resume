@@ -18,7 +18,7 @@ namespace Resume.ViewComponents
 
         public IViewComponentResult Invoke()
         {
-            var educations = db.Educations.ToList();
+            var educations = db.Educations.OrderBy(x => x.StartDate).ThenBy(x => x.EndDate).ToList();
             return View(educations);
         }
     }

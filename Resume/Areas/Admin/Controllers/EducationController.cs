@@ -32,7 +32,7 @@ namespace Resume.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,EducationCenter,StartDate,EndDate,Faculty,Specialty,Description")] Education education)
+        public async Task<IActionResult> Create(Education education)
         {
             if (ModelState.IsValid)
             {
@@ -60,7 +60,7 @@ namespace Resume.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,EducationCenter,StartDate,EndDate,Faculty,Specialty,Description")] Education education)
+        public async Task<IActionResult> Edit(int id, Education education)
         {
             if (id != education.ID)
             {
