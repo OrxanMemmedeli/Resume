@@ -14,31 +14,19 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                Başlıq
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                Proyetin icra müddəti
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InsertDate)
+                Müştəri
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EndDate)
+                SiteURL
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Client)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SiteURL)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Type)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FotoURL)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.VideoURL)
+                Tip
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.PortfolioCategory)
@@ -47,44 +35,32 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.InsertDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Client)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SiteURL)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Type)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FotoURL)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VideoURL)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PortfolioCategory.ID)
-            </td>
-            <td>
-    <a asp-action="Edit"  asp-route-id="@item.ID"><i class="fas fa-edit"></i></a> |
-                <a asp-action="Details" asp-route-id="@item.ID"><i class="fas fa-info-circle"></i></a> |
-                                        <a asp-action="Delete" asp-route-id="@item.ID" title="Sil"><i class="fas fa-trash-alt" style="color:red"></i></a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @item.InsertDate.ToString("dd-MM-yyyy") - @item.EndDate.ToString("dd-MM-yyyy")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Client)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SiteURL)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PortfolioCategory.Category)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ID" title="Düzəliş et"><i class="fas fa-edit test" style="color:green"></i></a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID" title="Sil"><i class="fas fa-trash-alt" style="color:red"></i></a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

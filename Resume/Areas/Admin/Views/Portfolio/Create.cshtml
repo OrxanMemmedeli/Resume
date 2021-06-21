@@ -1,40 +1,38 @@
 ﻿@model Resume.Models.Entities.Portfolio
 
 @{
-    ViewData["Title"] = " - Əlavə Et";
+    ViewData["Title"] = "Portfel - Əlavə Et";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Create</h1>
-
-<h4>Portfolio</h4>
+<h4>Portfel - Əlavə Et</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create" class="form-disable">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
+                <label class="control-label">Başlıq</label>
                 <input asp-for="Title" class="form-control" />
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
+                <label class="control-label">Açıqlama</label>
+                <textarea asp-for="Description" class="form-control"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="InsertDate" class="control-label"></label>
+                <label class="control-label">Daxil edilmə Vaxtı</label>
                 <input asp-for="InsertDate" class="form-control" />
                 <span asp-validation-for="InsertDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="EndDate" class="control-label"></label>
+                <label class="control-label">Bitmə Vaxtı</label>
                 <input asp-for="EndDate" class="form-control" />
                 <span asp-validation-for="EndDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Client" class="control-label"></label>
+                <label class="control-label">Müştəri</label>
                 <input asp-for="Client" class="form-control" />
                 <span asp-validation-for="Client" class="text-danger"></span>
             </div>
@@ -44,7 +42,7 @@
                 <span asp-validation-for="SiteURL" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Type" class="control-label"></label>
+                <label class="control-label">Tip</label>
                 <input asp-for="Type" class="form-control" />
                 <span asp-validation-for="Type" class="text-danger"></span>
             </div>
@@ -59,17 +57,24 @@
                 <span asp-validation-for="VideoURL" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PortfolioCategoryID" class="control-label"></label>
-                <select asp-for="PortfolioCategoryID" class ="form-control" asp-items="ViewBag.PortfolioCategoryID"></select>
+                <label class="control-label">
+                    Kateqoriya
+                </label>
+                <select asp-for="PortfolioCategoryID" class="form-control" asp-items="ViewBag.PortfolioCategoryID"></select>
             </div>
             <div class="form-group">
                 <input id="submit" data-submit-value="GÖZLƏYİN..." type="submit" value="Əlavə Et" class="btn btn-outline-primary">
+                <a asp-action="Index" class="btn btn-dark">Geri</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-                <a asp-action="Index" class="btn btn-dark">Geri</a>
-</div>
-
+<script>
+    $('.form-disable').on('submit', function () {
+        var self = $(this),
+            button = self.find('input[type=submit],button'),
+            submitValue = button.data('submit-value');
+        button.attr('disabled', 'disabled').val((submitValue) ? submitValue : 'GÖZLƏYİN...');
+    });
+</script>
