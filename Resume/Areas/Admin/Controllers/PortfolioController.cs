@@ -20,14 +20,12 @@ namespace Resume.Areas.Admin.Controllers
             _context = context;
         }
 
-        // GET: Admin/Portfolio
         public async Task<IActionResult> Index()
         {
             var resumeContext = _context.Portfolios.Include(p => p.PortfolioCategory);
             return View(await resumeContext.ToListAsync());
         }
 
-        // GET: Admin/Portfolio/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -46,16 +44,12 @@ namespace Resume.Areas.Admin.Controllers
             return View(portfolio);
         }
 
-        // GET: Admin/Portfolio/Create
         public IActionResult Create()
         {
-            ViewData["PortfolioCategoryID"] = new SelectList(_context.PortfolioCategories, "ID", "ID");
+            ViewData["PortfolioCategoryID"] = new SelectList(_context.PortfolioCategories, "ID", "Category");
             return View();
         }
 
-        // POST: Admin/Portfolio/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,Title,Description,InsertDate,EndDate,Client,SiteURL,Type,FotoURL,VideoURL,PortfolioCategoryID")] Portfolio portfolio)
@@ -66,11 +60,10 @@ namespace Resume.Areas.Admin.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PortfolioCategoryID"] = new SelectList(_context.PortfolioCategories, "ID", "ID", portfolio.PortfolioCategoryID);
+            ViewData["PortfolioCategoryID"] = new SelectList(_context.PortfolioCategories, "ID", "Category", portfolio.PortfolioCategoryID);
             return View(portfolio);
         }
 
-        // GET: Admin/Portfolio/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -83,13 +76,10 @@ namespace Resume.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            ViewData["PortfolioCategoryID"] = new SelectList(_context.PortfolioCategories, "ID", "ID", portfolio.PortfolioCategoryID);
+            ViewData["PortfolioCategoryID"] = new SelectList(_context.PortfolioCategories, "ID", "Category", portfolio.PortfolioCategoryID);
             return View(portfolio);
         }
 
-        // POST: Admin/Portfolio/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Title,Description,InsertDate,EndDate,Client,SiteURL,Type,FotoURL,VideoURL,PortfolioCategoryID")] Portfolio portfolio)
@@ -119,11 +109,10 @@ namespace Resume.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PortfolioCategoryID"] = new SelectList(_context.PortfolioCategories, "ID", "ID", portfolio.PortfolioCategoryID);
+            ViewData["PortfolioCategoryID"] = new SelectList(_context.PortfolioCategories, "ID", "Category", portfolio.PortfolioCategoryID);
             return View(portfolio);
         }
 
-        // GET: Admin/Portfolio/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -142,7 +131,6 @@ namespace Resume.Areas.Admin.Controllers
             return View(portfolio);
         }
 
-        // POST: Admin/Portfolio/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

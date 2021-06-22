@@ -1,0 +1,202 @@
+﻿@model Resume.Models.Entities.Portfolio
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Khan">
+    <meta name="description" content="M. Orxan CV/Resume">
+    <meta name="keywords" content="Khan">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/images/logos/KHAN.jpg">
+
+    <title>@Model.Title</title>
+
+
+    <!-- GOOGLE FONT -->
+    <link href='https://fonts.googleapis.com/css?family=Raleway:500' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Muli' rel='stylesheet' type='text/css'>
+
+
+    <!-- MATERIAL ICON FONT -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- FONT AWESOME -->
+    <link href="~/stylesheets/vendors/font-awesome.min.css" rel="stylesheet">
+
+
+    <!-- ANIMATION -->
+    <link href="~/stylesheets/vendors/animate.min.css" rel="stylesheet">
+
+    <!-- SWIPER -->
+    <link href="~/stylesheets/vendors/swiper.min.css" rel="stylesheet">
+
+
+    <!-- MATERIALIZE -->
+    <link href="~/stylesheets/vendors/materialize.css" rel="stylesheet">
+    <!-- BOOTSTRAP -->
+    <link href="~/stylesheets/vendors/bootstrap.min.css" rel="stylesheet">
+
+
+    <!-- CUSTOM STYLE -->
+    <link href="~/stylesheets/style.css" id="switch_style" rel="stylesheet">
+
+    <!--TOGGLE-->
+    <link href="~/toggle/toggle.css" rel="stylesheet">
+
+
+    <script src="https://use.fontawesome.com/7b0b2c68b4.js"></script>
+    <script src="~/Default/lib/jquery/dist/jquery.min.js"></script>
+    <script>
+        window.addEventListener("pageshow", function (event) {
+            var historyTraversal = event.persisted ||
+                (typeof window.performance != "undefined" &&
+                    window.performance.navigation.type === 2);
+            if (historyTraversal) {
+                // Handle page restore.
+                window.location.reload(true);
+            }
+        });
+    </script>
+</head>
+<body>
+
+
+    <!--==========================================
+                      PRE-LOADER
+    ===========================================-->
+    <div id="loading">
+        <div id="loading-center">
+            <div id="loading-center-absolute">
+                <div class="box-holder animated bounceInDown">
+                    <span class="load-box"><span class="box-inner"></span></span>
+                </div>
+                <!-- NAME & STATUS -->
+                <div class="text-holder text-center">
+                    <h2>@Model.Title</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--==========================================
+                      BACK TO HOME
+    ===========================================-->
+    <a href="/" class="back-button"><span><i class="fa fa-angle-double-left"></i></span></a>
+
+    <!--==========================================
+                     BACKGROUND
+    ===========================================-->
+    <div class="single-background"></div>
+
+    <!--==========================================
+                     SINGLE PORTFOLIO
+    ===========================================-->
+    <section class="single-page">
+        <div class="container">
+            <!--SECTION TITLE-->
+            <div class="section-title">
+                <h4 class="text-uppercase text-center"><img src="images/icons/safe.png" alt="demo">Portfolios</h4>
+            </div>
+            <!--PORTFOLIO HOLDER-->
+            <div class="row" id="primary">
+                <!--PORTFOLIO CONTENT-->
+                <div id="content" class="col-sm-12">
+                    <div class="post card">
+                        <!--PORTFOLIO IMAGE SLIDER-->
+                        <div class="post-image">
+
+                            <!-- SLIDER STRUCTURE -->
+                            <div id="clients-slider"
+                                 class="swiper-container swiper-container-portfolios">
+                                <div class="swiper-wrapper">
+                                    <!-- SLIDE ONE -->
+                                    <div class="swiper-slide">
+                                        <img class="img-responsive" alt="demo" src="@Model.FotoURL">
+                                    </div>
+
+                                    <!-- SLIDE TWO -->
+                                    <div class="swiper-slide">
+                                        @Html.Raw(Model.VideoURL)
+                                    </div>
+
+                                </div>
+                                <!-- ADD PAGINATION -->
+                                <div class="swiper-pagination swiper-pagination-portfolios"></div>
+                            </div>
+
+                        </div>
+
+                        <!--PORTFOLIO TITLE AND DETAILS-->
+                        <header>
+                            <h2>
+                                @Model.Title
+                                <time><strong>Layihəyə başlama vaxtı : </strong>@Model.InsertDate.ToString("MM-yyyy")</time>
+                            </h2>
+                            <hr>
+                            <div class="project-detail">
+                                <p><strong>Müştəri : </strong>@Model.Client</p>
+                                <p><strong>Layihənin bitmə vaxtı : </strong>@Model.EndDate.ToString("MM-yyyy")</p>
+                                @if (Model.SiteURL != null)
+                                {
+                                    <p>
+                                        <strong>URL :</strong><a href="@Model.SiteURL">Sistem</a>
+                                    </p>
+                                }
+
+                                <p><strong>Tip :</strong>@Model.Type</p>
+                            </div>
+                        </header>
+                        <!--BODY-->
+                        <div class="post-body">
+                            <h3>Açıqlama</h3>
+                            <div class="client-info">
+                                <p>@Model.Description</p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!--==========================================
+                     SCROLL TO TOP
+    ===========================================-->
+    <div id="scroll-top">
+        <div id="scrollup"><i class="fa fa-angle-up"></i></div>
+    </div>
+
+    <!--==========================================
+                     FOOTER
+    ===========================================-->
+    <footer>
+        <div class="container">
+            <p class="text-center">
+                Copyright @DateTime.Now.Year © All right reserved. Created and supported by<span style="color:darkblue">Khan</span>
+            </p>
+        </div>
+    </footer>
+
+
+
+    <!--==========================================
+                        SCRIPTS
+    ===========================================-->
+    <script src="~/javascript/vendors/jquery-2.1.3.min.js"></script>
+    <script src="~/javascript/vendors/bootstrap.min.js"></script>
+    <script src="~/javascript/vendors/materialize.min.js"></script>
+    <script src="~/javascript/vendors/retina.min.js"></script>
+    <script src="~/javascript/vendors/scrollreveal.min.js"></script>
+    <script src="~/javascript/vendors/swiper.jquery.min.js"></script>
+    <script src="~/javascript/single-page.js"></script>
+    <script src="~/toggle/js.js"></script>
+</body>
+</html>

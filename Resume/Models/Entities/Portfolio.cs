@@ -28,9 +28,9 @@ namespace Resume.Models.Entities
         public string SiteURL { get; set; }
         [Column(TypeName = "nvarchar(150)")]
         public string Type { get; set; }
-        [Column(TypeName = "nvarchar(250)")]
+        [Column(TypeName = "nvarchar(max)")]
         public string FotoURL { get; set; }
-        [Column(TypeName = "nvarchar(250)")]
+        [Column(TypeName = "nvarchar(max)")]
         public string VideoURL { get; set; }
 
 

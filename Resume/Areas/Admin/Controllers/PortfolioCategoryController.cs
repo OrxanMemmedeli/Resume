@@ -20,39 +20,16 @@ namespace Resume.Areas.Admin.Controllers
             _context = context;
         }
 
-        // GET: Admin/PortfolioCategoriy
         public async Task<IActionResult> Index()
         {
             return View(await _context.PortfolioCategories.ToListAsync());
         }
 
-        // GET: Admin/PortfolioCategoriy/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var portfolioCategory = await _context.PortfolioCategories
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (portfolioCategory == null)
-            {
-                return NotFound();
-            }
-
-            return View(portfolioCategory);
-        }
-
-        // GET: Admin/PortfolioCategoriy/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Admin/PortfolioCategoriy/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,Category,Description")] PortfolioCategory portfolioCategory)
@@ -66,7 +43,6 @@ namespace Resume.Areas.Admin.Controllers
             return View(portfolioCategory);
         }
 
-        // GET: Admin/PortfolioCategoriy/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -82,9 +58,6 @@ namespace Resume.Areas.Admin.Controllers
             return View(portfolioCategory);
         }
 
-        // POST: Admin/PortfolioCategoriy/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Category,Description")] PortfolioCategory portfolioCategory)
@@ -117,7 +90,6 @@ namespace Resume.Areas.Admin.Controllers
             return View(portfolioCategory);
         }
 
-        // GET: Admin/PortfolioCategoriy/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -135,7 +107,6 @@ namespace Resume.Areas.Admin.Controllers
             return View(portfolioCategory);
         }
 
-        // POST: Admin/PortfolioCategoriy/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

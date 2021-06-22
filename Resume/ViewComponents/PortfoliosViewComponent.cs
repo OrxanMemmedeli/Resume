@@ -3,14 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Resume.Areas.Admin.ViewComponents;
+using Resume.Models.Context;
 
 namespace Resume.ViewComponents
 {
     public class PortfoliosViewComponent : ViewComponent
     {
+        private readonly ResumeContext db;
+
+        public PortfoliosViewComponent(ResumeContext context)
+        {
+            db = context;
+        }
+
         public IViewComponentResult Invoke()
         {
-            return View();
+            PortofiloAndCategories model = new PortofiloAndCategories();
+            model.Portfolios = db.Portfolios.Include(x => x.PortfolioCategory).ToList().Take(9);
+            model.Categories = db.PortfolioCategories.ToList();
+            return View(model);
         }
     }
 }

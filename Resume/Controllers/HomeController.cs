@@ -28,9 +28,14 @@ namespace Resume.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult Details(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var portfolio = db.Portfolios.Find(id);
+            return View(portfolio);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

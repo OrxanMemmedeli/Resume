@@ -23,7 +23,7 @@
             </div>
             <div class="form-group">
                 <label class="control-label">Daxil edilmə Vaxtı</label>
-                <input asp-for="InsertDate" class="form-control" />
+                <input type="date" asp-for="InsertDate" class="form-control" />
                 <span asp-validation-for="InsertDate" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -33,7 +33,7 @@
             </div>
             <div class="form-group">
                 <label class="control-label">Müştəri</label>
-                <input asp-for="Client" class="form-control" />
+                <input type="date" asp-for="Client" class="form-control" />
                 <span asp-validation-for="Client" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -52,7 +52,9 @@
                 <span asp-validation-for="FotoURL" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="VideoURL" class="control-label"></label>
+                <label class="control-label">
+                    Youtube Iframe <span style="color:red">(width="970" height="630" olmalıdır)</span>
+                </label>
                 <input asp-for="VideoURL" class="form-control" />
                 <span asp-validation-for="VideoURL" class="text-danger"></span>
             </div>
