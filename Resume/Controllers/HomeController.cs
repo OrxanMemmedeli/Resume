@@ -38,6 +38,17 @@ namespace Resume.Controllers
             return View(portfolio);
         }
 
+        public IActionResult Category(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var portfolios = db.Portfolios.Where(x => x.PortfolioCategoryID == id);
+            ViewBag.Category = db.PortfolioCategories.Find(id).Category;
+            return View(portfolios);
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

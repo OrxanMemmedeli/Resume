@@ -21,7 +21,7 @@ namespace Resume.ViewComponents
         public IViewComponentResult Invoke()
         {
             PortofiloAndCategories model = new PortofiloAndCategories();
-            model.Portfolios = db.Portfolios.Include(x => x.PortfolioCategory).ToList().Take(9);
+            model.Portfolios = db.Portfolios.Include(x => x.PortfolioCategory).OrderByDescending(x => x.EndDate).ToList().Take(9);
             model.Categories = db.PortfolioCategories.ToList();
             return View(model);
         }

@@ -1,7 +1,8 @@
-﻿@model Resume.Models.Entities.Portfolio
+﻿@model IEnumerable<Resume.Models.Entities.Portfolio>
 @{
     Layout = null;
 }
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -14,7 +15,7 @@
     <meta name="keywords" content="Khan">
     <link rel="icon" type="image/png" sizes="16x16" href="~/images/logos/KHAN.jpg">
 
-    <title>@Model.Title</title>
+    <title>@ViewBag.Category</title>
 
 
     <!-- GOOGLE FONT -->
@@ -76,7 +77,7 @@
                 </div>
                 <!-- NAME & STATUS -->
                 <div class="text-holder text-center">
-                    <h2>@Model.Title</h2>
+                    <h2>@ViewBag.Category</h2>
                 </div>
             </div>
         </div>
@@ -96,73 +97,31 @@
     <!--==========================================
                      SINGLE PORTFOLIO
     ===========================================-->
-    <section class="single-page">
+    <section id="portfolios" class="section">
         <div class="container">
-            <!--SECTION TITLE-->
+            <!-- SECTION TITLE -->
             <div class="section-title">
-                <h4 class="text-uppercase text-center">@Model.Title</h4>
+                <h4 class="text-uppercase text-center"><img src="~/images/icons/safe.png" alt="demo">@ViewBag.Category</h4>
             </div>
-            <!--PORTFOLIO HOLDER-->
-            <div class="row" id="primary">
-                <!--PORTFOLIO CONTENT-->
-                <div id="content" class="col-sm-12">
-                    <div class="post card">
-                        <!--PORTFOLIO IMAGE SLIDER-->
-                        <div class="post-image">
+            <div id="portfolios-card" class="row">
 
-                            <!-- SLIDER STRUCTURE -->
-                            <div id="clients-slider"
-                                 class="swiper-container swiper-container-portfolios">
-                                <div class="swiper-wrapper">
-                                    <!-- SLIDE ONE -->
-                                    <div class="swiper-slide">
-                                        <img class="img-responsive" alt="demo" src="@Model.FotoURL">
-                                    </div>
-
-                                    <!-- SLIDE TWO -->
-                                    <div class="swiper-slide">
-                                        @Html.Raw(Model.VideoURL.Replace("width=\"560\" height=\"315\"", "width=\"970\" height=\"630\""))
-                                    </div>
-
-                                </div>
-                                <!-- ADD PAGINATION -->
-                                <div class="swiper-pagination swiper-pagination-portfolios"></div>
-                            </div>
-
+                <!--CATEGORIES CONTENT-->
+                <div class="tab-content">
+                    @foreach (var item in Model)
+                    {
+                        <!--CATEGORY CONTENT SIX SMALL-->
+                        <div class="col-md-4 col-sm-6 col-xs-12 grid inLeft">
+                            <figure class="port-effect-up">
+                                <img src="@item.FotoURL" class="img-responsive" alt="@item.ID" />
+                                <figcaption>
+                                    <h2>@item.Title</h2>
+                                    <p>@(item.Description.Length > 50 ? item.Description.Remove(50) + "..." : item.Description)</p>
+                                    <a href="/Home/Details/@item.ID">Ətraflı baxış</a>
+                                </figcaption>
+                            </figure>
                         </div>
-
-                        <!--PORTFOLIO TITLE AND DETAILS-->
-                        <header>
-                            <h2>
-                                @Model.Title
-                                <time><strong>Layihəyə başlama vaxtı : </strong>@Model.InsertDate.ToString("MM-yyyy")</time>
-                            </h2>
-                            <hr>
-                            <div class="project-detail">
-                                <p><strong>Müştəri : </strong>@Model.Client</p>
-                                <p><strong>Layihənin bitmə vaxtı : </strong>@Model.EndDate.ToString("MM-yyyy")</p>
-                                @if (Model.SiteURL != null)
-                                {
-                                    <p>
-                                        <strong>URL :</strong><a href="@Model.SiteURL">Sistem</a>
-                                    </p>
-                                }
-
-                                <p><strong>Tip :</strong>@Model.Type</p>
-                            </div>
-                        </header>
-                        <!--BODY-->
-                        <div class="post-body">
-                            <h3>Açıqlama</h3>
-                            <div class="client-info">
-                                <p>@Model.Description</p>
-                            </div>
-
-                        </div>
-                    </div>
-
+                    }
                 </div>
-
             </div>
         </div>
     </section>
@@ -200,3 +159,4 @@
     <script src="~/toggle/js.js"></script>
 </body>
 </html>
+
