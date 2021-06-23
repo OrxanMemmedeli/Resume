@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Resume.Business.Control;
 using Resume.Models;
 using Resume.Models.Context;
 using System;
@@ -25,6 +26,8 @@ namespace Resume.Controllers
 
         public IActionResult Index()
         {
+            FrontSide frontSide = new FrontSide();
+            TempData["FrontList"] = frontSide.Control(db);
             return View();
         }
 

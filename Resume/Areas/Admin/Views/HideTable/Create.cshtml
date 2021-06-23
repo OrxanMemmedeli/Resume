@@ -1,36 +1,61 @@
 ﻿@model Resume.Models.Entities.HideTable
 
 @{
-    ViewData["Title"] = " - Əlavə Et";
+    ViewData["Title"] = "Ön hissədə gizliliyi - Əlavə Et";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Create</h1>
-
-<h4>HideTable</h4>
+<h4>Ön hissədə gizliliyi - Əlavə Et</h4>
+<!--begin::Alert-->
+<div class="alert alert-custom alert-light-danger fade show mb-10" role="alert">
+    <div class="alert-icon">
+        <span class="svg-icon svg-icon-3x svg-icon-danger">
+            <!--begin::Svg Icon | path:/metronic/theme/html/demo1/dist/assets/media/svg/icons/Code/Info-circle.svg-->
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                    <rect x="0" y="0" width="24" height="24"></rect>
+                    <circle fill="#000000" opacity="0.3" cx="12" cy="12" r="10"></circle>
+                    <rect fill="#000000" x="11" y="10" width="2" height="7" rx="1"></rect>
+                    <rect fill="#000000" x="11" y="7" width="2" height="2" rx="1"></rect>
+                </g>
+            </svg>
+            <!--end::Svg Icon-->
+        </span>
+    </div>
+    <div class="alert-text font-weight-bold">
+        Burada ediləcək dəyişikliklər <span style="color:black"><strong>XƏTAYA</strong></span> səbəb ola bilər. Dəyişiklikdən öncə proqraqmçı ilə əlaqə saxlayın.
+    </div>
+</div>
+<!--end::Alert-->
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create" class="form-disable">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="TableName" class="control-label"></label>
+                <label class="control-label">Gizlədiləcək sahə</label>
                 <input asp-for="TableName" class="form-control" />
                 <span asp-validation-for="TableName" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Status" /> @Html.DisplayNameFor(model => model.Status)
+                    <input class="form-check-input" asp-for="Status" /> Gizlədilsin
                 </label>
             </div>
             <div class="form-group">
                 <input id="submit" data-submit-value="GÖZLƏYİN..." type="submit" value="Əlavə Et" class="btn btn-outline-primary">
+                <a asp-action="Index" class="btn btn-dark">Geri</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-                <a asp-action="Index" class="btn btn-dark">Geri</a>
-</div>
+<script>
+    $('.form-disable').on('submit', function () {
+        var self = $(this),
+            button = self.find('input[type=submit],button'),
+            submitValue = button.data('submit-value');
+        button.attr('disabled', 'disabled').val((submitValue) ? submitValue : 'GÖZLƏYİN...');
+    });
+</script>
 

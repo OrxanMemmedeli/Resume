@@ -43,9 +43,19 @@
         </dd>
     </dl>
 
+
     <form asp-action="Delete" class="form-disable">
         <input type="hidden" asp-for="ID" />
         <input id="submit" data-submit-value="GÖZLƏYİN..." type="submit" value="Sil" class="btn btn-outline-primary"> |
         <a asp-action="Index" class="btn btn-dark">Geri</a>
     </form>
 </div>
+
+<script>
+    $('.form-disable').on('submit', function () {
+        var self = $(this),
+            button = self.find('input[type=submit],button'),
+            submitValue = button.data('submit-value');
+        button.attr('disabled', 'disabled').val((submitValue) ? submitValue : 'GÖZLƏYİN...');
+    });
+</script>

@@ -1,42 +1,69 @@
 ﻿@model IEnumerable<Resume.Models.Entities.HideTable>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Ön hissədə gizliliyi";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Index</h1>
 
 <p>
     <a asp-action="Create" class="btn btn-outline-success">Əlavə Et</a>
 </p>
+<!--begin::Alert-->
+<div class="alert alert-custom alert-light-danger fade show mb-10" role="alert">
+    <div class="alert-icon">
+        <span class="svg-icon svg-icon-3x svg-icon-danger">
+            <!--begin::Svg Icon | path:/metronic/theme/html/demo1/dist/assets/media/svg/icons/Code/Info-circle.svg-->
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                    <rect x="0" y="0" width="24" height="24"></rect>
+                    <circle fill="#000000" opacity="0.3" cx="12" cy="12" r="10"></circle>
+                    <rect fill="#000000" x="11" y="10" width="2" height="7" rx="1"></rect>
+                    <rect fill="#000000" x="11" y="7" width="2" height="2" rx="1"></rect>
+                </g>
+            </svg>
+            <!--end::Svg Icon-->
+        </span>
+    </div>
+    <div class="alert-text font-weight-bold">
+        Burada ediləcək dəyişikliklər <span style="color:black"><strong>XƏTAYA</strong></span> səbəb ola bilər. Dəyişiklikdən öncə proqraqmçı ilə əlaqə saxlayın.
+    </div>
+</div>
+<!--end::Alert-->
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.TableName)
+                Gizlədiləcək sahə
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Status)
+                Gizlədilsin
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.TableName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-    <a asp-action="Edit"  asp-route-id="@item.ID"><i class="fas fa-edit"></i></a> |
-                <a asp-action="Details" asp-route-id="@item.ID"><i class="fas fa-info-circle"></i></a> |
-                                        <a asp-action="Delete" asp-route-id="@item.ID" title="Sil"><i class="fas fa-trash-alt" style="color:red"></i></a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.TableName
+                </td>
+                <td>
+                    @if (item.Status)
+                    {
+                        <span style="color:red">Bəli</span>
+                    }
+                    else
+                    {
+                        <span style="color:green">Xeyr</span>
+                    }
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ID" title="Düzəliş et"><i class="fas fa-edit test" style="color:green"></i></a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID" title="Sil"><i class="fas fa-trash-alt" style="color:red"></i></a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
