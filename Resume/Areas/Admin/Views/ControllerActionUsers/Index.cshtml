@@ -21,9 +21,7 @@
                             <p><span><strong>@(say++)</strong></span>. @item.Email</p>
                         </div>
 
-                        <div class="col-md-1"><a asp-action="Edit" asp-route-userID="@item.ID" title="Düzəliş et"><i class="fas fa-edit test" style="color:green"></i></a> </div>
-                        <div class="col-md-1"><a asp-action="Delete" asp-route-userID="@item.ID" title="Sil"><i class="fas fa-trash-alt" style="color:red"></i></a></div>
-
+                        <div class="col-md-1"><a asp-action="Edit" asp-route-id="@IDAncryption.Encrypt(item.ID.ToString())" title="Düzəliş et"><i class="fas fa-edit test" style="color:green"></i></a> </div>
                     </div>
                 </div>
             }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Resume.Areas.Admin.Models.ViewModels;
+using Resume.Business.Tools;
 using Resume.Models.Context;
 using Resume.Models.Entities;
 
@@ -37,23 +38,24 @@ namespace Resume.Areas.Admin.Controllers
             return View(resumeContext);
         }
 
-        public async Task<IActionResult> Edit(int? userID)
+        public async Task<IActionResult> Edit(string id)
         {
-            if (userID == null)
+            if (id == null || IDAncryption.Decrypt(id) == "NotFound")
             {
                 return NotFound();
             }
-            ViewBag.userID = userID;
+            int dID = Convert.ToInt32(IDAncryption.Decrypt(id));
+
             ActionCotrollerUserRelationship relationship = new ActionCotrollerUserRelationship();
-            relationship.controllerActionUsers = await _context.ControllerActionUsers.Where(x => x.UserID == userID).ToListAsync();
-            relationship.actionUsers = await _context.ActionUsers.Where(x => x.UserID == userID).ToListAsync();
+            relationship.controllerActionUsers = await _context.ControllerActionUsers.Where(x => x.UserID == dID).ToListAsync();
+            relationship.actionUsers = await _context.ActionUsers.Where(x => x.UserID == dID).ToListAsync();
             if (relationship == null)
             {
                 return NotFound();
             }
             ViewData["ControllerID"] = await _context.ControllerNames.ToListAsync();
             ViewData["ActionID"] = await _context.ActionNames.ToListAsync();
-            ViewBag.userID = userID;
+            ViewBag.userID = dID;
             return View(relationship);
         }
 
