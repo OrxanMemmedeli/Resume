@@ -2,7 +2,7 @@
 @{
     Layout = null;
 }
-
+@using Resume.Business.Tools
 <section id="portfolios" class="section">
     <div class="container">
         <!-- SECTION TITLE -->
@@ -15,7 +15,7 @@
             <ul class="nav nav-tabs">
                 @foreach (var item in Model.Categories)
                 {
-                    <li class="waves-effect list-shuffle"><a class="cate" href="/Home/Category/@item.ID">@item.Category</a></li>
+                    <li class="waves-effect list-shuffle"><a class="cate" href="Portfolios/@HeaderInURL.Change(item.Category.Trim())/@IDAncryption.Encrypt(item.ID.ToString())">@item.Category.Trim()</a></li>
                 }
             </ul>
 
@@ -30,7 +30,7 @@
                             <figcaption>
                                 <h2>@item.Title</h2>
                                 <p>@(item.Description.Length > 50 ? item.Description.Remove(50) + "..." : item.Description)</p>
-                                <a href="/Home/Details/@item.ID">Ətraflı baxış</a>
+                                <a href="Portfolio/@HeaderInURL.Change(item.Title.Trim())/@IDAncryption.Encrypt(item.ID.ToString())">Ətraflı baxış</a>
                             </figcaption>
                         </figure>
                     </div>

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Resume.Business.Tools;
 using Resume.Models.Context;
 using Resume.Models.Entities;
 
@@ -43,14 +44,16 @@ namespace Resume.Areas.Admin.Controllers
             return View(controllerNames);
         }
 
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(string id)
         {
-            if (id == null)
+            if (id == null || IDAncryption.Decrypt(id) == "NotFound")
             {
                 return NotFound();
             }
+            int dID = Convert.ToInt32(IDAncryption.Decrypt(id));
 
-            var controllerNames = await _context.ControllerNames.FindAsync(id);
+
+            var controllerNames = await _context.ControllerNames.FindAsync(dID);
             if (controllerNames == null)
             {
                 return NotFound();
@@ -90,15 +93,16 @@ namespace Resume.Areas.Admin.Controllers
             return View(controllerNames);
         }
 
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(string id)
         {
-            if (id == null)
+            if (id == null || IDAncryption.Decrypt(id) == "NotFound")
             {
                 return NotFound();
             }
+            int dID = Convert.ToInt32(IDAncryption.Decrypt(id));
 
             var controllerNames = await _context.ControllerNames
-                .FirstOrDefaultAsync(m => m.ID == id);
+                .FirstOrDefaultAsync(m => m.ID == dID);
             if (controllerNames == null)
             {
                 return NotFound();

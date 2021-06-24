@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Resume.Business.Control;
+using Resume.Business.Tools;
 using Resume.Models;
 using Resume.Models.Context;
 using System;
@@ -31,23 +32,29 @@ namespace Resume.Controllers
             return View();
         }
 
-        public IActionResult Details(int? id)
+        [Route("Portfolio/{header}/{id}")]
+        public IActionResult Details(string id)
         {
-            if (id == null)
+            if (id == null || IDAncryption.Decrypt(id) == "NotFound")
             {
                 return NotFound();
             }
-            var portfolio = db.Portfolios.Find(id);
+            int dID = Convert.ToInt32(IDAncryption.Decrypt(id));
+
+            var portfolio = db.Portfolios.Find(dID);
             return View(portfolio);
         }
 
-        public IActionResult Category(int? id)
+        [Route("Portfolios/{category}/{id}")]
+        public IActionResult Category(string id)
         {
-            if (id == null)
+            if (id == null || IDAncryption.Decrypt(id) == "NotFound")
             {
                 return NotFound();
             }
-            var portfolios = db.Portfolios.Where(x => x.PortfolioCategoryID == id);
+            int dID = Convert.ToInt32(IDAncryption.Decrypt(id));
+
+            var portfolios = db.Portfolios.Where(x => x.PortfolioCategoryID == dID);
             ViewBag.Category = db.PortfolioCategories.Find(id).Category;
             return View(portfolios);
         }

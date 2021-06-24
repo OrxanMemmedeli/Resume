@@ -20,9 +20,9 @@
                         <div class="col-md-9">
                             <p><span><strong>@(say++)</strong></span>. @item.Name</p>
                         </div>
-                        <div class="col-md-1"><a asp-action="Edit" asp-route-id="@item.ID" title="Düzəliş et"><i class="fas fa-edit test" style="color:green"></i></a> </div>
-                        <div class="col-md-1"><a asp-action="Index" asp-controller="ActionNames" asp-route-id="@item.ID" title="Method-lar"><i class="fas fa-tools" style="color:purple"></i></a> </div>
-                        <div class="col-md-1"><a asp-action="Delete" asp-route-id="@item.ID" title="Sil"><i class="fas fa-trash-alt" style="color:red"></i></a></div>
+                        <div class="col-md-1"><a asp-action="Edit" asp-route-id="@IDAncryption.Encrypt(item.ID.ToString())" title="Düzəliş et"><i class="fas fa-edit test" style="color:green"></i></a> </div>
+                        <div class="col-md-1"><a asp-action="Index" asp-controller="ActionNames" asp-route-id="@IDAncryption.Encrypt(item.ID.ToString())" title="Method-lar"><i class="fas fa-tools" style="color:purple"></i></a> </div>
+                        <div class="col-md-1"><a asp-action="Delete" asp-route-id="@IDAncryption.Encrypt(item.ID.ToString())" title="Sil"><i class="fas fa-trash-alt" style="color:red"></i></a></div>
 
                     </div>
                 </div>

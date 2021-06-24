@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Resume.Business.Tools;
 using Resume.Models.Context;
 using Resume.Models.Entities;
 
@@ -20,25 +21,27 @@ namespace Resume.Areas.Admin.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index(int? id)
+        public async Task<IActionResult> Index(string id)
         {
-            if (id == null)
+            if (id == null || IDAncryption.Decrypt(id) == "NotFound")
             {
                 return NotFound();
             }
+            int dID = Convert.ToInt32(IDAncryption.Decrypt(id));
             ViewBag.Controller = id;
-            var resumeContext = _context.ActionNames.Where(x => x.ControllerNamesID == id).Include(a => a.ControllerNames);
+            var resumeContext = _context.ActionNames.Where(x => x.ControllerNamesID == dID).Include(a => a.ControllerNames);
             return View(await resumeContext.ToListAsync());
         }
 
 
-        public IActionResult Create(int? id)
+        public IActionResult Create(string id)
         {
-            if (id == null)
+            if (id == null || IDAncryption.Decrypt(id) == "NotFound")
             {
                 return NotFound();
             }
-            ViewBag.Controller = id;
+            int dID = Convert.ToInt32(IDAncryption.Decrypt(id));
+            ViewBag.Controller = dID;
             return View();
         }
 
@@ -51,20 +54,21 @@ namespace Resume.Areas.Admin.Controllers
             {
                 _context.Add(actionNames);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index), new { id = actionNames.ControllerNamesID});
+                return RedirectToAction(nameof(Index), new { id = IDAncryption.Encrypt(actionNames.ControllerNamesID.ToString())});
             }
             ViewBag.Controller = actionNames.ControllerNamesID;
             return View(actionNames);
         }
 
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(string id)
         {
-            if (id == null)
+            if (id == null || IDAncryption.Decrypt(id) == "NotFound")
             {
                 return NotFound();
             }
+            int dID = Convert.ToInt32(IDAncryption.Decrypt(id));
 
-            var actionNames = await _context.ActionNames.FindAsync(id);
+            var actionNames = await _context.ActionNames.FindAsync(dID);
             if (actionNames == null)
             {
                 return NotFound();
@@ -100,22 +104,23 @@ namespace Resume.Areas.Admin.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index), new { id = actionNames.ControllerNamesID });
+                return RedirectToAction(nameof(Index), new { id = IDAncryption.Encrypt(actionNames.ControllerNamesID.ToString()) });
             }
             ViewBag.Controller = actionNames.ControllerNamesID;
             return View(actionNames);
         }
 
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(string id)
         {
-            if (id == null)
+            if (id == null || IDAncryption.Decrypt(id) == "NotFound")
             {
                 return NotFound();
             }
+            int dID = Convert.ToInt32(IDAncryption.Decrypt(id));
 
             var actionNames = await _context.ActionNames
                 .Include(a => a.ControllerNames)
-                .FirstOrDefaultAsync(m => m.ID == id);
+                .FirstOrDefaultAsync(m => m.ID == dID);
             if (actionNames == null)
             {
                 return NotFound();
@@ -131,7 +136,7 @@ namespace Resume.Areas.Admin.Controllers
             var actionNames = await _context.ActionNames.FindAsync(id);
             _context.ActionNames.Remove(actionNames);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index), new { id = actionNames.ControllerNamesID });
+            return RedirectToAction(nameof(Index), new { id = IDAncryption.Encrypt(actionNames.ControllerNamesID.ToString()) });
         }
 
         private bool ActionNamesExists(int id)
