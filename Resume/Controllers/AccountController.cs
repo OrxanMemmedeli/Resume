@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
 using Resume.Business.Tools;
@@ -23,12 +24,15 @@ namespace Resume.Controllers
     {
         private readonly ResumeContext db;
         private readonly GoogleConfigModel _googleConfig;
+        private readonly ILogger<AccountController> _logger; // for NLOG
         //private readonly IActionContextAccessor _accessor;
 
-        public AccountController(ResumeContext context, IOptions<GoogleConfigModel> googleConfig/*, IActionContextAccessor accessor*/)
+        public AccountController(ResumeContext context, IOptions<GoogleConfigModel> googleConfig, ILogger<AccountController> logger/*, IActionContextAccessor accessor*/)
         {
             db = context;
             _googleConfig = googleConfig.Value;
+            _logger = logger;
+            _logger.LogDebug(1, "Nlog injected into AccountController");
             //_accessor = accessor;
         }
 
@@ -67,10 +71,11 @@ namespace Resume.Controllers
                     ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(useridentity);
 
                     HttpContext.SignInAsync(claimsPrincipal);
-
+                    _logger.LogInformation("Success");
                     return Redirect("/Admin/Info");
                 }
             }
+            _logger.LogWarning("Do not Login");
             return View();
         }
 

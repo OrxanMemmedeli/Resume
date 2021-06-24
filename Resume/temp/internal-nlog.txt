@@ -1,0 +1,4 @@
+2021-06-24 16:01:34.5016 Info Message Template Auto Format enabled
+2021-06-24 16:01:34.5307 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-24 16:01:34.6312 Info Adding target DatabaseTarget(Name=db)
+2021-06-24 16:01:34.7326 Info Validating config: TargetNames=db, ConfigItems=38, FilePath=C:\Users\ilqar imamaliyev\source\repos\Resume\Resume\bin\Debug\net5.0\nlog.config
