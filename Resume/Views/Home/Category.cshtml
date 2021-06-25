@@ -2,6 +2,7 @@
 @{
     Layout = null;
 }
+@using Resume.Business.Tools
 
 
 <!DOCTYPE html>
@@ -112,11 +113,11 @@
                         <!--CATEGORY CONTENT SIX SMALL-->
                         <div class="col-md-4 col-sm-6 col-xs-12 grid inLeft">
                             <figure class="port-effect-up">
-                                <img src="@item.FotoURL" class="img-responsive" alt="@item.ID" />
+                                <img src="@item.FotoURL" class="img-responsive" alt="@item.Title" />
                                 <figcaption>
                                     <h2>@item.Title</h2>
                                     <p>@(item.Description.Length > 50 ? item.Description.Remove(50) + "..." : item.Description)</p>
-                                    <a href="/Home/Details/@item.ID">Ətraflı baxış</a>
+                                    <a href="~/Portfolio/@HeaderInURL.Change(item.Title.Trim())/@IDAncryption.Encrypt(item.ID.ToString())">Ətraflı baxış</a>
                                 </figcaption>
                             </figure>
                         </div>

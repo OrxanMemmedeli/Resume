@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Resume.Business.Tools;
 using Resume.Models.Context;
 using Resume.Models.Entities;
 
@@ -20,39 +21,16 @@ namespace Resume.Areas.Admin.Controllers
             _context = context;
         }
 
-        // GET: Admin/HideTable
         public async Task<IActionResult> Index()
         {
             return View(await _context.HideTables.ToListAsync());
         }
 
-        // GET: Admin/HideTable/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var hideTable = await _context.HideTables
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (hideTable == null)
-            {
-                return NotFound();
-            }
-
-            return View(hideTable);
-        }
-
-        // GET: Admin/HideTable/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Admin/HideTable/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,TableName,Status")] HideTable hideTable)
@@ -66,15 +44,15 @@ namespace Resume.Areas.Admin.Controllers
             return View(hideTable);
         }
 
-        // GET: Admin/HideTable/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(string id)
         {
-            if (id == null)
+            if (id == null || IDAncryption.Decrypt(id) == "NotFound")
             {
                 return NotFound();
             }
+            int dID = Convert.ToInt32(IDAncryption.Decrypt(id));
 
-            var hideTable = await _context.HideTables.FindAsync(id);
+            var hideTable = await _context.HideTables.FindAsync(dID);
             if (hideTable == null)
             {
                 return NotFound();
@@ -82,9 +60,6 @@ namespace Resume.Areas.Admin.Controllers
             return View(hideTable);
         }
 
-        // POST: Admin/HideTable/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,TableName,Status")] HideTable hideTable)
@@ -117,16 +92,17 @@ namespace Resume.Areas.Admin.Controllers
             return View(hideTable);
         }
 
-        // GET: Admin/HideTable/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+ 
+        public async Task<IActionResult> Delete(string id)
         {
-            if (id == null)
+            if (id == null || IDAncryption.Decrypt(id) == "NotFound")
             {
                 return NotFound();
             }
+            int dID = Convert.ToInt32(IDAncryption.Decrypt(id));
 
             var hideTable = await _context.HideTables
-                .FirstOrDefaultAsync(m => m.ID == id);
+                .FirstOrDefaultAsync(m => m.ID == dID);
             if (hideTable == null)
             {
                 return NotFound();

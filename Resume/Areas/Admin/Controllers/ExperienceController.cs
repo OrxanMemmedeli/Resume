@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Resume.Business.Tools;
 using Resume.Models.Context;
 using Resume.Models.Entities;
 
@@ -46,14 +47,15 @@ namespace Resume.Areas.Admin.Controllers
         }
 
 
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(string id)
         {
-            if (id == null)
+            if (id == null || IDAncryption.Decrypt(id) == "NotFound")
             {
                 return NotFound();
             }
+            int dID = Convert.ToInt32(IDAncryption.Decrypt(id));
 
-            var experience = await _context.Experiences.FindAsync(id);
+            var experience = await _context.Experiences.FindAsync(dID);
             if (experience == null)
             {
                 return NotFound();
@@ -95,15 +97,16 @@ namespace Resume.Areas.Admin.Controllers
         }
 
 
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(string id)
         {
-            if (id == null)
+            if (id == null || IDAncryption.Decrypt(id) == "NotFound")
             {
                 return NotFound();
             }
+            int dID = Convert.ToInt32(IDAncryption.Decrypt(id));
 
             var experience = await _context.Experiences
-                .FirstOrDefaultAsync(m => m.ID == id);
+                .FirstOrDefaultAsync(m => m.ID == dID);
             if (experience == null)
             {
                 return NotFound();

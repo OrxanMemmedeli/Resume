@@ -30,7 +30,7 @@
                             <figcaption>
                                 <h2>@item.Title</h2>
                                 <p>@(item.Description.Length > 50 ? item.Description.Remove(50) + "..." : item.Description)</p>
-                                <a href="Portfolio/@HeaderInURL.Change(item.Title.Trim())/@IDAncryption.Encrypt(item.ID.ToString())">Ətraflı baxış</a>
+                                <a href="~/Portfolio/@HeaderInURL.Change(item.Title.Trim())/@IDAncryption.Encrypt(item.ID.ToString())">Ətraflı baxış</a>
                             </figcaption>
                         </figure>
                     </div>

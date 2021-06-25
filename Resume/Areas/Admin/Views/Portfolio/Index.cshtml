@@ -1,11 +1,10 @@
 ﻿@model IEnumerable<Resume.Models.Entities.Portfolio>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Portfellər";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Index</h1>
 
 <p>
     <a asp-action="Create" class="btn btn-outline-success">Əlavə Et</a>
@@ -57,9 +56,9 @@
                     @Html.DisplayFor(modelItem => item.PortfolioCategory.Category)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.ID" title="Düzəliş et"><i class="fas fa-edit test" style="color:green"></i></a> |
-                    <a asp-action="Details" asp-route-id="@item.ID" title="Ətraflı baxış"><i class="fas fa-info-circle" style="color:deeppink"></i></a> |
-                    <a asp-action="Delete" asp-route-id="@item.ID" title="Sil"><i class="fas fa-trash-alt" style="color:red"></i></a>
+                    <a asp-action="Edit" asp-route-id="@IDAncryption.Encrypt(item.ID.ToString())" title="Düzəliş et"><i class="fas fa-edit test" style="color:green"></i></a> |
+                    <a asp-action="Details" asp-route-id="@IDAncryption.Encrypt(item.ID.ToString())" title="Ətraflı baxış"><i class="fas fa-info-circle" style="color:deeppink"></i></a> |
+                    <a asp-action="Delete" asp-route-id="@IDAncryption.Encrypt(item.ID.ToString())" title="Sil"><i class="fas fa-trash-alt" style="color:red"></i></a>
                 </td>
             </tr>
         }

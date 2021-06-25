@@ -55,7 +55,7 @@ namespace Resume.Controllers
             int dID = Convert.ToInt32(IDAncryption.Decrypt(id));
 
             var portfolios = db.Portfolios.Where(x => x.PortfolioCategoryID == dID);
-            ViewBag.Category = db.PortfolioCategories.Find(id).Category;
+            ViewBag.Category = db.PortfolioCategories.Find(dID).Category;
             return View(portfolios);
         }
 

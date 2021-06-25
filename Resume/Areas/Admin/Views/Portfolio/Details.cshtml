@@ -177,7 +177,7 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" class="btn btn-outline-warning">Düzəliş et</a>
+    <a asp-action="Edit" asp-route-id="@IDAncryption.Encrypt(Model.ID.ToString())" class="btn btn-outline-warning">Düzəliş et</a>
     <a asp-action="Index" class="btn btn-dark">Geri</a>
 </div>
 

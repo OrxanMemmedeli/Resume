@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Resume.Business.Tools;
 using Resume.Models.Context;
 using Resume.Models.Entities;
 
@@ -46,14 +47,15 @@ namespace Resume.Areas.Admin.Controllers
             return View(skill);
         }
 
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(string id)
         {
-            if (id == null)
+            if (id == null || IDAncryption.Decrypt(id) == "NotFound")
             {
                 return NotFound();
             }
+            int dID = Convert.ToInt32(IDAncryption.Decrypt(id));
 
-            var skill = await _context.Skills.FindAsync(id);
+            var skill = await _context.Skills.FindAsync(dID);
             if (skill == null)
             {
                 return NotFound();
@@ -95,16 +97,17 @@ namespace Resume.Areas.Admin.Controllers
             return View(skill);
         }
 
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(string id)
         {
-            if (id == null)
+            if (id == null || IDAncryption.Decrypt(id) == "NotFound")
             {
                 return NotFound();
             }
+            int dID = Convert.ToInt32(IDAncryption.Decrypt(id));
 
             var skill = await _context.Skills
                 .Include(s => s.SkillCategory)
-                .FirstOrDefaultAsync(m => m.ID == id);
+                .FirstOrDefaultAsync(m => m.ID == dID);
             if (skill == null)
             {
                 return NotFound();

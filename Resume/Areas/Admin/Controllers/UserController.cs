@@ -84,17 +84,18 @@ namespace Resume.Areas.Admin.Controllers
 
         }
 
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(string id)
         {
             bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "User", "Edit");
             if (roleStatus)
             {
-                if (id == null)
+                if (id == null || IDAncryption.Decrypt(id) == "NotFound")
                 {
                     return NotFound();
                 }
+                int dID = Convert.ToInt32(IDAncryption.Decrypt(id));
 
-                var user = await _context.Users.FindAsync(id);
+                var user = await _context.Users.FindAsync(dID);
                 if (user == null)
                 {
                     return NotFound();
@@ -209,18 +210,19 @@ namespace Resume.Areas.Admin.Controllers
 
         }
 
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(string id)
         {
             bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "User", "Delete");
             if (roleStatus)
             {
-                if (id == null)
+                if (id == null || IDAncryption.Decrypt(id) == "NotFound")
                 {
                     return NotFound();
                 }
+                int dID = Convert.ToInt32(IDAncryption.Decrypt(id));
 
                 var user = await _context.Users
-                    .FirstOrDefaultAsync(m => m.ID == id);
+                    .FirstOrDefaultAsync(m => m.ID == dID);
                 if (user == null)
                 {
                     return NotFound();

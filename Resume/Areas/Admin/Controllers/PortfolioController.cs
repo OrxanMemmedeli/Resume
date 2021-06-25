@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Resume.Business.Tools;
 using Resume.Models.Context;
 using Resume.Models.Entities;
 
@@ -26,16 +27,17 @@ namespace Resume.Areas.Admin.Controllers
             return View(await resumeContext.ToListAsync());
         }
 
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(string id)
         {
-            if (id == null)
+            if (id == null || IDAncryption.Decrypt(id) == "NotFound")
             {
                 return NotFound();
             }
+            int dID = Convert.ToInt32(IDAncryption.Decrypt(id));
 
             var portfolio = await _context.Portfolios
                 .Include(p => p.PortfolioCategory)
-                .FirstOrDefaultAsync(m => m.ID == id);
+                .FirstOrDefaultAsync(m => m.ID == dID);
             if (portfolio == null)
             {
                 return NotFound();
@@ -64,14 +66,15 @@ namespace Resume.Areas.Admin.Controllers
             return View(portfolio);
         }
 
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(string id)
         {
-            if (id == null)
+            if (id == null || IDAncryption.Decrypt(id) == "NotFound")
             {
                 return NotFound();
             }
+            int dID = Convert.ToInt32(IDAncryption.Decrypt(id));
 
-            var portfolio = await _context.Portfolios.FindAsync(id);
+            var portfolio = await _context.Portfolios.FindAsync(dID);
             if (portfolio == null)
             {
                 return NotFound();
@@ -113,16 +116,17 @@ namespace Resume.Areas.Admin.Controllers
             return View(portfolio);
         }
 
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(string id)
         {
-            if (id == null)
+            if (id == null || IDAncryption.Decrypt(id) == "NotFound")
             {
                 return NotFound();
             }
+            int dID = Convert.ToInt32(IDAncryption.Decrypt(id));
 
             var portfolio = await _context.Portfolios
                 .Include(p => p.PortfolioCategory)
-                .FirstOrDefaultAsync(m => m.ID == id);
+                .FirstOrDefaultAsync(m => m.ID == dID);
             if (portfolio == null)
             {
                 return NotFound();

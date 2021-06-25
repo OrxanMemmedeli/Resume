@@ -32,8 +32,8 @@
                     @Html.DisplayFor(modelItem => item.Status)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.ID" title="Düzəliş et"><i class="fas fa-edit test" style="color:green"></i></a> |
-                    <a asp-action="Delete" asp-route-id="@item.ID" title="Sil"><i class="fas fa-trash-alt" style="color:red"></i></a>
+                    <a asp-action="Edit" asp-route-id="@IDAncryption.Encrypt(item.ID.ToString())"><i class="fas fa-edit test" style="color:green"></i></a> |
+                    <a asp-action="Delete" asp-route-id="@IDAncryption.Encrypt(item.ID.ToString())" title="Sil"><i class="fas fa-trash-alt" style="color:red"></i></a>
                 </td>
             </tr>
         }
