@@ -6,10 +6,21 @@
 }
 
 
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.flash.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.print.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.colVis.min.js"></script>
+
 <p>
     <a asp-action="Create" class="btn btn-outline-success">Əlavə Et</a>
 </p>
-<table class="table">
+<table class="table table-bordered" id="zero_config">
     <thead>
         <tr>
             <th>
@@ -64,3 +75,55 @@
         }
     </tbody>
 </table>
+
+<script>
+    /****************************************
+     *       Basic Table                   *
+     ****************************************/
+    $('#zero_config').DataTable({
+        order: [[6, "asc"]],
+        lengthMenu: [
+            [10, 25, 50, -1],
+            ['10 sətr', '25 sətr', '50 sətr', 'Hamısını göstər']
+        ],
+        language: {
+            "sDecimal": ",",
+            "sEmptyTable": "Cədvəldə məlumat yoxdur",
+            "sInfo": "Əks olunan sətr aralığı: _START_ və _END_ . (Ümumi sətr sayı: _TOTAL_)",
+            "sInfoEmpty": "Məlumat yoxdur",
+            "sInfoFiltered": "(_MAX_ sətr içerisindən tapılan)",
+            "sInfoPostFix": "",
+            "sInfoThousands": ".",
+            "sLengthMenu": "Əks olunan sətr sayı: _MENU_ ",
+            "sLoadingRecords": "Yüklənir...",
+            "sProcessing": "İşlənir...",
+            "sSearch": "Axtar:",
+            "sZeroRecords": "Axtarışa uyğun nəticə tapılmadı",
+            "oPaginate": {
+                "sFirst": "İlk",
+                "sLast": "Son",
+                "sNext": "Sonraki",
+                "sPrevious": "Əvvəlki"
+            },
+            "oAria": {
+                "sSortAscending": ": artan sütun sıralamasını aktivləşdir",
+                "sSortDescending": ": azalan sütun sıralamasını aktivləşdir"
+            },
+            "select": {
+                "rows": {
+                    "_": "%d sətr seçildi",
+                    "0": "",
+                    "1": "1 sətr seçildi"
+                }
+            },
+            "buttons": {
+                "copyTitle": "Məlumatlar kopyalandı.",
+                "copySuccess": "%d qeyd sətri kopyalandı",
+                "copy": "Kopyala",
+                "print": "Print",
+                "colvis": "Sütunları Gizlət",
+                "pageLength": "Sətr Sayı"
+            },
+        },
+    });
+</script>
