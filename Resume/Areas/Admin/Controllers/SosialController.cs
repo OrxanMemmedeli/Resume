@@ -20,39 +20,16 @@ namespace Resume.Areas.Admin.Controllers
             _context = context;
         }
 
-        // GET: Admin/Sosial
         public async Task<IActionResult> Index()
         {
             return View(await _context.Sosials.ToListAsync());
         }
 
-        // GET: Admin/Sosial/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var sosial = await _context.Sosials
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (sosial == null)
-            {
-                return NotFound();
-            }
-
-            return View(sosial);
-        }
-
-        // GET: Admin/Sosial/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Admin/Sosial/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,Name,Icon,PageURL")] Sosial sosial)
@@ -66,7 +43,6 @@ namespace Resume.Areas.Admin.Controllers
             return View(sosial);
         }
 
-        // GET: Admin/Sosial/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -82,9 +58,7 @@ namespace Resume.Areas.Admin.Controllers
             return View(sosial);
         }
 
-        // POST: Admin/Sosial/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Name,Icon,PageURL")] Sosial sosial)
@@ -117,7 +91,6 @@ namespace Resume.Areas.Admin.Controllers
             return View(sosial);
         }
 
-        // GET: Admin/Sosial/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -135,7 +108,6 @@ namespace Resume.Areas.Admin.Controllers
             return View(sosial);
         }
 
-        // POST: Admin/Sosial/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

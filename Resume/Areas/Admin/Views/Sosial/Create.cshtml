@@ -1,41 +1,44 @@
 ﻿@model Resume.Models.Entities.Sosial
 
 @{
-    ViewData["Title"] = " - Əlavə Et";
+    ViewData["Title"] = "Sosial - Əlavə Et";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Create</h1>
-
-<h4>Sosial</h4>
+<h4>Sosial - Əlavə Et</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create" class="form-disable">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
+                <label class="control-label">Səhifə adı</label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Icon" class="control-label"></label>
+                <label class="control-label">İcon <small><a href="https://fontawesome.com/v5.15/icons?d=gallery&p=2&m=free" target="_blank">iconlara keçid</a></small> </label>
                 <input asp-for="Icon" class="form-control" />
                 <span asp-validation-for="Icon" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PageURL" class="control-label"></label>
+                <label class="control-label">URL</label>
                 <input asp-for="PageURL" class="form-control" />
                 <span asp-validation-for="PageURL" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input id="submit" data-submit-value="GÖZLƏYİN..." type="submit" value="Əlavə Et" class="btn btn-outline-primary">
+                <a asp-action="Index" class="btn btn-dark">Geri</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-                <a asp-action="Index" class="btn btn-dark">Geri</a>
-</div>
-
+<script>
+    $('.form-disable').on('submit', function () {
+        var self = $(this),
+            button = self.find('input[type=submit],button'),
+            submitValue = button.data('submit-value');
+        button.attr('disabled', 'disabled').val((submitValue) ? submitValue : 'GÖZLƏYİN...');
+    });
+</script>

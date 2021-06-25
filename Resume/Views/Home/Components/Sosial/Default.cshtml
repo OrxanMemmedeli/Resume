@@ -1,10 +1,11 @@
 ﻿@model IEnumerable<Resume.Models.Entities.Sosial>
+    <script src="https://use.fontawesome.com/7b0b2c68b4.js"></script>
 
     <div class="links">
         @foreach (var item in Model)
         {
-        <a href="@item.PageURL">
-            <i class="fab fa-github text-primary" style="font-size:35px"></i>
-        </a>
+            <a href="@item.PageURL">
+                @Html.Raw(item.Icon)
+            </a>
         }
     </div>
