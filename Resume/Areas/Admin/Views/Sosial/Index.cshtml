@@ -19,7 +19,7 @@
 <p>
     <a asp-action="Create" class="btn btn-outline-success">Əlavə Et</a>
 </p>
-<table class="table table-bordered" id="zero_config">
+<table class="table" id="zero_config">
     <thead>
         <tr>
             <th>
@@ -61,7 +61,7 @@
      *       Basic Table                   *
      ****************************************/
     $('#zero_config').DataTable({
-        order: [[6, "asc"]],
+        order: [[3, "asc"]],
         lengthMenu: [
             [10, 25, 50, -1],
             ['10 sətr', '25 sətr', '50 sətr', 'Hamısını göstər']
