@@ -77,6 +77,8 @@ namespace Resume.Areas.Admin.Controllers
         public async Task<IActionResult> Create(ContactViewModel contact)
         {
             var isValid = IsReCaptchValidV3(contact.captcha);
+            contact = contact.ProtectForSQLInjection(contact);
+
             if (isValid)
             {
                 Contact _contact = contact;
@@ -91,6 +93,7 @@ namespace Resume.Areas.Admin.Controllers
                     return Redirect("~/");
                 }
             }
+
             return Redirect("~/");
         }
 

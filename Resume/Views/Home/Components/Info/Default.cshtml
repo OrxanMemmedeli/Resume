@@ -1,5 +1,4 @@
 ﻿@model Resume.Models.Entities.Info
-
 <!--==========================================
                   PRE-LOADER
 ===========================================-->
@@ -32,16 +31,36 @@
                 <img alt="logo" class="img-responsive" src="~/images/logos/KHAN.jpg">
             </div>
             <br>
+            @if (TempData["FrontList"] != null)
+            {
+                if (!TempData["FrontList"].ToString().Contains("INFO"))
+                {
+                    <a href="#home"><i class="title-icon fa fa-user"></i>Ana Səhifə</a>
+                    <a href="#about"><i class="title-icon fa fa-dashboard"></i>Haqqımda</a>
+                }
+                if (!TempData["FrontList"].ToString().Contains("EDUCATION"))
+                {
+                    <a href="#education"><i class="title-icon fa fa-graduation-cap"></i>Təhsil</a>
+                }
+                if (!TempData["FrontList"].ToString().Contains("SKILLS"))
+                {
+                    <a href="#skills"><i class="title-icon fa fa-sliders"></i>Biliklər </a>
+                }
+                if (!TempData["FrontList"].ToString().Contains("EXPERIENCE"))
+                {
+                    <a href="#experience"><i class="title-icon fa fa-suitcase"></i>Təcrübə </a>
+                }
+                if (!TempData["FrontList"].ToString().Contains("PORTFOLIOS"))
+                {
+                    <a href="#portfolios"><i class="title-icon fa fa-archive"></i>Protfellər </a>
+                }
+                if (!TempData["FrontList"].ToString().Contains("CONTACT"))
+                {
+                    <a href="#contact"><i class="title-icon fa fa-envelope"></i>Əlaqə </a>
+                }
 
-            <!--OPTIONS-->
-            <a href="#home"><i class="title-icon fa fa-user"></i>Ana Səhifə</a>
-            <a href="#about"><i class="title-icon fa fa-dashboard"></i>Haqqımda</a>
-            <a href="#education"><i class="title-icon fa fa-graduation-cap"></i>Təhsil</a>
-            <a href="#skills"><i class="title-icon fa fa-sliders"></i>Biliklər </a>
-            <a href="#experience"><i class="title-icon fa fa-suitcase"></i>Təcrübə </a>
-            <a href="#portfolios"><i class="title-icon fa fa-archive"></i>Protfellər </a>
-            <a href="#blog"><i class="title-icon fa fa-pencil-square"></i>Bloq </a>
-            <a href="#contact"><i class="title-icon fa fa-envelope"></i>Əlaqə </a>
+                <!--OPTIONS-->
+            }
         </div>
 
         <!-- MENU BUTTON -->
@@ -81,10 +100,10 @@
 
                         <!--VIDEO PLAY BUTTON-->
                         @*<div id="button-holder" class="btn-holder">
-            <div id="play-btn" class="btn-floating btn-large btn-play">
-                <i id="icon-play" class="material-icons">play_arrow</i>
-            </div>
-        </div>*@
+                                <div id="play-btn" class="btn-floating btn-large btn-play">
+                                    <i id="icon-play" class="material-icons">play_arrow</i>
+                                </div>
+                            </div>*@
                     </div>
                     <!--VIDEO CLOSE BUTTON-->
                     @*<div id="close-btn" class="btn-floating icon-close">

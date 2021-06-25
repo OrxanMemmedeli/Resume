@@ -25,15 +25,13 @@ namespace Resume.Controllers
         private readonly ResumeContext db;
         private readonly GoogleConfigModel _googleConfig;
         private readonly ILogger<AccountController> _logger; // for NLOG
-        //private readonly IActionContextAccessor _accessor;
 
-        public AccountController(ResumeContext context, IOptions<GoogleConfigModel> googleConfig, ILogger<AccountController> logger/*, IActionContextAccessor accessor*/)
+        public AccountController(ResumeContext context, IOptions<GoogleConfigModel> googleConfig, ILogger<AccountController> logger)
         {
             db = context;
             _googleConfig = googleConfig.Value;
             _logger = logger;
             _logger.LogDebug(1, "Nlog injected into AccountController");
-            //_accessor = accessor;
         }
 
         public IActionResult Login()
@@ -45,13 +43,8 @@ namespace Resume.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Login(LoginDatasViewModel loginDatas)
         {
-            //loginDatas = loginDatas.ProtectForSQLInjection(loginDatas);
+            loginDatas = loginDatas.ProtectForSQLInjection(loginDatas);
             var isValid = IsReCaptchValidV3(loginDatas.captcha);
-            //var ip = _accessor.ActionContext.HttpContext.Connection.RemoteIpAddress.ToString();
-            //if (ip != null)
-            //{
-
-            //}
             
             if (ModelState.IsValid == true && isValid == true)
             {

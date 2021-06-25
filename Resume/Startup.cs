@@ -37,8 +37,6 @@ namespace Resume
 
             services.AddControllersWithViews().AddFluentValidation(o => o.RegisterValidatorsFromAssemblyContaining<Startup>());
 
-            //services.AddSingleton<IActionContextAccessor, ActionContextAccessor>(); // for client IP adress
-
             services.Configure<GoogleConfigModel>(Configuration.GetSection(GoogleConfigModel.GoogleConfig)); //recaptcha
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(o =>
