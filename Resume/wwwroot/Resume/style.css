@@ -13,6 +13,7 @@ html {
 body {
     padding: 2rem 1.5rem;
     background: linear-gradient(#dfe0db, #dfe0db 70%, #fcebe1 30%, #fcebe1);
+
     /*   background: linear-gradient (#888, #888 50%, salmon 50%, salmon); */
 }
 
