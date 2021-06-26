@@ -1,0 +1,162 @@
+﻿@model Resume.Models.ViewModels.ResumeViewModel
+@{
+    Layout = null;
+    string educationDate = string.Empty;
+    string experienceDate = string.Empty;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width" />
+    <title>DownloadCV</title>
+    <meta name="author" content="Khan">
+    <meta name="description" content="M. Orxan CV/Resume">
+    <meta name="keywords" content="Khan">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/images/logos/KHAN.jpg">
+
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+
+    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js" integrity="sha384-SlE991lGASHoBfWbelyBPLsUlwY1GwNDJo3jSJO04KZ33K2bwfV9YBauFfnzvynJ" crossorigin="anonymous"></script>
+
+    <script src="https://use.fontawesome.com/7b0b2c68b4.js"></script>
+    <link href="~/Resume/style.css" rel="stylesheet" />
+    <script>
+        window.addEventListener("pageshow", function (event) {
+            var historyTraversal = event.persisted ||
+                (typeof window.performance != "undefined" &&
+                    window.performance.navigation.type === 2);
+            if (historyTraversal) {
+                // Handle page restore.
+                window.location.reload(true);
+            }
+        });
+    </script>
+</head>
+<body>
+
+
+    <div class="resume">
+        <div class="column">
+            <div class="grid">
+                <section class="profile">
+                    <h1>@Model.Info.Name @Model.Info.Surname</h1>
+                    <p><em>@Model.Info.Speciality</em></p>
+                    <img src="@Model.Info.FotoURL" alt="">
+                </section>
+                <section class="socials">
+                    <h2>ƏLAQƏ</h2>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> @Model.Info.Adress </li>
+                        <li><i class="fas fa-birthday-cake"></i> @Model.Info.BirthDate.ToString("dd-MM-yyyy") </li>
+                        <li><i class="fas fa-phone"></i> @Model.Info.Telephone </li>
+                        <li><i class="fas fa-at"></i> @Model.Info.Email </li>
+                        @foreach (var item in Model.Sosials)
+                        {
+                            <li>@Html.Raw(item.Icon) <a href="@item.PageURL">@item.Name</a></li>
+                        }
+                    </ul>
+                </section>
+            </div>
+
+            <section class="objectives">
+                <h2>HAQQIMDA</h2>
+                <p style="font-size:1.25rem">
+                    @Html.Raw(Model.Info.About)
+                </p>
+            </section>
+
+            <section class="education">
+                <h2>TƏHSİL</h2>
+                <ul class="timeline">
+                    @foreach (var item in Model.Educations)
+                    {
+                        if (item.ShowMonth)
+                        {
+                            educationDate += "MM.";
+                        }
+                        if (item.ShowYear)
+                        {
+                            educationDate += "yyyy";
+                        }
+                        <li class="event">
+                            <span class="duration">@item.StartDate.ToString(educationDate)  <span style="color:salmon">@(item.Present == true? "Dəvam edir" : item.EndDate.ToString(educationDate))</span></span>
+                            @(educationDate = null)
+                            <div class="content">
+                                <h3>@item.EducationCenter</h3>
+                                <p><em><strong>@item.Description</strong></em></p>
+                                <p>* @item.Faculty</p>
+                                <p>* @item.Specialty</p>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </section>
+
+            <section class="experience">
+                <h2>TƏCRÜBƏ</h2>
+                <ul class="timeline">
+                    @foreach (var item in Model.Experiences)
+                    {
+                        if (item.ShowMonth)
+                        {
+                            experienceDate += "MM.";
+                        }
+                        if (item.ShowYear)
+                        {
+                            experienceDate += "yyyy";
+                        }
+                        <li class="event">
+                            <span class="duration">@item.StartDate.ToString(experienceDate)  <span style="color:salmon">@(item.Present == true? "Dəvam edir" : item.EndDate.ToString(experienceDate))</span></span>
+                            @(experienceDate = null)
+                            <div class="content">
+                                <h3>@item.Company</h3>
+                                <p><em><strong>@item.Position</strong></em></p>
+                                <p>* @item.Description</p>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </section>
+
+            <section class="skills">
+                <h2>BİLİK VƏ BACARIQLAR</h2>
+                <ul>
+                    <li>
+                        <h3>Professional</h3>
+                        <ul>
+                            <li>Lorem.</li>
+                            <li>A?</li>
+                            <li>Possimus.</li>
+                            <li>Quaerat?</li>
+                            <li>Enim.</li>
+                            <li>Illo!</li>
+                            <li>Optio.</li>
+                            <li>Tenetur!</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <h3>Personal</h3>
+                        <ul>
+                            <li>Lorem.</li>
+                            <li>Nesciunt?</li>
+                            <li>Nulla.</li>
+                            <li>Eligendi.</li>
+                            <li>Nesciunt.</li>
+                            <li>Excepturi!</li>
+                            <li>Dolore?</li>
+                            <li>Quod.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+        </div>
+
+        <div class="column">
+
+        </div>
+    </div>
+</body>
+</html>

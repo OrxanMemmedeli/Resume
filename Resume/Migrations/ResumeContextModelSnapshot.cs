@@ -98,30 +98,6 @@ namespace Resume.Migrations
                     b.ToTable("BlogCategories");
                 });
 
-            modelBuilder.Entity("Resume.Models.Entities.ClientIP", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("AtempTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ClientIPAdress")
-                        .HasColumnType("varchar(15)");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Password")
-                        .HasColumnType("nvarchar(20)");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("ClientIPs");
-                });
-
             modelBuilder.Entity("Resume.Models.Entities.Contact", b =>
                 {
                     b.Property<int>("ID")
@@ -334,6 +310,9 @@ namespace Resume.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("About")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Adress")
                         .HasColumnType("nvarchar(150)");

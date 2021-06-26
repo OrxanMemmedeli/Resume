@@ -32,6 +32,8 @@ namespace Resume.Models.Entities
         public string FotoURL { get; set; }
         [Column(TypeName = "nvarchar(max)")]
         public string Coordinates { get; set; }
+        [Column(TypeName = "nvarchar(max)")]
+        public string About { get; set; }
 
 
         [NotMapped]

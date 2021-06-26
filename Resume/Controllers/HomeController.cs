@@ -5,6 +5,7 @@ using Resume.Business.Control;
 using Resume.Business.Tools;
 using Resume.Models;
 using Resume.Models.Context;
+using Resume.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -57,6 +58,19 @@ namespace Resume.Controllers
             var portfolios = db.Portfolios.Where(x => x.PortfolioCategoryID == dID);
             ViewBag.Category = db.PortfolioCategories.Find(dID).Category;
             return View(portfolios);
+        }
+
+        [Route("DownloadCV")]
+        public IActionResult DownloadCV()
+        {
+            ResumeViewModel model = new ResumeViewModel();
+            model.Info = db.Infos.SingleOrDefault();
+            model.Educations = db.Educations.ToList();
+            model.Experiences = db.Experiences.ToList();
+            model.Skills = db.Skills.ToList();
+            model.Sosials = db.Sosials.ToList();
+            model.Portfolios = db.Portfolios.ToList();
+            return View(model);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -13,8 +13,8 @@ namespace Resume.Models.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=ILQAR\SQLEXPRESS01; Database=ResumeCore; Integrated Security = true;");
-            //optionsBuilder.UseSqlServer(@"Server=DESKTOP-TROAMS4; Database=ResumeCore; Integrated Security = true;");
+            //optionsBuilder.UseSqlServer(@"Server=ILQAR\SQLEXPRESS01; Database=ResumeCore; Integrated Security = true;");
+            optionsBuilder.UseSqlServer(@"Server=DESKTOP-TROAMS4; Database=ResumeCore; Integrated Security = true;");
 
             //optionsBuilder.UseSqlServer("data source=ILQAR\SQLEXPRESS01-DESKTOP-TROAMS4; initial catalog=CoreTicketSales; Integrated Security = true;");
         }
@@ -34,7 +34,6 @@ namespace Resume.Models.Context
         public DbSet<User> Users { get; set; }
         public DbSet<HideTable> HideTables { get; set; }
         public DbSet<ActionUser> ActionUsers { get; set; }
-        public DbSet<ClientIP> ClientIPs { get; set; }
         public DbSet<EmailConfig> EmailConfigs { get; set; }
         public DbSet<ControllerNames> ControllerNames { get; set; }
         public DbSet<ControllerActionUser> ControllerActionUsers { get; set; }
