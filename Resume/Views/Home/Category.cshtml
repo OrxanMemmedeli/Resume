@@ -1,7 +1,11 @@
-﻿@model IEnumerable<Resume.Models.Entities.Portfolio>
+﻿@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+
+@model IPagedList<Resume.Models.Entities.Portfolio>
 @{
     Layout = null;
 }
+
 @using Resume.Business.Tools
 
 
@@ -51,7 +55,7 @@
 
 
     <script src="https://use.fontawesome.com/7b0b2c68b4.js"></script>
-    <script src="~/Default/lib/jquery/dist/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://code.jquery.com/jquery-3.5.1.js">
     <script>
         window.addEventListener("pageshow", function (event) {
             var historyTraversal = event.persisted ||
@@ -122,8 +126,11 @@
                             </figure>
                         </div>
                     }
+
+
                 </div>
-            </div>
+            </div>                    
+            @Html.PagedListPager((IPagedList)Model, page => Url.Action("Category", new { page }))
         </div>
     </section>
 

@@ -10,12 +10,11 @@
             <h4 class="text-uppercase text-center"><img src="~/images/icons/safe.png" alt="demo">Portfellər (Portfolios)</h4>
         </div>
         <div id="portfolios-card" class="row">
-
             <!--OPTIONS-->
             <ul class="nav nav-tabs">
                 @foreach (var item in Model.Categories)
                 {
-                    <li class="waves-effect list-shuffle"><a class="cate" href="Portfolios/@HeaderInURL.Change(item.Category.Trim())/@IDAncryption.Encrypt(item.ID.ToString())">@item.Category.Trim()</a></li>
+                    <li class="waves-effect list-shuffle"><a class="cate" href="~/Portfolios/@HeaderInURL.Change(item.Category.Trim())/@IDAncryption.Encrypt(item.ID.ToString())">@item.Category.Trim()</a></li>
                 }
             </ul>
 

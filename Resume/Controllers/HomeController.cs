@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using X.PagedList;
 
 namespace Resume.Controllers
 {
@@ -47,7 +48,7 @@ namespace Resume.Controllers
         }
 
         [Route("Portfolios/{category}/{id}")]
-        public IActionResult Category(string id)
+        public IActionResult Category(string id, int page = 1)
         {
             if (id == null || IDAncryption.Decrypt(id) == "NotFound")
             {
@@ -55,7 +56,7 @@ namespace Resume.Controllers
             }
             int dID = Convert.ToInt32(IDAncryption.Decrypt(id));
 
-            var portfolios = db.Portfolios.Where(x => x.PortfolioCategoryID == dID);
+            var portfolios = db.Portfolios.Where(x => x.PortfolioCategoryID == dID).ToPagedList(page,9);
             ViewBag.Category = db.PortfolioCategories.Find(dID).Category;
             return View(portfolios);
         }

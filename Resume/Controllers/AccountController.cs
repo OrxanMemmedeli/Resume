@@ -68,7 +68,7 @@ namespace Resume.Controllers
                     return Redirect("/Admin/Info");
                 }
             }
-            _logger.LogWarning("Do not Login");
+            _logger.LogWarning("Login Faild");
             return View();
         }
 
