@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Resume.Business.Control;
 using Resume.Business.Tools;
 using Resume.Models.Context;
 using Resume.Models.Entities;
@@ -20,106 +21,168 @@ namespace Resume.Areas.Admin.Controllers
         {
             _context = context;
         }
-
+        CurrentUser currentUser = new CurrentUser();
         public async Task<IActionResult> Index()
         {
-            return View(await _context.HideTables.ToListAsync());
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "HideTable", "Index");
+            if (roleStatus)
+            {
+                return View(await _context.HideTables.ToListAsync());
+            }
+            else
+            {
+                return Redirect("/Account/Denied");
+            }
+
         }
 
         public IActionResult Create()
         {
-            return View();
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "HideTable", "Create");
+            if (roleStatus)
+            {
+                return View();
+            }
+            else
+            {
+                return Redirect("/Account/Denied");
+            }
+
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,TableName,Status")] HideTable hideTable)
         {
-            if (ModelState.IsValid)
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "HideTable", "Create");
+            if (roleStatus)
             {
-                _context.Add(hideTable);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    _context.Add(hideTable);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(hideTable);
             }
-            return View(hideTable);
+            else
+            {
+                return Redirect("/Account/Denied");
+            }
+
         }
 
         public async Task<IActionResult> Edit(string id)
         {
-            if (id == null || IDAncryption.Decrypt(id) == "NotFound")
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "HideTable", "Edit");
+            if (roleStatus)
             {
-                return NotFound();
-            }
-            int dID = Convert.ToInt32(IDAncryption.Decrypt(id));
+                if (id == null || IDAncryption.Decrypt(id) == "NotFound")
+                {
+                    return NotFound();
+                }
+                int dID = Convert.ToInt32(IDAncryption.Decrypt(id));
 
-            var hideTable = await _context.HideTables.FindAsync(dID);
-            if (hideTable == null)
-            {
-                return NotFound();
+                var hideTable = await _context.HideTables.FindAsync(dID);
+                if (hideTable == null)
+                {
+                    return NotFound();
+                }
+                return View(hideTable);
             }
-            return View(hideTable);
+            else
+            {
+                return Redirect("/Account/Denied");
+            }
+
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,TableName,Status")] HideTable hideTable)
         {
-            if (id != hideTable.ID)
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "HideTable", "Edit");
+            if (roleStatus)
             {
-                return NotFound();
+                if (id != hideTable.ID)
+                {
+                    return NotFound();
+                }
+
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        _context.Update(hideTable);
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!HideTableExists(hideTable.ID))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(hideTable);
+            }
+            else
+            {
+                return Redirect("/Account/Denied");
             }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(hideTable);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!HideTableExists(hideTable.ID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(hideTable);
         }
 
- 
+
         public async Task<IActionResult> Delete(string id)
         {
-            if (id == null || IDAncryption.Decrypt(id) == "NotFound")
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "HideTable", "Delete");
+            if (roleStatus)
             {
-                return NotFound();
-            }
-            int dID = Convert.ToInt32(IDAncryption.Decrypt(id));
+                if (id == null || IDAncryption.Decrypt(id) == "NotFound")
+                {
+                    return NotFound();
+                }
+                int dID = Convert.ToInt32(IDAncryption.Decrypt(id));
 
-            var hideTable = await _context.HideTables
-                .FirstOrDefaultAsync(m => m.ID == dID);
-            if (hideTable == null)
+                var hideTable = await _context.HideTables
+                    .FirstOrDefaultAsync(m => m.ID == dID);
+                if (hideTable == null)
+                {
+                    return NotFound();
+                }
+
+                return View(hideTable);
+            }
+            else
             {
-                return NotFound();
+                return Redirect("/Account/Denied");
             }
 
-            return View(hideTable);
         }
 
-        // POST: Admin/HideTable/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var hideTable = await _context.HideTables.FindAsync(id);
-            _context.HideTables.Remove(hideTable);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "HideTable", "Delete");
+            if (roleStatus)
+            {
+                var hideTable = await _context.HideTables.FindAsync(id);
+                _context.HideTables.Remove(hideTable);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                return Redirect("/Account/Denied");
+            }
+
         }
 
         private bool HideTableExists(int id)

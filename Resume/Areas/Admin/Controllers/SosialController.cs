@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Resume.Business.Control;
 using Resume.Business.Tools;
 using Resume.Models.Context;
 using Resume.Models.Entities;
@@ -20,44 +21,80 @@ namespace Resume.Areas.Admin.Controllers
         {
             _context = context;
         }
-
+        CurrentUser currentUser = new CurrentUser();
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Sosials.ToListAsync());
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "Sosial", "Index");
+            if (roleStatus)
+            {
+                return View(await _context.Sosials.ToListAsync());
+            }
+            else
+            {
+                return Redirect("/Account/Denied");
+            }
+
         }
 
         public IActionResult Create()
         {
-            return View();
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "Sosial", "Create");
+            if (roleStatus)
+            {
+                return View();
+            }
+            else
+            {
+                return Redirect("/Account/Denied");
+            }
+
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,Name,Icon,PageURL")] Sosial sosial)
         {
-            if (ModelState.IsValid)
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "Sosial", "Create");
+            if (roleStatus)
             {
-                _context.Add(sosial);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    _context.Add(sosial);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(sosial);
             }
-            return View(sosial);
+            else
+            {
+                return Redirect("/Account/Denied");
+            }
+
         }
 
         public async Task<IActionResult> Edit(string id)
         {
-            if (id == null || IDAncryption.Decrypt(id) == "NotFound")
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "Sosial", "Edit");
+            if (roleStatus)
             {
-                return NotFound();
-            }
-            int dID = Convert.ToInt32(IDAncryption.Decrypt(id));
+                if (id == null || IDAncryption.Decrypt(id) == "NotFound")
+                {
+                    return NotFound();
+                }
+                int dID = Convert.ToInt32(IDAncryption.Decrypt(id));
 
-            var sosial = await _context.Sosials.FindAsync(dID);
-            if (sosial == null)
-            {
-                return NotFound();
+                var sosial = await _context.Sosials.FindAsync(dID);
+                if (sosial == null)
+                {
+                    return NotFound();
+                }
+                return View(sosial);
             }
-            return View(sosial);
+            else
+            {
+                return Redirect("/Account/Denied");
+            }
+
         }
 
 
@@ -65,60 +102,87 @@ namespace Resume.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Name,Icon,PageURL")] Sosial sosial)
         {
-            if (id != sosial.ID)
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "Sosial", "Edit");
+            if (roleStatus)
             {
-                return NotFound();
+                if (id != sosial.ID)
+                {
+                    return NotFound();
+                }
+
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        _context.Update(sosial);
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!SosialExists(sosial.ID))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(sosial);
+            }
+            else
+            {
+                return Redirect("/Account/Denied");
             }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(sosial);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!SosialExists(sosial.ID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(sosial);
         }
 
         public async Task<IActionResult> Delete(string id)
         {
-            if (id == null || IDAncryption.Decrypt(id) == "NotFound")
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "Sosial", "Delete");
+            if (roleStatus)
             {
-                return NotFound();
-            }
-            int dID = Convert.ToInt32(IDAncryption.Decrypt(id));
+                if (id == null || IDAncryption.Decrypt(id) == "NotFound")
+                {
+                    return NotFound();
+                }
+                int dID = Convert.ToInt32(IDAncryption.Decrypt(id));
 
-            var sosial = await _context.Sosials
-                .FirstOrDefaultAsync(m => m.ID == dID);
-            if (sosial == null)
+                var sosial = await _context.Sosials
+                    .FirstOrDefaultAsync(m => m.ID == dID);
+                if (sosial == null)
+                {
+                    return NotFound();
+                }
+
+                return View(sosial);
+            }
+            else
             {
-                return NotFound();
+                return Redirect("/Account/Denied");
             }
 
-            return View(sosial);
         }
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var sosial = await _context.Sosials.FindAsync(id);
-            _context.Sosials.Remove(sosial);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "Sosial", "Delete");
+            if (roleStatus)
+            {
+                var sosial = await _context.Sosials.FindAsync(id);
+                _context.Sosials.Remove(sosial);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                return Redirect("/Account/Denied");
+            }
+
         }
 
         private bool SosialExists(int id)

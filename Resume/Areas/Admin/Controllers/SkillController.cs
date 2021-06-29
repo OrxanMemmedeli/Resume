@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Resume.Business.Control;
 using Resume.Business.Tools;
 using Resume.Models.Context;
 using Resume.Models.Entities;
@@ -20,110 +21,173 @@ namespace Resume.Areas.Admin.Controllers
         {
             _context = context;
         }
-
+        CurrentUser currentUser = new CurrentUser();
         public async Task<IActionResult> Index()
         {
-            var resumeContext = _context.Skills.Include(s => s.SkillCategory);
-            return View(await resumeContext.ToListAsync());
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "Skill", "Index");
+            if (roleStatus)
+            {
+                var resumeContext = _context.Skills.Include(s => s.SkillCategory);
+                return View(await resumeContext.ToListAsync());
+            }
+            else
+            {
+                return Redirect("/Account/Denied");
+            }
+
         }
 
         public IActionResult Create()
         {
-            ViewData["SkillCategoryID"] = new SelectList(_context.SkillCategories, "ID", "Category");
-            return View();
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "Skill", "Create");
+            if (roleStatus)
+            {
+                ViewData["SkillCategoryID"] = new SelectList(_context.SkillCategories, "ID", "Category");
+                return View();
+            }
+            else
+            {
+                return Redirect("/Account/Denied");
+            }
+
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,Name,Percent,SkillCategoryID")] Skill skill)
         {
-            if (ModelState.IsValid)
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "Skill", "Create");
+            if (roleStatus)
             {
-                _context.Add(skill);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    _context.Add(skill);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                ViewData["SkillCategoryID"] = new SelectList(_context.SkillCategories, "ID", "Category", skill.SkillCategoryID);
+                return View(skill);
             }
-            ViewData["SkillCategoryID"] = new SelectList(_context.SkillCategories, "ID", "Category", skill.SkillCategoryID);
-            return View(skill);
+            else
+            {
+                return Redirect("/Account/Denied");
+            }
+
         }
 
         public async Task<IActionResult> Edit(string id)
         {
-            if (id == null || IDAncryption.Decrypt(id) == "NotFound")
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "Skill", "Edit");
+            if (roleStatus)
             {
-                return NotFound();
-            }
-            int dID = Convert.ToInt32(IDAncryption.Decrypt(id));
+                if (id == null || IDAncryption.Decrypt(id) == "NotFound")
+                {
+                    return NotFound();
+                }
+                int dID = Convert.ToInt32(IDAncryption.Decrypt(id));
 
-            var skill = await _context.Skills.FindAsync(dID);
-            if (skill == null)
-            {
-                return NotFound();
+                var skill = await _context.Skills.FindAsync(dID);
+                if (skill == null)
+                {
+                    return NotFound();
+                }
+                ViewData["SkillCategoryID"] = new SelectList(_context.SkillCategories, "ID", "Category", skill.SkillCategoryID);
+                return View(skill);
             }
-            ViewData["SkillCategoryID"] = new SelectList(_context.SkillCategories, "ID", "Category", skill.SkillCategoryID);
-            return View(skill);
+            else
+            {
+                return Redirect("/Account/Denied");
+            }
+
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Name,Percent,SkillCategoryID")] Skill skill)
         {
-            if (id != skill.ID)
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "Skill", "Edit");
+            if (roleStatus)
             {
-                return NotFound();
+                if (id != skill.ID)
+                {
+                    return NotFound();
+                }
+
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        _context.Update(skill);
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!SkillExists(skill.ID))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                    return RedirectToAction(nameof(Index));
+                }
+                ViewData["SkillCategoryID"] = new SelectList(_context.SkillCategories, "ID", "Category", skill.SkillCategoryID);
+                return View(skill);
+            }
+            else
+            {
+                return Redirect("/Account/Denied");
             }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(skill);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!SkillExists(skill.ID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["SkillCategoryID"] = new SelectList(_context.SkillCategories, "ID", "Category", skill.SkillCategoryID);
-            return View(skill);
         }
 
         public async Task<IActionResult> Delete(string id)
         {
-            if (id == null || IDAncryption.Decrypt(id) == "NotFound")
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "Skill", "Delete");
+            if (roleStatus)
             {
-                return NotFound();
-            }
-            int dID = Convert.ToInt32(IDAncryption.Decrypt(id));
+                if (id == null || IDAncryption.Decrypt(id) == "NotFound")
+                {
+                    return NotFound();
+                }
+                int dID = Convert.ToInt32(IDAncryption.Decrypt(id));
 
-            var skill = await _context.Skills
-                .Include(s => s.SkillCategory)
-                .FirstOrDefaultAsync(m => m.ID == dID);
-            if (skill == null)
+                var skill = await _context.Skills
+                    .Include(s => s.SkillCategory)
+                    .FirstOrDefaultAsync(m => m.ID == dID);
+                if (skill == null)
+                {
+                    return NotFound();
+                }
+
+                return View(skill);
+            }
+            else
             {
-                return NotFound();
+                return Redirect("/Account/Denied");
             }
 
-            return View(skill);
         }
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var skill = await _context.Skills.FindAsync(id);
-            _context.Skills.Remove(skill);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "Skill", "Delete");
+            if (roleStatus)
+            {
+                var skill = await _context.Skills.FindAsync(id);
+                _context.Skills.Remove(skill);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                return Redirect("/Account/Denied");
+            }
+
         }
 
         private bool SkillExists(int id)

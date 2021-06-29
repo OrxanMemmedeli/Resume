@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Resume.Business.Control;
 using Resume.Models.Context;
 using Resume.Models.Entities;
 
@@ -24,10 +25,20 @@ namespace Resume.Areas.Admin
             _hostEnvironment = hostEnvironment;
         }
 
+        CurrentUser currentUser = new CurrentUser();
         public async Task<IActionResult> Index()
         {
-            var info = await _context.Infos.FirstOrDefaultAsync();
-            return View(info);
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "Info", "Index");
+            if (roleStatus)
+            {
+                var info = await _context.Infos.FirstOrDefaultAsync();
+                return View(info);
+            }
+            else
+            {
+                return Redirect("/Account/Denied");
+            }
+
         }
 
 
@@ -35,39 +46,49 @@ namespace Resume.Areas.Admin
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(int id, Info info)
         {
-            if (id != info.ID)
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "Info", "Index");
+            if (roleStatus)
             {
-                return NotFound();
-            }
-
-            if (info.Foto != null)
-            {
-                AddFotoFile(info);
-            }
-
-
-            if (ModelState.IsValid)
-            {
-                try
+                if (id != info.ID)
                 {
-                    _context.Update(info);
-                    await _context.SaveChangesAsync();
-                    TempData["InfoSuccess"] = "Məlumatlar yeniləndi";
+                    return NotFound();
                 }
-                catch (DbUpdateConcurrencyException)
+
+                if (info.Foto != null)
                 {
-                    if (!InfoExists(info.ID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    AddFotoFile(info);
                 }
-                return RedirectToAction(nameof(Index));
+
+
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        _context.Update(info);
+                        await _context.SaveChangesAsync();
+                        TempData["InfoSuccess"] = "Məlumatlar yeniləndi";
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!InfoExists(info.ID))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(info);
             }
-            return View(info);
+            else
+            {
+                return Redirect("/Account/Denied");
+            }
+
+
         }
 
         private void AddFotoFile(Info info)
@@ -76,7 +97,7 @@ namespace Resume.Areas.Admin
             //string fileName = Path.GetFileNameWithoutExtension(info.Foto.FileName);
 
             string extension = Path.GetExtension(info.Foto.FileName);
-            string newImageName =  DateTime.Now.ToString("yymmssfff") + extension;
+            string newImageName = DateTime.Now.ToString("yymmssfff") + extension;
             string path = Path.Combine(wwwRootPath + "\\Upload\\Images\\", newImageName);
             using (var fileStream = new FileStream(path, FileMode.Create))
             {

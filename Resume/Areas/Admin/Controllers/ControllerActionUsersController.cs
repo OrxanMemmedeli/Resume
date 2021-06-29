@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Resume.Areas.Admin.Models.ViewModels;
+using Resume.Business.Control;
 using Resume.Business.Tools;
 using Resume.Models.Context;
 using Resume.Models.Entities;
@@ -16,7 +17,7 @@ namespace Resume.Areas.Admin.Controllers
     public class ControllerActionUsersController : Controller
     {
         private readonly ResumeContext _context;
-
+        CurrentUser currentUser = new CurrentUser();
         public ControllerActionUsersController(ResumeContext context)
         {
             _context = context;
@@ -24,39 +25,57 @@ namespace Resume.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
-            List<int> idList = new List<int>();
-            var resumeContext = await _context.Users.Include(c => c.ControllerActionUsers).ToListAsync();
-            var control = await _context.ControllerActionUsers.ToArrayAsync();
-            foreach (var item in resumeContext)
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "ControllerActionUsers", "Index");
+            if (roleStatus)
             {
-                if (control.FirstOrDefault(x => x.UserID == item.ID) != null)
+                List<int> idList = new List<int>();
+                var resumeContext = await _context.Users.Include(c => c.ControllerActionUsers).ToListAsync();
+                var control = await _context.ControllerActionUsers.ToArrayAsync();
+                foreach (var item in resumeContext)
                 {
-                    idList.Add(item.ID);
+                    if (control.FirstOrDefault(x => x.UserID == item.ID) != null)
+                    {
+                        idList.Add(item.ID);
+                    }
                 }
+                ViewBag.List = idList;
+                return View(resumeContext);
             }
-            ViewBag.List = idList;
-            return View(resumeContext);
+            else
+            {
+                return Redirect("/Account/Denied");
+            }
+
         }
 
         public async Task<IActionResult> Edit(string id)
         {
-            if (id == null || IDAncryption.Decrypt(id) == "NotFound")
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "ControllerActionUsers", "Index");
+            if (roleStatus)
             {
-                return NotFound();
-            }
-            int dID = Convert.ToInt32(IDAncryption.Decrypt(id));
+                if (id == null || IDAncryption.Decrypt(id) == "NotFound")
+                {
+                    return NotFound();
+                }
+                int dID = Convert.ToInt32(IDAncryption.Decrypt(id));
 
-            ActionCotrollerUserRelationship relationship = new ActionCotrollerUserRelationship();
-            relationship.controllerActionUsers = await _context.ControllerActionUsers.Where(x => x.UserID == dID).ToListAsync();
-            relationship.actionUsers = await _context.ActionUsers.Where(x => x.UserID == dID).ToListAsync();
-            if (relationship == null)
-            {
-                return NotFound();
+                ActionCotrollerUserRelationship relationship = new ActionCotrollerUserRelationship();
+                relationship.controllerActionUsers = await _context.ControllerActionUsers.Where(x => x.UserID == dID).ToListAsync();
+                relationship.actionUsers = await _context.ActionUsers.Where(x => x.UserID == dID).ToListAsync();
+                if (relationship == null)
+                {
+                    return NotFound();
+                }
+                ViewData["ControllerID"] = await _context.ControllerNames.ToListAsync();
+                ViewData["ActionID"] = await _context.ActionNames.ToListAsync();
+                ViewBag.userID = dID;
+                return View(relationship);
             }
-            ViewData["ControllerID"] = await _context.ControllerNames.ToListAsync();
-            ViewData["ActionID"] = await _context.ActionNames.ToListAsync();
-            ViewBag.userID = dID;
-            return View(relationship);
+            else
+            {
+                return Redirect("/Account/Denied");
+            }
+
         }
 
 
@@ -64,31 +83,40 @@ namespace Resume.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int UserID, int[] controllerID, int[] actionID)
         {
-            List<ActionUser> ListCreateAction = new List<ActionUser>();
-            List<ActionUser> ListRemoveAction = new List<ActionUser>();
-
-            List<ControllerActionUser> listRemove = new List<ControllerActionUser>();
-            List<ControllerActionUser> listCreate = new List<ControllerActionUser>();
-
-            await CotrollerUserRelationship(UserID, controllerID, listRemove, listCreate);
-
-            await ActionUserRelationship(UserID, actionID, ListCreateAction, ListRemoveAction);
-
-            if (ModelState.IsValid)
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "User", "Index");
+            if (roleStatus)
             {
-                await _context.AddRangeAsync(listCreate);
-                await _context.AddRangeAsync(ListCreateAction);
-                _context.RemoveRange(listRemove);
-                _context.RemoveRange(ListRemoveAction);
-                await _context.SaveChangesAsync();
+                List<ActionUser> ListCreateAction = new List<ActionUser>();
+                List<ActionUser> ListRemoveAction = new List<ActionUser>();
 
-                return RedirectToAction(nameof(Index));
+                List<ControllerActionUser> listRemove = new List<ControllerActionUser>();
+                List<ControllerActionUser> listCreate = new List<ControllerActionUser>();
+
+                await CotrollerUserRelationship(UserID, controllerID, listRemove, listCreate);
+
+                await ActionUserRelationship(UserID, actionID, ListCreateAction, ListRemoveAction);
+
+                if (ModelState.IsValid)
+                {
+                    await _context.AddRangeAsync(listCreate);
+                    await _context.AddRangeAsync(ListCreateAction);
+                    _context.RemoveRange(listRemove);
+                    _context.RemoveRange(ListRemoveAction);
+                    await _context.SaveChangesAsync();
+
+                    return RedirectToAction(nameof(Index));
+                }
+
+                ViewData["ControllerID"] = await _context.ControllerNames.ToListAsync();
+                ViewData["ActionID"] = await _context.ActionNames.ToListAsync();
+                ViewBag.userID = UserID;
+                return View();
+            }
+            else
+            {
+                return Redirect("/Account/Denied");
             }
 
-            ViewData["ControllerID"] = await _context.ControllerNames.ToListAsync();
-            ViewData["ActionID"] = await _context.ActionNames.ToListAsync();
-            ViewBag.userID = UserID;
-            return View();
         }
 
         private async Task ActionUserRelationship(int UserID, int[] actionID, List<ActionUser> ListCreateAction, List<ActionUser> ListRemoveAction)

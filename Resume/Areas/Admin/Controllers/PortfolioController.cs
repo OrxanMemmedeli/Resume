@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Resume.Business.Control;
 using Resume.Business.Tools;
 using Resume.Models.Context;
 using Resume.Models.Entities;
@@ -20,129 +21,200 @@ namespace Resume.Areas.Admin.Controllers
         {
             _context = context;
         }
-
+        CurrentUser currentUser = new CurrentUser();
         public async Task<IActionResult> Index()
         {
-            var resumeContext = _context.Portfolios.Include(p => p.PortfolioCategory);
-            return View(await resumeContext.ToListAsync());
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "Portfolio", "Index");
+            if (roleStatus)
+            {
+                var resumeContext = _context.Portfolios.Include(p => p.PortfolioCategory);
+                return View(await resumeContext.ToListAsync());
+            }
+            else
+            {
+                return Redirect("/Account/Denied");
+            }
+
         }
 
         public async Task<IActionResult> Details(string id)
         {
-            if (id == null || IDAncryption.Decrypt(id) == "NotFound")
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "Portfolio", "Details");
+            if (roleStatus)
             {
-                return NotFound();
-            }
-            int dID = Convert.ToInt32(IDAncryption.Decrypt(id));
+                if (id == null || IDAncryption.Decrypt(id) == "NotFound")
+                {
+                    return NotFound();
+                }
+                int dID = Convert.ToInt32(IDAncryption.Decrypt(id));
 
-            var portfolio = await _context.Portfolios
-                .Include(p => p.PortfolioCategory)
-                .FirstOrDefaultAsync(m => m.ID == dID);
-            if (portfolio == null)
+                var portfolio = await _context.Portfolios
+                    .Include(p => p.PortfolioCategory)
+                    .FirstOrDefaultAsync(m => m.ID == dID);
+                if (portfolio == null)
+                {
+                    return NotFound();
+                }
+
+                return View(portfolio);
+            }
+            else
             {
-                return NotFound();
+                return Redirect("/Account/Denied");
             }
 
-            return View(portfolio);
         }
 
         public IActionResult Create()
         {
-            ViewData["PortfolioCategoryID"] = new SelectList(_context.PortfolioCategories, "ID", "Category");
-            return View();
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "Portfolio", "Create");
+            if (roleStatus)
+            {
+                ViewData["PortfolioCategoryID"] = new SelectList(_context.PortfolioCategories, "ID", "Category");
+                return View();
+            }
+            else
+            {
+                return Redirect("/Account/Denied");
+            }
+
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,Title,Description,InsertDate,EndDate,Client,SiteURL,Type,FotoURL,VideoURL,PortfolioCategoryID")] Portfolio portfolio)
         {
-            if (ModelState.IsValid)
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "Portfolio", "Create");
+            if (roleStatus)
             {
-                _context.Add(portfolio);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    _context.Add(portfolio);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                ViewData["PortfolioCategoryID"] = new SelectList(_context.PortfolioCategories, "ID", "Category", portfolio.PortfolioCategoryID);
+                return View(portfolio);
             }
-            ViewData["PortfolioCategoryID"] = new SelectList(_context.PortfolioCategories, "ID", "Category", portfolio.PortfolioCategoryID);
-            return View(portfolio);
+            else
+            {
+                return Redirect("/Account/Denied");
+            }
+
         }
 
         public async Task<IActionResult> Edit(string id)
         {
-            if (id == null || IDAncryption.Decrypt(id) == "NotFound")
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "Portfolio", "Edit");
+            if (roleStatus)
             {
-                return NotFound();
-            }
-            int dID = Convert.ToInt32(IDAncryption.Decrypt(id));
+                if (id == null || IDAncryption.Decrypt(id) == "NotFound")
+                {
+                    return NotFound();
+                }
+                int dID = Convert.ToInt32(IDAncryption.Decrypt(id));
 
-            var portfolio = await _context.Portfolios.FindAsync(dID);
-            if (portfolio == null)
-            {
-                return NotFound();
+                var portfolio = await _context.Portfolios.FindAsync(dID);
+                if (portfolio == null)
+                {
+                    return NotFound();
+                }
+                ViewData["PortfolioCategoryID"] = new SelectList(_context.PortfolioCategories, "ID", "Category", portfolio.PortfolioCategoryID);
+                return View(portfolio);
             }
-            ViewData["PortfolioCategoryID"] = new SelectList(_context.PortfolioCategories, "ID", "Category", portfolio.PortfolioCategoryID);
-            return View(portfolio);
+            else
+            {
+                return Redirect("/Account/Denied");
+            }
+
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Title,Description,InsertDate,EndDate,Client,SiteURL,Type,FotoURL,VideoURL,PortfolioCategoryID")] Portfolio portfolio)
         {
-            if (id != portfolio.ID)
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "Portfolio", "Edit");
+            if (roleStatus)
             {
-                return NotFound();
+                if (id != portfolio.ID)
+                {
+                    return NotFound();
+                }
+
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        _context.Update(portfolio);
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!PortfolioExists(portfolio.ID))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                    return RedirectToAction(nameof(Index));
+                }
+                ViewData["PortfolioCategoryID"] = new SelectList(_context.PortfolioCategories, "ID", "Category", portfolio.PortfolioCategoryID);
+                return View(portfolio);
+            }
+            else
+            {
+                return Redirect("/Account/Denied");
             }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(portfolio);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PortfolioExists(portfolio.ID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["PortfolioCategoryID"] = new SelectList(_context.PortfolioCategories, "ID", "Category", portfolio.PortfolioCategoryID);
-            return View(portfolio);
         }
 
         public async Task<IActionResult> Delete(string id)
         {
-            if (id == null || IDAncryption.Decrypt(id) == "NotFound")
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "Portfolio", "Delete");
+            if (roleStatus)
             {
-                return NotFound();
-            }
-            int dID = Convert.ToInt32(IDAncryption.Decrypt(id));
+                if (id == null || IDAncryption.Decrypt(id) == "NotFound")
+                {
+                    return NotFound();
+                }
+                int dID = Convert.ToInt32(IDAncryption.Decrypt(id));
 
-            var portfolio = await _context.Portfolios
-                .Include(p => p.PortfolioCategory)
-                .FirstOrDefaultAsync(m => m.ID == dID);
-            if (portfolio == null)
+                var portfolio = await _context.Portfolios
+                    .Include(p => p.PortfolioCategory)
+                    .FirstOrDefaultAsync(m => m.ID == dID);
+                if (portfolio == null)
+                {
+                    return NotFound();
+                }
+
+                return View(portfolio);
+            }
+            else
             {
-                return NotFound();
+                return Redirect("/Account/Denied");
             }
 
-            return View(portfolio);
         }
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var portfolio = await _context.Portfolios.FindAsync(id);
-            _context.Portfolios.Remove(portfolio);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "Portfolio", "Delete");
+            if (roleStatus)
+            {
+                var portfolio = await _context.Portfolios.FindAsync(id);
+                _context.Portfolios.Remove(portfolio);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                return Redirect("/Account/Denied");
+            }
         }
 
         private bool PortfolioExists(int id)

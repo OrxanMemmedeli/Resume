@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Resume.Business.Control;
 using Resume.Business.Tools;
 using Resume.Models.Context;
 using Resume.Models.Entities;
@@ -20,104 +21,167 @@ namespace Resume.Areas.Admin.Controllers
         {
             _context = context;
         }
-
+        CurrentUser currentUser = new CurrentUser();
         public async Task<IActionResult> Index()
         {
-            return View(await _context.PortfolioCategories.ToListAsync());
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "PortfolioCategory", "Index");
+            if (roleStatus)
+            {
+                return View(await _context.PortfolioCategories.ToListAsync());
+            }
+            else
+            {
+                return Redirect("/Account/Denied");
+            }
+
         }
 
         public IActionResult Create()
         {
-            return View();
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "PortfolioCategory", "Create");
+            if (roleStatus)
+            {
+                return View();
+            }
+            else
+            {
+                return Redirect("/Account/Denied");
+            }
+
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,Category,Description")] PortfolioCategory portfolioCategory)
         {
-            if (ModelState.IsValid)
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "PortfolioCategory", "Create");
+            if (roleStatus)
             {
-                _context.Add(portfolioCategory);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    _context.Add(portfolioCategory);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(portfolioCategory);
             }
-            return View(portfolioCategory);
+            else
+            {
+                return Redirect("/Account/Denied");
+            }
+
         }
 
         public async Task<IActionResult> Edit(string id)
         {
-            if (id == null || IDAncryption.Decrypt(id) == "NotFound")
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "PortfolioCategory", "Edit");
+            if (roleStatus)
             {
-                return NotFound();
-            }
-            int dID = Convert.ToInt32(IDAncryption.Decrypt(id));
+                if (id == null || IDAncryption.Decrypt(id) == "NotFound")
+                {
+                    return NotFound();
+                }
+                int dID = Convert.ToInt32(IDAncryption.Decrypt(id));
 
-            var portfolioCategory = await _context.PortfolioCategories.FindAsync(dID);
-            if (portfolioCategory == null)
-            {
-                return NotFound();
+                var portfolioCategory = await _context.PortfolioCategories.FindAsync(dID);
+                if (portfolioCategory == null)
+                {
+                    return NotFound();
+                }
+                return View(portfolioCategory);
             }
-            return View(portfolioCategory);
+            else
+            {
+                return Redirect("/Account/Denied");
+            }
+
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Category,Description")] PortfolioCategory portfolioCategory)
         {
-            if (id != portfolioCategory.ID)
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "PortfolioCategory", "Edit");
+            if (roleStatus)
             {
-                return NotFound();
+                if (id != portfolioCategory.ID)
+                {
+                    return NotFound();
+                }
+
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        _context.Update(portfolioCategory);
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!PortfolioCategoryExists(portfolioCategory.ID))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(portfolioCategory);
+            }
+            else
+            {
+                return Redirect("/Account/Denied");
             }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(portfolioCategory);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PortfolioCategoryExists(portfolioCategory.ID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(portfolioCategory);
         }
 
         public async Task<IActionResult> Delete(string id)
         {
-            if (id == null || IDAncryption.Decrypt(id) == "NotFound")
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "PortfolioCategory", "Delete");
+            if (roleStatus)
             {
-                return NotFound();
-            }
-            int dID = Convert.ToInt32(IDAncryption.Decrypt(id));
+                if (id == null || IDAncryption.Decrypt(id) == "NotFound")
+                {
+                    return NotFound();
+                }
+                int dID = Convert.ToInt32(IDAncryption.Decrypt(id));
 
-            var portfolioCategory = await _context.PortfolioCategories
-                .FirstOrDefaultAsync(m => m.ID == dID);
-            if (portfolioCategory == null)
+                var portfolioCategory = await _context.PortfolioCategories
+                    .FirstOrDefaultAsync(m => m.ID == dID);
+                if (portfolioCategory == null)
+                {
+                    return NotFound();
+                }
+
+                return View(portfolioCategory);
+            }
+            else
             {
-                return NotFound();
+                return Redirect("/Account/Denied");
             }
 
-            return View(portfolioCategory);
         }
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var portfolioCategory = await _context.PortfolioCategories.FindAsync(id);
-            _context.PortfolioCategories.Remove(portfolioCategory);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "PortfolioCategory", "Delete");
+            if (roleStatus)
+            {
+                var portfolioCategory = await _context.PortfolioCategories.FindAsync(id);
+                _context.PortfolioCategories.Remove(portfolioCategory);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                return Redirect("/Account/Denied");
+            }
+
         }
 
         private bool PortfolioCategoryExists(int id)

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Resume.Business.Control;
 using Resume.Business.Tools;
 using Resume.Models.Context;
 using Resume.Models.Entities;
@@ -15,7 +16,7 @@ namespace Resume.Areas.Admin.Controllers
     public class EmailConfigController : Controller
     {
         private readonly ResumeContext _context;
-
+        CurrentUser currentUser = new CurrentUser();
         public EmailConfigController(ResumeContext context)
         {
             _context = context;
@@ -23,15 +24,25 @@ namespace Resume.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "EmailConfig", "Index");
+            if (roleStatus)
+            {
             return View(await _context.EmailConfigs.FirstOrDefaultAsync());
-        }
+            }
+            else
+            {
+                return Redirect("/Account/Denied");
+            }
 
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(EmailConfig emailConfig)
         {
-
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "EmailConfig", "Create");
+            if (roleStatus)
+            {
             if (ModelState.IsValid)
             {
                 emailConfig.Password = AncryptionAndDecryption.encodedata("encodedata" + AncryptionAndDecryption.encodedata(emailConfig.Password));
@@ -40,12 +51,21 @@ namespace Resume.Areas.Admin.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(emailConfig);
+            }
+            else
+            {
+                return Redirect("/Account/Denied");
+            }
+
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, EmailConfig emailConfig, string NewPassword)
         {
+            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "EmailConfig", "Edit");
+            if (roleStatus)
+            {
             if (id != emailConfig.ID)
             {
                 return NotFound();
@@ -78,6 +98,12 @@ namespace Resume.Areas.Admin.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(emailConfig);
+            }
+            else
+            {
+                return Redirect("/Account/Denied");
+            }
+
         }
 
         private bool EmailConfigExists(int id)
