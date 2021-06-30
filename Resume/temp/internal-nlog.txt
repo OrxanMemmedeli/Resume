@@ -971,3 +971,23 @@ Error Number:-1,State:0,Class:20
    at NLog.Targets.DatabaseTarget.WriteLogEventToDatabase(LogEventInfo logEvent, String connectionString)
 ClientConnectionId:00000000-0000-0000-0000-000000000000
 Error Number:-1,State:0,Class:20
+2021-06-30 10:34:15.1752 Info Message Template Auto Format enabled
+2021-06-30 10:34:15.1925 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-30 10:34:15.2591 Info Adding target DatabaseTarget(Name=db)
+2021-06-30 10:34:15.3413 Info Validating config: TargetNames=db, ConfigItems=38, FilePath=C:\Users\ilqar imamaliyev\source\repos\Resume\Resume\bin\Debug\net5.0\nlog.config
+2021-06-30 10:35:13.6291 Info Message Template Auto Format enabled
+2021-06-30 10:35:13.6517 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-30 10:35:13.7287 Info Adding target DatabaseTarget(Name=db)
+2021-06-30 10:35:13.7864 Info Validating config: TargetNames=db, ConfigItems=38, FilePath=C:\Users\ilqar imamaliyev\source\repos\Resume\Resume\bin\Debug\net5.0\nlog.config
+2021-06-30 10:38:10.0626 Info Message Template Auto Format enabled
+2021-06-30 10:38:10.0777 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-30 10:38:10.1236 Info Adding target DatabaseTarget(Name=db)
+2021-06-30 10:38:10.1744 Info Validating config: TargetNames=db, ConfigItems=38, FilePath=C:\Users\ilqar imamaliyev\source\repos\Resume\Resume\bin\Debug\net5.0\nlog.config
+2021-06-30 10:45:39.6103 Info Message Template Auto Format enabled
+2021-06-30 10:45:39.6257 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-30 10:45:39.6991 Info Adding target DatabaseTarget(Name=db)
+2021-06-30 10:45:39.7685 Info Validating config: TargetNames=db, ConfigItems=38, FilePath=C:\Users\ilqar imamaliyev\source\repos\Resume\Resume\bin\Debug\net5.0\nlog.config
+2021-06-30 10:54:01.6925 Info Message Template Auto Format enabled
+2021-06-30 10:54:01.7090 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-30 10:54:01.7735 Info Adding target DatabaseTarget(Name=db)
+2021-06-30 10:54:01.8200 Info Validating config: TargetNames=db, ConfigItems=38, FilePath=C:\Users\ilqar imamaliyev\source\repos\Resume\Resume\bin\Debug\net5.0\nlog.config
