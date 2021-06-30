@@ -991,3 +991,95 @@ Error Number:-1,State:0,Class:20
 2021-06-30 10:54:01.7090 Info Loading assembly: NLog.Web.AspNetCore
 2021-06-30 10:54:01.7735 Info Adding target DatabaseTarget(Name=db)
 2021-06-30 10:54:01.8200 Info Validating config: TargetNames=db, ConfigItems=38, FilePath=C:\Users\ilqar imamaliyev\source\repos\Resume\Resume\bin\Debug\net5.0\nlog.config
+2021-06-30 14:15:02.3043 Info Message Template Auto Format enabled
+2021-06-30 14:15:02.3359 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-30 14:15:02.4044 Info Adding target DatabaseTarget(Name=db)
+2021-06-30 14:15:02.4773 Info Validating config: TargetNames=db, ConfigItems=38, FilePath=C:\Users\ilqar imamaliyev\source\repos\Resume\Resume\bin\Debug\net5.0\nlog.config
+2021-06-30 14:34:42.5407 Info Message Template Auto Format enabled
+2021-06-30 14:34:42.5471 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-30 14:34:42.5879 Info Adding target DatabaseTarget(Name=db)
+2021-06-30 14:34:42.6112 Info Validating config: TargetNames=db, ConfigItems=38, FilePath=C:\Users\ilqar imamaliyev\source\repos\Resume\Resume\bin\Debug\net5.0\nlog.config
+2021-06-30 14:37:41.6274 Info Message Template Auto Format enabled
+2021-06-30 14:37:41.6274 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-30 14:37:41.6743 Info Adding target DatabaseTarget(Name=db)
+2021-06-30 14:37:41.6989 Info Validating config: TargetNames=db, ConfigItems=38, FilePath=C:\Users\ilqar imamaliyev\source\repos\Resume\Resume\bin\Debug\net5.0\nlog.config
+2021-06-30 14:40:02.8784 Info Message Template Auto Format enabled
+2021-06-30 14:40:02.8784 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-30 14:40:02.9255 Info Adding target DatabaseTarget(Name=db)
+2021-06-30 14:40:02.9475 Info Validating config: TargetNames=db, ConfigItems=38, FilePath=C:\Users\ilqar imamaliyev\source\repos\Resume\Resume\bin\Debug\net5.0\nlog.config
+2021-06-30 14:40:29.1327 Info Message Template Auto Format enabled
+2021-06-30 14:40:29.1407 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-30 14:40:29.1800 Info Adding target DatabaseTarget(Name=db)
+2021-06-30 14:40:29.2055 Info Validating config: TargetNames=db, ConfigItems=38, FilePath=C:\Users\ilqar imamaliyev\source\repos\Resume\Resume\bin\Debug\net5.0\nlog.config
+2021-06-30 14:44:15.2947 Info Message Template Auto Format enabled
+2021-06-30 14:44:15.2947 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-30 14:44:15.3608 Info Adding target DatabaseTarget(Name=db)
+2021-06-30 14:44:15.3893 Info Validating config: TargetNames=db, ConfigItems=38, FilePath=C:\Users\ilqar imamaliyev\source\repos\Resume\Resume\bin\Debug\net5.0\nlog.config
+2021-06-30 14:45:21.4233 Info Message Template Auto Format enabled
+2021-06-30 14:45:21.4233 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-30 14:45:21.4697 Info Adding target DatabaseTarget(Name=db)
+2021-06-30 14:45:21.4943 Info Validating config: TargetNames=db, ConfigItems=38, FilePath=C:\Users\ilqar imamaliyev\source\repos\Resume\Resume\bin\Debug\net5.0\nlog.config
+2021-06-30 14:47:24.6698 Info Message Template Auto Format enabled
+2021-06-30 14:47:24.6698 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-30 14:47:24.7167 Info Adding target DatabaseTarget(Name=db)
+2021-06-30 14:47:24.7392 Info Validating config: TargetNames=db, ConfigItems=38, FilePath=C:\Users\ilqar imamaliyev\source\repos\Resume\Resume\bin\Debug\net5.0\nlog.config
+2021-06-30 14:48:02.6184 Info Message Template Auto Format enabled
+2021-06-30 14:48:02.6243 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-30 14:48:02.6633 Info Adding target DatabaseTarget(Name=db)
+2021-06-30 14:48:02.6857 Info Validating config: TargetNames=db, ConfigItems=38, FilePath=C:\Users\ilqar imamaliyev\source\repos\Resume\Resume\bin\Debug\net5.0\nlog.config
+2021-06-30 14:49:05.7525 Info Message Template Auto Format enabled
+2021-06-30 14:49:05.7525 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-30 14:49:05.7924 Info Adding target DatabaseTarget(Name=db)
+2021-06-30 14:49:05.8136 Info Validating config: TargetNames=db, ConfigItems=38, FilePath=C:\Users\ilqar imamaliyev\source\repos\Resume\Resume\bin\Debug\net5.0\nlog.config
+2021-06-30 15:18:02.7099 Info Message Template Auto Format enabled
+2021-06-30 15:18:02.7159 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-30 15:18:02.7536 Info Adding target DatabaseTarget(Name=db)
+2021-06-30 15:18:02.7783 Info Validating config: TargetNames=db, ConfigItems=38, FilePath=C:\Users\ilqar imamaliyev\source\repos\Resume\Resume\bin\Debug\net5.0\nlog.config
+2021-06-30 15:29:34.2534 Info Message Template Auto Format enabled
+2021-06-30 15:29:34.2534 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-30 15:29:34.2957 Info Adding target DatabaseTarget(Name=db)
+2021-06-30 15:29:34.3191 Info Validating config: TargetNames=db, ConfigItems=38, FilePath=C:\Users\ilqar imamaliyev\source\repos\Resume\Resume\bin\Debug\net5.0\nlog.config
+2021-06-30 15:30:13.1580 Info Message Template Auto Format enabled
+2021-06-30 15:30:13.1712 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-30 15:30:13.2421 Info Adding target DatabaseTarget(Name=db)
+2021-06-30 15:30:13.2939 Info Validating config: TargetNames=db, ConfigItems=38, FilePath=C:\Users\ilqar imamaliyev\source\repos\Resume\Resume\bin\Debug\net5.0\nlog.config
+2021-06-30 15:32:40.0834 Info Message Template Auto Format enabled
+2021-06-30 15:32:40.0834 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-30 15:32:40.1389 Info Adding target DatabaseTarget(Name=db)
+2021-06-30 15:32:40.1658 Info Validating config: TargetNames=db, ConfigItems=38, FilePath=C:\Users\ilqar imamaliyev\source\repos\Resume\Resume\bin\Debug\net5.0\nlog.config
+2021-06-30 15:33:20.5304 Info Message Template Auto Format enabled
+2021-06-30 15:33:20.5304 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-30 15:33:20.5756 Info Adding target DatabaseTarget(Name=db)
+2021-06-30 15:33:20.5995 Info Validating config: TargetNames=db, ConfigItems=38, FilePath=C:\Users\ilqar imamaliyev\source\repos\Resume\Resume\bin\Debug\net5.0\nlog.config
+2021-06-30 15:34:59.0704 Info Message Template Auto Format enabled
+2021-06-30 15:34:59.0758 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-30 15:34:59.1144 Info Adding target DatabaseTarget(Name=db)
+2021-06-30 15:34:59.1357 Info Validating config: TargetNames=db, ConfigItems=38, FilePath=C:\Users\ilqar imamaliyev\source\repos\Resume\Resume\bin\Debug\net5.0\nlog.config
+2021-06-30 15:43:54.3295 Info Message Template Auto Format enabled
+2021-06-30 15:43:54.3295 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-30 15:43:54.3741 Info Adding target DatabaseTarget(Name=db)
+2021-06-30 15:43:54.3959 Info Validating config: TargetNames=db, ConfigItems=38, FilePath=C:\Users\ilqar imamaliyev\source\repos\Resume\Resume\bin\Debug\net5.0\nlog.config
+2021-06-30 15:45:45.6953 Info Message Template Auto Format enabled
+2021-06-30 15:45:45.7014 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-30 15:45:45.7413 Info Adding target DatabaseTarget(Name=db)
+2021-06-30 15:45:45.7658 Info Validating config: TargetNames=db, ConfigItems=38, FilePath=C:\Users\ilqar imamaliyev\source\repos\Resume\Resume\bin\Debug\net5.0\nlog.config
+2021-06-30 15:46:12.8813 Info Message Template Auto Format enabled
+2021-06-30 15:46:12.8894 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-30 15:46:12.9303 Info Adding target DatabaseTarget(Name=db)
+2021-06-30 15:46:12.9542 Info Validating config: TargetNames=db, ConfigItems=38, FilePath=C:\Users\ilqar imamaliyev\source\repos\Resume\Resume\bin\Debug\net5.0\nlog.config
+2021-06-30 15:47:13.8369 Info Message Template Auto Format enabled
+2021-06-30 15:47:13.8430 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-30 15:47:13.8838 Info Adding target DatabaseTarget(Name=db)
+2021-06-30 15:47:13.9102 Info Validating config: TargetNames=db, ConfigItems=38, FilePath=C:\Users\ilqar imamaliyev\source\repos\Resume\Resume\bin\Debug\net5.0\nlog.config
+2021-06-30 15:52:17.1535 Info Message Template Auto Format enabled
+2021-06-30 15:52:17.1535 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-30 15:52:17.2034 Info Adding target DatabaseTarget(Name=db)
+2021-06-30 15:52:17.2281 Info Validating config: TargetNames=db, ConfigItems=38, FilePath=C:\Users\ilqar imamaliyev\source\repos\Resume\Resume\bin\Debug\net5.0\nlog.config
+2021-06-30 15:53:32.2873 Info Message Template Auto Format enabled
+2021-06-30 15:53:32.2873 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-30 15:53:32.3322 Info Adding target DatabaseTarget(Name=db)
+2021-06-30 15:53:32.3586 Info Validating config: TargetNames=db, ConfigItems=38, FilePath=C:\Users\ilqar imamaliyev\source\repos\Resume\Resume\bin\Debug\net5.0\nlog.config
+2021-06-30 15:55:54.8509 Info Message Template Auto Format enabled
+2021-06-30 15:55:54.8567 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-30 15:55:54.8986 Info Adding target DatabaseTarget(Name=db)
+2021-06-30 15:55:54.9226 Info Validating config: TargetNames=db, ConfigItems=38, FilePath=C:\Users\ilqar imamaliyev\source\repos\Resume\Resume\bin\Debug\net5.0\nlog.config
