@@ -3,6 +3,7 @@
     Layout = null;
     string educationDate = string.Empty;
     string experienceDate = string.Empty;
+    string docName = Model.Info.Name.Replace(" ", "_") + " " + Model.Info.Surname.Replace(" ", "_") + ".pdf";
 }
 
 <!DOCTYPE html>
@@ -18,22 +19,9 @@
     <link rel="icon" type="image/png" sizes="16x16" href="~/images/logos/KHAN.jpg">
 
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://code.jquery.com/jquery-3.5.1.js">
 
-    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js" integrity="sha384-SlE991lGASHoBfWbelyBPLsUlwY1GwNDJo3jSJO04KZ33K2bwfV9YBauFfnzvynJ" crossorigin="anonymous"></script>
-
-    <script src="https://use.fontawesome.com/7b0b2c68b4.js"></script>
     <link href="~/Resume/style.css" rel="stylesheet" />
-    <script>
-        window.addEventListener("pageshow", function (event) {
-            var historyTraversal = event.persisted ||
-                (typeof window.performance != "undefined" &&
-                    window.performance.navigation.type === 2);
-            if (historyTraversal) {
-                // Handle page restore.
-                window.location.reload(true);
-            }
-        });
-    </script>
     <style>
         .button {
             margin-left: 40vw;
@@ -53,16 +41,27 @@
                 background-color: #00610f;
             }
     </style>
+    <script>
+        window.addEventListener("pageshow", function (event) {
+            var historyTraversal = event.persisted ||
+                (typeof window.performance != "undefined" &&
+                    window.performance.navigation.type === 2);
+            if (historyTraversal) {
+                // Handle page restore.
+                window.location.reload(true);
+            }
+        });
+    </script>
 
 </head>
 <body>
 
     <div class="button" style="margin-bottom:20px">
-        <button class="btn"><i class="fa fa-download"></i> PDF versiyanı yüklə</button>
+        <button class="btn" id="download"><i class="fa fa-download"></i> PDF versiyanı yüklə</button>
     </div>
 
 
-    <div class="resume">
+    <div class="resume" id="resume">
         <div class="column">
             <div class="grid">
                 <section class="profile">
@@ -182,5 +181,58 @@
 
         </div>
     </div>
+
+    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js" integrity="sha384-SlE991lGASHoBfWbelyBPLsUlwY1GwNDJo3jSJO04KZ33K2bwfV9YBauFfnzvynJ" crossorigin="anonymous"></script>
+    <script src="https://use.fontawesome.com/7b0b2c68b4.js"></script>
+
+    <input type="button" id="btnExport" value="Export" />
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+    <script type="text/javascript">
+        $("body").on("click", "#btnExport", function () {
+            html2canvas($('#resume')[0], {
+                onrendered: function (canvas) {
+                    var data = canvas.toDataURL();
+                    var docDefinition = {
+                        content: [{
+                            image: data,
+                            width: 500
+                        }]
+                    };
+                    pdfMake.createPdf(docDefinition).download("customer-details.pdf");
+                }
+            });
+        });
+    </script>
+
+    <script>
+        function HTMLtoPDF() {
+            // Default export is a4 paper, portrait, using millimeters for units
+            //var doc = new jspdf.jsPDF();
+            //var HTMLelement = $("#resume").html();
+            var HTMLelement = document.getElementById("#resume");
+
+            //var opt = {
+            //    margin: 10,
+            //    filename: 'resume.pdf',
+            //    image: { type: 'jpeg', quality: 0.98 },
+            //    html2canvas: { scale: 2, logging: true, dpi: 192, letterRendering: true },
+            //    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            //};
+
+            //html2pdf().from(HTMLelement).set(opt).save();
+            html2pdf(HTMLelement)
+            //doc.text("Hello world!", 10, 10);
+
+            //doc.fromHTML(HTMLelement, 10, 10, {
+            //    'width': 240,
+            //});
+            //doc.save('test.pdf');
+        }
+    </script>
 </body>
 </html>
+
+
+<!--For pfd https://github.com/MrRio/jsPDF -->
