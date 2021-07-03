@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Resume.Business.Control;
 using Resume.Business.Tools;
@@ -68,7 +69,7 @@ namespace Resume.Controllers
             model.Info = db.Infos.SingleOrDefault();
             model.Educations = db.Educations.ToList();
             model.Experiences = db.Experiences.ToList();
-            model.Skills = db.Skills.ToList();
+            model.Skills = db.Skills.Include(x => x.SkillCategory).ToList();
             model.Sosials = db.Sosials.ToList();
             model.Portfolios = db.Portfolios.ToList();
             return View(model);
