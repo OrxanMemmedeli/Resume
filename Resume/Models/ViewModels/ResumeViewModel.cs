@@ -14,5 +14,25 @@ namespace Resume.Models.ViewModels
         public IEnumerable<Skill> Skills { get; set; }
         public IEnumerable<Sosial> Sosials { get; set; }
         public IEnumerable<Portfolio> Portfolios { get; set; }
+
+        public string GetCategory(List<Skill> skills)
+        {
+            string result = "";
+            foreach (var item in skills)
+            {
+                result += "'" + item.Name + "',";
+            }
+            return result;
+        }
+
+        public string GetPercent(List<Skill> skills)
+        {
+            string result = "";
+            foreach (var item in skills)
+            {
+                result += item.Percent + ",";
+            }
+            return result;
+        }
     }
 }
