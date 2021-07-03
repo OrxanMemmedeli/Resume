@@ -125,6 +125,7 @@ namespace Resume.Areas.Admin.Controllers
                     var users = await _context.Users.FirstOrDefaultAsync(x => x.Email == gmail);
                     if (users == null)
                     {
+                        user.Email = gmail;
                         if (Parol != null)
                         {
                             user.Password.Equals(Parol);

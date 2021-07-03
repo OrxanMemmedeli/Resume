@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -93,11 +94,9 @@ namespace Resume.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AllowAnonymous]
         public async Task<IActionResult> Create(ContactViewModel contact)
         {
-            bool roleStatus = RoleChecker.AuthorizeRoles(_context, currentUser.FindUser(_context, User.Identity.Name), "Contact", "Create");
-            if (roleStatus)
-            {
                 var isValid = IsReCaptchValidV3(contact.captcha);
                 contact = contact.ProtectForSQLInjection(contact);
 
@@ -117,12 +116,6 @@ namespace Resume.Areas.Admin.Controllers
                 }
 
                 return Redirect("~/");
-            }
-            else
-            {
-                return Redirect("/Account/Denied");
-            }
-
         }
 
         private bool IsReCaptchValidV3(string captchaResponse)
